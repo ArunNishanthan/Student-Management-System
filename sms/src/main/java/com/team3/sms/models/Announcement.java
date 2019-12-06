@@ -8,7 +8,8 @@ import javax.persistence.Id;
 @Entity
 public class Announcement {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String Comments;
+	private String Date;
 }

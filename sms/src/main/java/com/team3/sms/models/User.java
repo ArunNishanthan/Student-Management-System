@@ -1,29 +1,59 @@
 package com.team3.sms.models;
 
-import java.util.Date;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 @MappedSuperclass
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@NotEmpty
+	@Length(min = 3, max = 20)
 	private String firstName;
 	private String lastName;
-	private char gender;
-	private Date dateofBirth;
+	@NotEmpty
+	private String gender;
+	@NotEmpty
+	private String dateofBirth;
+	@NotEmpty
+	@Length(min = 6, max = 50)
 	private String address;
+	@NotEmpty
 	private String email;
 	private String password;
-	private long mobileNo;
+	@NotEmpty
+	private String mobileNo;
 	private Role Role;
-	private String username;
 
 	public User() {
+	}
+
+	public User(String firstName, String lastName, String gender, String dateofBirth, String address, String email,
+			String password, String mobileNo, com.team3.sms.models.Role role) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.gender = gender;
+		this.dateofBirth = dateofBirth;
+		this.address = address;
+		this.email = email;
+		this.password = password;
+		this.mobileNo = mobileNo;
+		Role = role;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -42,19 +72,19 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public char getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(char gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
-	public Date getDateofBirth() {
+	public String getDateofBirth() {
 		return dateofBirth;
 	}
 
-	public void setDateofBirth(Date dateofBirth) {
+	public void setDateofBirth(String dateofBirth) {
 		this.dateofBirth = dateofBirth;
 	}
 
@@ -82,11 +112,11 @@ public class User {
 		this.password = password;
 	}
 
-	public long getMobileNo() {
+	public String getMobileNo() {
 		return mobileNo;
 	}
 
-	public void setMobileNo(long mobileNo) {
+	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
 
@@ -98,12 +128,11 @@ public class User {
 		Role = role;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String userId) {
-		this.username = userId;
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
+				+ ", dateofBirth=" + dateofBirth + ", address=" + address + ", email=" + email + ", password="
+				+ password + ", mobileNo=" + mobileNo + ", Role=" + Role + "]";
 	}
 
 }

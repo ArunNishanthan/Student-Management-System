@@ -11,7 +11,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Semester {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@ManyToMany
 	private Collection<Course> courses;

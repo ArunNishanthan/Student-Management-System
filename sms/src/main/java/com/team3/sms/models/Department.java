@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Department {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String name;
@@ -32,6 +32,24 @@ public class Department {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Department(String name) {
+		super();
+		this.name = name;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Department [id=" + id + ", name=" + name + "]";
 	}
 
 }
