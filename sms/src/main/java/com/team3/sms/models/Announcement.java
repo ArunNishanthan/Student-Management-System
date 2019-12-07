@@ -15,7 +15,7 @@ public class Announcement {
 	private int id;
 	private String message;
 	private String date;
-
+	private String facultyname;
 	@ManyToMany
-	private Collection<Faculty> faculties;
+	private Collection<Department> departments;
 }

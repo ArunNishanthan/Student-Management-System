@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team3.sms.enums.Role;
+import com.team3.sms.models.Department;
 import com.team3.sms.models.Faculty;
 import com.team3.sms.models.Student;
 import com.team3.sms.services.FacultyServices;
@@ -76,7 +78,17 @@ public class AdminController {
 	}
 
 	@GetMapping("/assigncourse")
-	public String LoadAssignPage(Model model) {
+	public String LoadDepPage(Model model) {
+		model.addAttribute("departments", formservices.getDepartments());
+		model.addAttribute("department", new Department());
 		return "AssignCourseToFaculty";
+	}
+
+	@PostMapping("/loadfac")
+	public String LoadfacBasedonDep(@RequestParam("depid") int depid, Model model) {
+		Department department = formservices.getDepartment(depid);
+		model.addAttribute("department", department);
+		model.addAttribute("faculties", facultyServices.LoadfacBasedonDep(department));
+		return "FacultyCourseHome";
 	}
 }

@@ -16,4 +16,8 @@ public class FormServices {
 	public ArrayList<Department> getDepartments() {
 		return (ArrayList<Department>) departmentRepository.findAll();
 	}
+
+	public Department getDepartment(int id) {
+		return departmentRepository.findById(id).get();
+	}
 }
