@@ -1,4 +1,4 @@
-package com.team3.sms.models;
+package com.team3.sms.enums;
 
 public enum Role {
 	ISSTUDENT, ISFACULTY

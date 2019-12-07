@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import org.springframework.lang.Nullable;
-
 @Entity
 public class Course {
 	@Id
@@ -20,9 +18,9 @@ public class Course {
 	private int capacity;
 	@ManyToOne
 	private Department department;
-	private int credits;
-	@Nullable
-	private String grade;
+
+	@ManyToMany
+	private Collection<Student> students;
 
 	@ManyToMany
 	private Collection<Faculty> faculties;

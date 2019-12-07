@@ -8,6 +8,8 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.team3.sms.enums.Role;
+
 @MappedSuperclass
 public class User {
 	@Id
@@ -28,6 +30,7 @@ public class User {
 	private String email;
 	private String password;
 	@NotEmpty
+	@Length(min = 8, max = 8)
 	private String mobileNo;
 	private Role Role;
 
@@ -35,7 +38,7 @@ public class User {
 	}
 
 	public User(String firstName, String lastName, String gender, String dateofBirth, String address, String email,
-			String password, String mobileNo, com.team3.sms.models.Role role) {
+			String password, String mobileNo, com.team3.sms.enums.Role role) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;

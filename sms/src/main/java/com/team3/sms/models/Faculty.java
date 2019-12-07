@@ -19,4 +19,32 @@ public class Faculty extends User {
 
 	@ManyToMany
 	private Collection<StaffLeave> staffLeaves;
+
+	public Boolean getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public Faculty() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String toString() {
+		return "Faculty [isAdmin=" + isAdmin + ", department=" + department + ", courses=" + courses + ", staffLeaves="
+				+ staffLeaves + ", toString()=" + super.toString() + "]";
+	}
+
 }

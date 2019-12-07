@@ -16,6 +16,9 @@ public class Department {
 
 	private String name;
 
+	@OneToMany(targetEntity = Student.class, mappedBy = "department")
+	private Collection<Student> students;
+
 	@OneToMany(targetEntity = Faculty.class, mappedBy = "department")
 	private Collection<Faculty> faculties;
 
