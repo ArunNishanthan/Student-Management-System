@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<style th:fragment="style">
+
+/*!
+ * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
+ */
+body {
+	overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+	height:100%;
+	margin-left: -15rem;
+	-webkit-transition: margin .25s ease-out;
+	-moz-transition: margin .25s ease-out;
+	-o-transition: margin .25s ease-out;
+	transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+	padding: 0.875rem 1.25rem;
+	font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+	width: 15rem;
+}
+
+#page-content-wrapper {
+	min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+	margin-left: 0;
+}
+
+@media ( min-width : 768px) {
+	#sidebar-wrapper {
+		margin-left: 0;
+	}
+	#page-content-wrapper {
+		min-width: 0;
+		width: 100%;
+	}
+}
+
+.error {
+	color: red;
+}
+
+.list-group-item {
+     padding: 0;
+}
+</style>
+</head>
+<body>
+	<nav th:fragment="navbar"
+		class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<a class="navbar-brand" href="#">May May</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarColor01" aria-controls="navbarColor01"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarColor01">
+			<ul class="navbar-nav mr-auto">
+				<!-- 				<li class="nav-item active"><a class="nav-link" href="#">Home -->
+				<!-- 						<span class="sr-only">(current)</span> -->
+				<!-- 				</a></li> -->
+				<!-- 				<li class="nav-item"><a class="nav-link" href="#">Features</a> -->
+				<!-- 				</li> -->
+				<!-- 				<li class="nav-item"><a class="nav-link" href="#">Pricing</a></li> -->
+				<!-- 				<li class="nav-item"><a class="nav-link" href="#">About</a></li> -->
+			</ul>
+			<div class="nav navbar-nav navbar-right">
+				<a href="/" class="navbar-brand">Arun Nishanthan</a> <a href="/"
+					class="navbar-brand">Logout</a>
+			</div>
+		</div>
+	</nav>
+	<div th:fragment="adminSidebar"
+		class="bg-light border-right text-white" id="sidebar-wrapper">
+		<div class="list-group list-group-flush">
+			<div class="list-group-item list-group-item-action dropdown-menu">
+				<h6 class="dropdown-header">Manage Faculty</h6>
+				<a class="dropdown-item" href="/admin/createfaculty">Create
+					Faculty</a> <a class="dropdown-item" href="#">Update Faculty
+					Details</a> <a class="dropdown-item" href="#">Assign Course to
+					Faculty</a>
+			</div>
+			<div class="list-group-item list-group-item-action dropdown-menu">
+				<h6 class="dropdown-header">Manage Student</h6>
+				<a class="dropdown-item" href="/admin/createstudent">Create
+					Student</a> <a class="dropdown-item" href="#">Update Student
+					Details</a>
+			</div>
+			<div class="list-group-item list-group-item-action dropdown-menu">
+				<h6 class="dropdown-header">Manage Course</h6>
+				<a class="dropdown-item" href="/admin/createstudent">All Course</a>
+				<a class="dropdown-item" href="#">Assigned Courses</a>
+			</div>
+			<div class="list-group-item list-group-item-action dropdown-menu">
+				<h6 class="dropdown-header">Manage Leave</h6>
+				<a class="dropdown-item" href="#">View all Leaves</a> <a
+					class="dropdown-item" href="#">Approval Leaves</a> <a
+					class="dropdown-item" href="#">My Leaves</a>
+			</div>
+			<div class="list-group-item list-group-item-action dropdown-menu">
+				<a class="dropdown-item" href="#">Reporting</a>
+			</div>
+		</div>
+	</div>
+	<footer th:fragment="footer" class="page-footer bg-primary text-white">
+		<div class="footer-copyright text-center py-3">Made with
+			&#10084;&#65039; by Team 3</div>
+	</footer>
+
+	<div th:fragment="bootstrapScripts">
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+			integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+			crossorigin="anonymous"></script>
+	</div>
+
+	<div th:fragment="valScript">
+		<script
+			src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+		<script type="text/javascript"
+			src="https://unpkg.com/lightpick@latest/lightpick.js"></script>
+		<script>
+			var picker = new Lightpick({
+				field : document.getElementById('dateofBirth'),
+				firstDay : 7,
+				maxDate : new Date(),
+				onSelect : function(date) {
+					console.log(date.format('DD MM YYYY'));
+					document.getElementById('dateofBirth').innerHTML = date
+							.format('DD MM YYYY');
+				}
+			});
+		</script>
+		<script>
+			$(document)
+					.ready(
+							function() {
+								$('#Facultyfrom')
+										.validate(
+												{
+													rules : {
+														firstName : {
+															minlength : 3,
+															maxlength : 20,
+															required : true
+														},
+														gender : {
+															required : true
+														},
+														dateofBirth : {
+															required : true
+														},
+														address : {
+															required : true,
+															minlength : 6,
+															maxlength : 50
+														},
+														email : {
+															required : true,
+															email : true
+														},
+														mobileNo : {
+															required : true,
+															number : true
+														},
+														department : {
+															required : true
+														},
+														isAdmin : {
+															required : true
+														}
+													},
+													highlight : function(
+															element) {
+														$(element)
+																.closest(
+																		'.form-group')
+																.removeClass(
+																		'has-success')
+																.addClass(
+																		'has-danger');
+													},
+													success : function(element) {
+														element
+																.closest(
+																		'.form-group')
+																.removeClass(
+																		'has-danger')
+																.addClass(
+																		'has-success');
+													},
+
+													errorPlacement : function(
+															label, element) {
+														if (element
+																.attr("name") === "gender"
+																|| element
+																		.attr("name") === "isAdmin") {
+															element
+																	.parent()
+																	.parent()
+																	.append(
+																			label); // this would append the label after all your checkboxes/labels (so the error-label will be the last element in <div class="controls"> )
+														} else {
+															label
+																	.insertAfter(element); // standard behaviour
+														}
+													}
+												});
+							});
+			$(document).ready(
+					function() {
+						$('#studentfrom').validate(
+								{
+									rules : {
+										firstName : {
+											minlength : 3,
+											maxlength : 20,
+											required : true
+										},
+										gender : {
+											required : true
+										},
+										dateofBirth : {
+											required : true
+										},
+										address : {
+											required : true,
+											minlength : 6,
+											maxlength : 50
+										},
+										email : {
+											required : true,
+											email : true
+										},
+										mobileNo : {
+											required : true,
+											number : true
+										},
+										department : {
+											required : true,
+										}
+									},
+									highlight : function(element) {
+										$(element).closest('.form-group')
+												.removeClass('has-success')
+												.addClass('has-danger');
+									},
+									success : function(element) {
+										element.closest('.form-group')
+												.removeClass('has-danger')
+												.addClass('has-success');
+									},
+
+									errorPlacement : function(label, element) {
+										if (element.attr("name") === "gender") {
+											element.parent().parent().append(
+													label); // this would append the label after all your checkboxes/labels (so the error-label will be the last element in <div class="controls"> )
+										} else {
+											label.insertAfter(element); // standard behaviour
+										}
+									}
+								});
+					});
+		</script>
+	</div>
+</body>
+</html>

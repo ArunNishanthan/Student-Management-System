@@ -1,19 +1,26 @@
 package com.team3.sms.models;
 
-import java.util.Collection;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import com.team3.sms.enums.CourseStatus;
 
 @Entity
-public class Semester {
+public class CourseSheet {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@ManyToMany
-	private Collection<Course> courses;
-	private Boolean isCompleted;
+
+	@ManyToOne
+	private Student student;
+
+	@ManyToOne
+	private Course course;
+
+	private int marks;
+
+	private CourseStatus coursestatus;
 }
