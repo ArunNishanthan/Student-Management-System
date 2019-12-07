@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <link rel="stylesheet"
-	href="https://bootswatch.com/4/materia/bootstrap.min.css">
+	href="https://bootswatch.com/4/united/bootstrap.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" type="text/css"
 	href="https://unpkg.com/lightpick@latest/css/lightpick.css">
@@ -133,7 +133,7 @@
 						</div>
 						<div class="custom-control custom-radio">
 							<input type="radio" id="customRadio12" name="isAdmin"
-								class="custom-control-input" value=1 th:field="*{isAdmin}"
+								class="custom-control-input" value=0 th:field="*{isAdmin}"
 								th:classappend="${#fields.hasErrors('isAdmin')} ? is-invalid">
 							<label class="custom-control-label" for="customRadio12">No</label>
 						</div>

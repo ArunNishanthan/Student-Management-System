@@ -15,6 +15,15 @@ public class StaffLeave {
 	private Date startDate;
 	private Date endDate;
 	private String comments;
+	private Boolean IsApproved;
+
+	public Boolean getIsApproved() {
+		return IsApproved;
+	}
+
+	public void setIsApproved(Boolean isApproved) {
+		IsApproved = isApproved;
+	}
 
 	public StaffLeave() {
 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet"
+	href="https://bootswatch.com/4/materia/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style th:insert="~{Components :: style}"></style>
+<meta charset="ISO-8859-1">
+<title>Faculty Form</title>
+</head>
+<body>
+	<nav th:insert="~{Components :: navbar}"></nav>
+	<div class="d-flex" id="wrapper">
+		<div th:insert="~{Components :: adminSidebar}"></div>
+		<div id="page-content-wrapper">
+			<div class="container-fluid">
+				<br />
+				<h3 class="text-center">Faculty Form</h3>
+				<form class="p-3" action="checkfaculty" id="Facultyfrom"
+					th:object="${faculty}" method="post">
+					<div class="form-group"
+						th:classappend="${#fields.hasErrors('department')} ? has-danger">
+						<label for="department">Department</label> <select
+							class="custom-select" th:field="*{department}" id="department">
+							<option value="" selected="">Please Select the
+								Department</option>
+							<option th:each="department : ${departments}"
+								th:value="${department.getId()}"
+								th:text="${department.getName()}"></option>
+						</select>
+						<div th:if="${#fields.hasErrors('department')}"
+							class="invalid-feedback" th:errors="*{department}"></div>
+					</div>
+					<div class="form-group"
+						th:classappend="${#fields.hasErrors('isAdmin')} ? has-danger">
+						<label for="isAdmin">Assign as Admin</label>
+
+						<div class="custom-control custom-radio">
+							<input type="radio" id="customRadio11" name="isAdmin"
+								class="custom-control-input" checked="" value=1
+								th:field="*{isAdmin}"
+								th:classappend="${#fields.hasErrors('isAdmin')} ? is-invalid">
+							<label class="custom-control-label" for="customRadio11">Yes</label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="customRadio12" name="isAdmin"
+								class="custom-control-input" value=1 th:field="*{isAdmin}"
+								th:classappend="${#fields.hasErrors('isAdmin')} ? is-invalid">
+							<label class="custom-control-label" for="customRadio12">No</label>
+						</div>
+
+						<div th:if="${#fields.hasErrors('isAdmin')}"
+							class="invalid-feedback" th:errors="*{isAdmin}"></div>
+					</div>
+
+
+					<div class="col text-center">
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<footer th:insert="~{Components :: footer}"></footer>
+	<div th:insert="~{Components :: bootstrapScripts}"></div>
+	<div th:insert="~{Components :: valScript}"></div>
+
+</body>
+</html>

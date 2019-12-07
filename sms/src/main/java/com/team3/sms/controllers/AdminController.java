@@ -54,7 +54,6 @@ public class AdminController {
 		} else {
 			student.setPassword(student.getFirstName());
 			student.setRole(Role.ISSTUDENT);
-			System.out.println(student);
 			studentservices.saveStudent(student);
 
 			return "redirect:/createstudent";
@@ -72,7 +71,12 @@ public class AdminController {
 			faculty.setRole(Role.ISFACULTY);
 			System.out.println(faculty);
 			facultyServices.saveStudent(faculty);
-			return "redirect:/createstudent";
+			return "redirect:/admin/createstudent";
 		}
+	}
+
+	@GetMapping("/assigncourse")
+	public String LoadAssignPage(Model model) {
+		return "AssignCourseToFaculty";
 	}
 }
