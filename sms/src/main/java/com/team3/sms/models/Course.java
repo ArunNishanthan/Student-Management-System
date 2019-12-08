@@ -8,16 +8,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@NotNull
 	private int id;
+	@NotEmpty
 	private String name;
+	@NotNull
 	private int capacity;
 
 	@ManyToOne
+	@NotNull
 	private Department department;
 
 	@ManyToMany

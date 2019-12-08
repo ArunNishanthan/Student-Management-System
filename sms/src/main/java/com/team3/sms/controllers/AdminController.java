@@ -150,4 +150,25 @@ public class AdminController {
 		facultyServices.removeFaculty(faculty);
 		return "redirect:/admin/viewcoursefaculty?depid=" + faculty.getDepartment().getId();
 	}
+
+	@GetMapping("/createcourse")
+	public String getCoursePage(Model model) {
+
+		Course course = new Course();
+		model.addAttribute("course", course);
+		model.addAttribute("departments", formservices.getDepartments());
+		return "CourseForm";
+	}
+
+	@PostMapping("/checkcourse")
+	public String submitCourse(@Valid @ModelAttribute("course") Course course, BindingResult bindingResult,
+			Model model) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("departments", formservices.getDepartments());
+			return "CourseForm";
+		} else {
+			courseServices.saveCourse(course);
+			return "redirect:/admin/createcourse";
+		}
+	}
 }
