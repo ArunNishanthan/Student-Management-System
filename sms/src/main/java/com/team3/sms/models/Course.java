@@ -29,7 +29,7 @@ public class Course {
 	@ManyToMany
 	private Collection<Student> students;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "courses")
 	private Collection<Faculty> faculties;
 
 	public int getId() {

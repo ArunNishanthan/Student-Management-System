@@ -118,6 +118,7 @@ public class AdminController {
 	public String assignCourse(@PathVariable("facid") int facid, @PathVariable("courseid") int courseid) {
 		Faculty faculty = facultyServices.getFaculty(facid);
 		Course course = courseServices.getCourse(courseid);
+		System.out.println(course.getName());
 		ArrayList<Course> coursesFac = new ArrayList<>(faculty.getCourses());
 		coursesFac.add(course);
 		faculty.setCourses(coursesFac);
@@ -153,7 +154,6 @@ public class AdminController {
 
 	@GetMapping("/createcourse")
 	public String getCoursePage(Model model) {
-
 		Course course = new Course();
 		model.addAttribute("course", course);
 		model.addAttribute("departments", formservices.getDepartments());
@@ -168,7 +168,42 @@ public class AdminController {
 			return "CourseForm";
 		} else {
 			courseServices.saveCourse(course);
-			return "redirect:/admin/createcourse";
+			return "redirect:/admin/viewcourse/?depid=" + course.getDepartment().getId();
 		}
+	}
+
+	@RequestMapping("/viewcourse")
+	public String viewcourse(@RequestParam(value = "depid", defaultValue = "0") int depid, Model model) {
+		model.addAttribute("departments", formservices.getDepartments());
+		if (depid == 0) {
+			model.addAttribute("department", new Department());
+		} else {
+			Department department = formservices.getDepartment(depid);
+			model.addAttribute("department", formservices.getDepartment(depid));
+			model.addAttribute("courses", courseServices.LoadCourseBasedonDep(department));
+		}
+		return "CourseHome";
+	}
+
+	@GetMapping("/updatecourse/{courseid}")
+	public String updatecourse(@PathVariable("courseid") int courseid, Model model) {
+		Course course = courseServices.getCourse(courseid);
+		model.addAttribute("course", course);
+		model.addAttribute("departments", formservices.getDepartments());
+		return "CourseForm";
+	}
+
+	@GetMapping("/deletecourse/{courseid}")
+	public String deletecourse(@PathVariable("courseid") int courseid) {
+		Course course = courseServices.getCourse(courseid);
+		ArrayList<Faculty> facultiesbyCourse = new ArrayList<>(course.getFaculties());
+		for (Faculty faculty : facultiesbyCourse) {
+			ArrayList<Course> coursesFac = new ArrayList<>(faculty.getCourses());
+			coursesFac.remove(course);
+			faculty.setCourses(coursesFac);
+			facultyServices.saveFaculty(faculty);
+		}
+		courseServices.removeCourse(course);
+		return "redirect:/admin/viewcourse?depid=" + course.getDepartment().getId();
 	}
 }

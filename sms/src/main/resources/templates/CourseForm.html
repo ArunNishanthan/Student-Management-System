@@ -18,7 +18,7 @@
 			<div class="container-fluid">
 				<br />
 				<h3 class="text-center">Course Form</h3>
-				<form class="p-3" action="checkcourse" id="courseform"
+				<form class="p-3" action="/admin/checkcourse" id="courseform"
 					th:object="${course}" method="post">
 					<input type="hidden" th:field="*{id}" />
 					<div class="form-group"
@@ -35,7 +35,7 @@
 
 					<div class="form-group"
 						th:classappend="${#fields.hasErrors('capacity')} ? has-danger">
-						<label for="capacity">Capacity</label> <input type="text"
+						<label for="capacity">Capacity</label> <input type="number"
 							id="capacity" th:field="*{capacity}" class="form-control"
 							placeholder="Enter capacity"
 							th:classappend="${#fields.hasErrors('capacity')} ? is-invalid">
@@ -58,7 +58,7 @@
 						<div th:if="${#fields.hasErrors('department')}"
 							class="invalid-feedback" th:errors="*{department}"></div>
 					</div>
-				<div class="col text-center">
+					<div class="col text-center">
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</div>
 				</form>
@@ -69,5 +69,11 @@
 	<footer th:insert="~{Components :: footer}"></footer>
 	<div th:insert="~{Components :: bootstrapScripts}"></div>
 	<div th:insert="~{Components :: valScript}"></div>
+	<script>
+		let cap = document.getElementById('capacity').value;
+		if (cap == 0) {
+			document.getElementById('capacity').value = "";
+		}
+	</script>
 </body>
 </html>
