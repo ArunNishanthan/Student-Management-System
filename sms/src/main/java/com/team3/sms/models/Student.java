@@ -3,8 +3,8 @@ package com.team3.sms.models;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -13,8 +13,8 @@ public class Student extends User {
 	@ManyToOne
 	private Department department;
 
-	@OneToMany
-	private Collection<CourseSheet> courseSheets;
+	@ManyToMany
+	private Collection<Course> courses;
 
 	public Department getDepartment() {
 		return department;
@@ -24,16 +24,22 @@ public class Student extends User {
 		this.department = department;
 	}
 
-	public Student(String firstName, String lastName, String gender, String dateofBirth, String address, String email,
-			String password, String mobileNo, com.team3.sms.enums.Role role, Department department) {
-		super(firstName, lastName, gender, dateofBirth, address, email, password, mobileNo, role);
+	public Collection<Course> getCourses() {
+		return courses;
+	}
 
-		this.department = department;
+	public void setCourses(Collection<Course> courses) {
+		this.courses = courses;
 	}
 
 	public Student() {
 		super();
 
+	}
+
+	@Override
+	public String toString() {
+		return "Student [department=" + department + ", courses=" + courses + ", toString()=" + super.toString() + "]";
 	}
 
 }

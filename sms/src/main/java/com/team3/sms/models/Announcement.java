@@ -16,10 +16,32 @@ public class Announcement {
 	private int id;
 	@NotEmpty
 	private String message;
+
 	@NotEmpty
 	private String date;
 	@NotEmpty
 	private String facultyname;
 	@ManyToMany
 	private Collection<Department> departments;
+
+	public Announcement(int id, @NotEmpty String message, @NotEmpty String date, @NotEmpty String facultyname,
+			Collection<Department> departments) {
+		super();
+		this.id = id;
+		this.message = message;
+		this.date = date;
+		this.facultyname = facultyname;
+		this.departments = departments;
+	}
+
+	public Announcement() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "Announcement [id=" + id + ", message=" + message + ", date=" + date + ", facultyname=" + facultyname
+				+ ", departments=" + departments + "]";
+	}
+
 }

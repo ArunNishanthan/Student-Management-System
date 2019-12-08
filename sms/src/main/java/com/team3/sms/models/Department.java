@@ -41,11 +41,6 @@ public class Department {
 		this.name = name;
 	}
 
-	public Department(String name) {
-		super();
-		this.name = name;
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -54,9 +49,52 @@ public class Department {
 		this.id = id;
 	}
 
-	@Override
-	public String toString() {
-		return "Department [id=" + id + ", name=" + name + "]";
+	public Collection<Announcement> getAnnouncements() {
+		return announcements;
 	}
 
+	public void setAnnouncements(Collection<Announcement> announcements) {
+		this.announcements = announcements;
+	}
+
+	public Collection<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(Collection<Student> students) {
+		this.students = students;
+	}
+
+	public Collection<Faculty> getFaculties() {
+		return faculties;
+	}
+
+	public void setFaculties(Collection<Faculty> faculties) {
+		this.faculties = faculties;
+	}
+
+	public Collection<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(Collection<Course> courses) {
+		this.courses = courses;
+	}
+
+	public Department(int id, String name, Collection<Announcement> announcements, Collection<Student> students,
+			Collection<Faculty> faculties, Collection<Course> courses) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.announcements = announcements;
+		this.students = students;
+		this.faculties = faculties;
+		this.courses = courses;
+	}
+
+	@Override
+	public String toString() {
+		return "Department [id=" + id + ", name=" + name + ", announcements=" + announcements + ", students=" + students
+				+ ", faculties=" + faculties + ", courses=" + courses + "]";
+	}
 }

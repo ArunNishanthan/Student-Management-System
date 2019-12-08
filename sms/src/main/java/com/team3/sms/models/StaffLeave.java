@@ -61,4 +61,10 @@ public class StaffLeave {
 		this.comments = comments;
 	}
 
+	@Override
+	public String toString() {
+		return "StaffLeave [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", comments=" + comments
+				+ ", IsApproved=" + IsApproved + "]";
+	}
+
 }

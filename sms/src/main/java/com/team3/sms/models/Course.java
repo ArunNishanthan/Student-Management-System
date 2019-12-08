@@ -26,7 +26,7 @@ public class Course {
 	@NotNull
 	private Department department;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "courses")
 	private Collection<Student> students;
 
 	@ManyToMany(mappedBy = "courses")
@@ -76,14 +76,29 @@ public class Course {
 		return faculties;
 	}
 
+	public void setFaculties(Collection<Faculty> faculties) {
+		this.faculties = faculties;
+	}
+
+	public Course(@NotNull int id, @NotEmpty String name, @NotNull int capacity, @NotNull Department department,
+			Collection<Student> students, Collection<Faculty> faculties) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.capacity = capacity;
+		this.department = department;
+		this.students = students;
+		this.faculties = faculties;
+	}
+
+	public Course() {
+		super();
+	}
+
 	@Override
 	public String toString() {
 		return "Course [id=" + id + ", name=" + name + ", capacity=" + capacity + ", department=" + department
 				+ ", students=" + students + ", faculties=" + faculties + "]";
-	}
-
-	public void setFaculties(Collection<Faculty> faculties) {
-		this.faculties = faculties;
 	}
 
 }
