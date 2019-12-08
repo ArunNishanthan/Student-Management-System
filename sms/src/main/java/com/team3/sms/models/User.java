@@ -30,7 +30,6 @@ public class User {
 	private String email;
 	private String password;
 	@NotEmpty
-	@Length(min = 8, max = 8)
 	private String mobileNo;
 	private Role Role;
 

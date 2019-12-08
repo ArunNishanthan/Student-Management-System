@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet"
+	href="https://bootswatch.com/4/united/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style th:insert="~{Components :: style}"></style>
+<meta charset="ISO-8859-1">
+<title>Faculty Form</title>
+<style>
+.pd-0 {
+	padding: 0;
+}
+</style>
+</head>
+<body>
+	<nav th:insert="~{Components :: navbar}"></nav>
+	<div class="d-flex" id="wrapper">
+		<div th:insert="~{Components :: adminSidebar}"></div>
+		<div id="page-content-wrapper">
+			<div class="container-fluid">
+				<br />
+				<h3 class="text-center" th:text="${department.name}"></h3>
+				<br />
+				<div class="container mb-2">
+					<div class="row">
+						<div class="card mb-2 col-sm-4 pd-0"
+							th:each="faculty : ${faculties}">
+							<h4 class="card-header"
+								th:text="*{faculty.firstName}+' '+*{faculty.lastName}"></h4>
+
+							<ul th:if="*{!faculty.getCourses().isEmpty()}"
+								class="list-group list-group-flush">
+								<li class="list-group-item"></li>
+							</ul>
+							<p th:if="*{faculty.getCourses().isEmpty()}"
+								class="list-group list-group-flush text-center">No Courses
+								Assigned</p>
+							<div class="card-footer">
+								<button type="button" class="btn btn-sm btn-outline-info">Assign
+									Course</button>
+								<button type="button" class="btn btn-sm btn-outline-warning">Update</button>
+								<button type="button" class="btn btn-sm btn-outline-danger">Delete
+									Faculty</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:insert="~{Components :: footer}"></footer>
+	<div th:insert="~{Components :: bootstrapScripts}"></div>
+	<div th:insert="~{Components :: valScript}"></div>
+
+</body>
+</html>

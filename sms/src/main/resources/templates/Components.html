@@ -55,13 +55,12 @@ body {
 	color: red;
 }
 
-<<<<<<< HEAD
 .glist-group-item {
-     padding: 0;
-=======
+	padding: 0;
+}
+
 .list-group-item {
 	padding: 0;
->>>>>>> branch 'master' of https://github.com/ArunNishanthan/sms.git
 }
 </style>
 </head>
@@ -101,11 +100,10 @@ body {
 			</div>
 			<div class="list-group-item list-group-item-action dropdown-menu">
 				<h6 class="dropdown-header">Student Records</h6>
-				<a class="dropdown-item" href="/admin/createstudent">Education Record
-				</a> <a class="dropdown-item" href="#">Personal Record
-					</a>
+				<a class="dropdown-item" href="/admin/createstudent">Education
+					Record </a> <a class="dropdown-item" href="#">Personal Record </a>
 			</div>
-	
+
 		</div>
 	</div>
 
@@ -113,31 +111,34 @@ body {
 	<div th:fragment="adminSidebar"
 		class="bg-light border-right text-white" id="sidebar-wrapper">
 		<div class="list-group list-group-flush">
-			<div class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
-				<h6 class="dropdown-header">Manage Faculty</h6>
+		<div
+				class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
+				<h6 class="dropdown-header">Course Menu</h6>
+				<a class="dropdown-item" href="/admin/assigncourse">Create Course</a> <a
+					class="dropdown-item" href="#">Manage Courses</a>
+			</div>
+			<div
+				class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
+				<h6 class="dropdown-header">Faculty Menu</h6>
 				<a class="dropdown-item" href="/admin/createfaculty">Create
-					Faculty</a> <a class="dropdown-item" href="#">Update Faculty
-					Details</a> <a class="dropdown-item" href="#">Assign Course to
-					Faculty</a>
+					Faculty</a> <a class="dropdown-item" href="/admin/viewcoursefaculty">Manage Faculty</a>
 			</div>
-			<div class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
-				<h6 class="dropdown-header">Manage Student</h6>
+			<div
+				class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
+				<h6 class="dropdown-header">Student Menu</h6>
 				<a class="dropdown-item" href="/admin/createstudent">Create
-					Student</a> <a class="dropdown-item" href="#">Update Student
-					Details</a>
+					Student</a> <a class="dropdown-item" href="#">Manage Students</a>
 			</div>
-			<div class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
-				<h6 class="dropdown-header">Manage Course</h6>
-				<a class="dropdown-item" href="/admin/assigncourse">Courses</a>
-				<a class="dropdown-item" href="#">Assigned Courses</a>
-			</div>
-			<div class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
+			
+			<div
+				class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
 				<h6 class="dropdown-header">Manage Leave</h6>
 				<a class="dropdown-item" href="#">View all Leaves</a> <a
 					class="dropdown-item" href="#">Approval Leaves</a> <a
 					class="dropdown-item" href="#">My Leaves</a>
 			</div>
-			<div class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
+			<div
+				class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
 				<a class="dropdown-item" href="#">Reporting</a>
 			</div>
 		</div>

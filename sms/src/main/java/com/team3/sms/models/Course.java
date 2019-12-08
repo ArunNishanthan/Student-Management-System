@@ -16,6 +16,7 @@ public class Course {
 	private int id;
 	private String name;
 	private int capacity;
+
 	@ManyToOne
 	private Department department;
 
@@ -24,5 +25,59 @@ public class Course {
 
 	@ManyToMany
 	private Collection<Faculty> faculties;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public Collection<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(Collection<Student> students) {
+		this.students = students;
+	}
+
+	public Collection<Faculty> getFaculties() {
+		return faculties;
+	}
+
+	@Override
+	public String toString() {
+		return "Course [id=" + id + ", name=" + name + ", capacity=" + capacity + ", department=" + department
+				+ ", students=" + students + ", faculties=" + faculties + "]";
+	}
+
+	public void setFaculties(Collection<Faculty> faculties) {
+		this.faculties = faculties;
+	}
 
 }

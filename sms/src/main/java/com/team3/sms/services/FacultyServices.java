@@ -14,11 +14,20 @@ public class FacultyServices {
 	@Autowired
 	private FacultyRepository facultyRepository;
 
-	public void saveStudent(Faculty faculty) {
+	public void saveFaculty(Faculty faculty) {
 		facultyRepository.save(faculty);
 	}
 
 	public ArrayList<Faculty> LoadfacBasedonDep(Department department) {
 		return facultyRepository.findByDepartment(department);
 	}
+
+	public Faculty getFaculty(int id) {
+		return facultyRepository.findById(id).get();
+	}
+
+	public void removeFaculty(Faculty faculty) {
+		facultyRepository.delete(faculty);
+	}
+
 }

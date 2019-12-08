@@ -17,6 +17,22 @@ public class Faculty extends User {
 	@ManyToMany
 	private Collection<Course> courses;
 
+	public Collection<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(Collection<Course> courses) {
+		this.courses = courses;
+	}
+
+	public Collection<StaffLeave> getStaffLeaves() {
+		return staffLeaves;
+	}
+
+	public void setStaffLeaves(Collection<StaffLeave> staffLeaves) {
+		this.staffLeaves = staffLeaves;
+	}
+
 	@ManyToMany
 	private Collection<StaffLeave> staffLeaves;
 
