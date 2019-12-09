@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -16,9 +15,6 @@ public class Department {
 	private int id;
 
 	private String name;
-
-	@ManyToMany(mappedBy = "departments")
-	private Collection<Announcement> announcements;
 
 	@OneToMany(targetEntity = Student.class, mappedBy = "department")
 	private Collection<Student> students;
@@ -49,14 +45,6 @@ public class Department {
 		this.id = id;
 	}
 
-	public Collection<Announcement> getAnnouncements() {
-		return announcements;
-	}
-
-	public void setAnnouncements(Collection<Announcement> announcements) {
-		this.announcements = announcements;
-	}
-
 	public Collection<Student> getStudents() {
 		return students;
 	}
@@ -81,20 +69,4 @@ public class Department {
 		this.courses = courses;
 	}
 
-	public Department(int id, String name, Collection<Announcement> announcements, Collection<Student> students,
-			Collection<Faculty> faculties, Collection<Course> courses) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.announcements = announcements;
-		this.students = students;
-		this.faculties = faculties;
-		this.courses = courses;
-	}
-
-	@Override
-	public String toString() {
-		return "Department [id=" + id + ", name=" + name + ", announcements=" + announcements + ", students=" + students
-				+ ", faculties=" + faculties + ", courses=" + courses + "]";
-	}
 }

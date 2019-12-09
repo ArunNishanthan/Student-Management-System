@@ -95,10 +95,4 @@ public class Course {
 		super();
 	}
 
-	@Override
-	public String toString() {
-		return "Course [id=" + id + ", name=" + name + ", capacity=" + capacity + ", department=" + department
-				+ ", students=" + students + ", faculties=" + faculties + "]";
-	}
-
 }

@@ -62,6 +62,7 @@ public class AdminController {
 			return "StudentForm";
 		} else {
 			student.setPassword(student.getFirstName());
+
 			student.setRole(Role.ISSTUDENT);
 			studentservices.saveStudent(student);
 

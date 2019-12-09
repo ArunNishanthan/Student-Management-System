@@ -9,8 +9,6 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Faculty extends User {
 
-	private Boolean isAdmin;
-
 	@ManyToOne
 	private Department department;
 
@@ -25,23 +23,15 @@ public class Faculty extends User {
 		this.courses = courses;
 	}
 
+	@ManyToMany
+	private Collection<StaffLeave> staffLeaves;
+
 	public Collection<StaffLeave> getStaffLeaves() {
 		return staffLeaves;
 	}
 
 	public void setStaffLeaves(Collection<StaffLeave> staffLeaves) {
 		this.staffLeaves = staffLeaves;
-	}
-
-	@ManyToMany
-	private Collection<StaffLeave> staffLeaves;
-
-	public Boolean getIsAdmin() {
-		return isAdmin;
-	}
-
-	public void setIsAdmin(Boolean isAdmin) {
-		this.isAdmin = isAdmin;
 	}
 
 	public Department getDepartment() {
@@ -55,12 +45,6 @@ public class Faculty extends User {
 	public Faculty() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public String toString() {
-		return "Faculty [isAdmin=" + isAdmin + ", department=" + department + ", courses=" + courses + ", staffLeaves="
-				+ staffLeaves + ", toString()=" + super.toString() + "]";
 	}
 
 }
