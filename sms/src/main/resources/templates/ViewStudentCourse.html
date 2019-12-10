@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet"
+	href="https://bootswatch.com/4/materia/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style th:insert="~{Components :: style}"></style>
+<meta charset="ISO-8859-1">
+<title>Faculty Form</title>
+<style>
+.pd-0 {
+	padding: 0;
+}
+</style>
+</head>
+<body>
+	<nav th:insert="~{Components :: navbar}"></nav>
+	<div class="d-flex" id="wrapper">
+		<div th:insert="~{Components :: studentSidebar}"></div>
+		<div id="page-content-wrapper">
+			<div class="container-fluid">
+				<br /> <br />
+				<!-- Display Student Name -->
+				<h4 class="text-center"
+					th:text="${student.firstName} +' '+${student.lastName}"></h4>
+				<!-- End Display Student Name -->
+				<!-- class="card mb-2 pd-0" -->
+				<div>
+					<h4 class="header text-center">Enrolled Courses</h4>
+					<div class="row" th:if="${!student.getCourses().isEmpty()}">
+						<div class="card mb-2 col-sm-4 pd-0  text-center"
+							th:each="enrollCourse : ${student.courses}">
+							<h4 class="card-header" th:text="*{enrollCourse.name}"></h4>
+							<p th:text="*{enrollCourse.getDepartment().getName()}"
+								class="list-group list-group-flush text-center"></p>
+
+							<div class="card-footer">
+								<a
+									th:href="@{'/student/removeEnrollCourseFromView/' + ${enrollCourse.getId()}}"
+									class="btn btn-sm btn-outline-info text-center">Remove
+									Course</a>
+							</div>
+						</div>
+					</div>
+
+					<p th:if="${student.getCourses().isEmpty()}" class="text-center">No
+						Enrolled Courses</p>
+				</div>
+
+				<!--  -->
+				<!-- class="card pd-0" -->
+				<div>
+					<h4 class="header text-center">Completed Course</h4>
+
+					<div class="row" th:if="${!completeCourses.isEmpty()}">
+						<div class="card mb-2 col-sm-4 pd-0  text-center"
+							th:each="completeCourse : ${completeCourses}">
+							<h4 class="card-header"
+								th:text="*{completeCourse.getCourse().getName()}"></h4>
+							<p
+								th:text="*{completeCourse.getCourse().getDepartment().getName()}"
+								class="list-group list-group-flush text-center"></p>
+							<div class="card-footer">
+								<a
+									th:href="@{'/student/ViewCompleteCourseDetail/' + ${completeCourse.getId()}}"
+									class="btn btn-sm btn-outline-info text-center">View
+									Course</a>
+							</div>
+						</div>
+
+
+					</div>
+					<p th:if="${completeCourses.isEmpty()}" class="text-center">No
+						Completed Courses</p>
+				</div>
+				<!--  -->
+
+			</div>
+		</div>
+	</div>
+	<footer th:insert="~{Components :: footer}"></footer>
+	<div th:insert="~{Components :: bootstrapScripts}"></div>
+	<div th:insert="~{Components :: valScript}"></div>
+
+
+
+
+
+</body>
+</html>

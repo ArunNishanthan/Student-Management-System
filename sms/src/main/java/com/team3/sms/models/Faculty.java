@@ -3,16 +3,17 @@ package com.team3.sms.models;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
 public class Faculty extends User {
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Department department;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Course> courses;
 
 	public Collection<Course> getCourses() {

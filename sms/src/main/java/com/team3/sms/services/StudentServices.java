@@ -25,4 +25,5 @@ public class StudentServices {
 	public ArrayList<Student> getStudentsByDepartment(Department department) {
 		return studentRepository.findByDepartment(department);
 	}
+
 }

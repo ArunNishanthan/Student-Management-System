@@ -3,6 +3,7 @@ package com.team3.sms.models;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
@@ -10,10 +11,10 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Student extends User {
 	@NotNull
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Department department;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Course> courses;
 
 	public Department getDepartment() {

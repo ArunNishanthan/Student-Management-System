@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.team3.sms.enums.Role;
 import com.team3.sms.models.Admin;
@@ -29,6 +30,7 @@ import com.team3.sms.services.FormServices;
 import com.team3.sms.services.StudentServices;
 
 @RequestMapping("/admin")
+@SessionAttributes("usersession")
 @Controller
 public class AdminController {
 
