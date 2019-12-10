@@ -120,29 +120,7 @@
 						<div th:if="${#fields.hasErrors('department')}"
 							class="invalid-feedback" th:errors="*{department}"></div>
 					</div>
-					<div class="form-group"
-						th:classappend="${#fields.hasErrors('isAdmin')} ? has-danger">
-						<label for="isAdmin">Assign as Admin</label>
-
-						<div class="custom-control custom-radio">
-							<input type="radio" id="customRadio11" name="isAdmin"
-								class="custom-control-input" checked="" value=1
-								th:field="*{isAdmin}"
-								th:classappend="${#fields.hasErrors('isAdmin')} ? is-invalid">
-							<label class="custom-control-label" for="customRadio11">Yes</label>
-						</div>
-						<div class="custom-control custom-radio">
-							<input type="radio" id="customRadio12" name="isAdmin"
-								class="custom-control-input" value=0 th:field="*{isAdmin}"
-								th:classappend="${#fields.hasErrors('isAdmin')} ? is-invalid">
-							<label class="custom-control-label" for="customRadio12">No</label>
-						</div>
-
-						<div th:if="${#fields.hasErrors('isAdmin')}"
-							class="invalid-feedback" th:errors="*{isAdmin}"></div>
-					</div>
-
-
+					
 					<div class="col text-center">
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</div>

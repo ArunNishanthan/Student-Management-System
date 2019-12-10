@@ -20,6 +20,7 @@ public class FacultyServices {
 
 	public ArrayList<Faculty> LoadfacBasedonDep(Department department) {
 		return facultyRepository.findByDepartment(department);
+
 	}
 
 	public Faculty getFaculty(int id) {

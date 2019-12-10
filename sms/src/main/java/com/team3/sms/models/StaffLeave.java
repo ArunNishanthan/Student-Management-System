@@ -1,11 +1,13 @@
 package com.team3.sms.models;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class StaffLeave {
@@ -16,6 +18,9 @@ public class StaffLeave {
 	private Date endDate;
 	private String comments;
 	private Boolean IsApproved;
+
+	@ManyToMany(mappedBy = "staffLeaves")
+	private Collection<Faculty> faculties;
 
 	public Boolean getIsApproved() {
 		return IsApproved;

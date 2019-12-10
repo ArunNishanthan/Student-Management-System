@@ -20,8 +20,8 @@
 		<div id="page-content-wrapper">
 			<div class="container-fluid">
 				<br />
-				<h3 class="text-center">Manage Course</h3>
-				<form class="p-3" action="/admin/viewcourse" id="depfrom"
+				<h3 class="text-center">Manage Student</h3>
+				<form class="p-3" action="studentViewDepartment" id="depfrom"
 					method="post">
 					<input type=hidden />
 					<div class="form-group">
@@ -40,31 +40,30 @@
 					<div class="container mb-2">
 						<div class="row">
 							<div class="card mb-2 col-sm-4 pd-0  text-center"
-								th:each="course : ${courses}">
-								<h4 class="card-header" th:text="*{course.name}"></h4>
-								<ul class="list-group">
-									<li class="list-group-item text-center">Total Students
-										Enrolled - <span class="badge badge-primary"
-										th:text="${#lists.size(course.students)}"></span>
-									</li>
-									<li class="list-group-item text-center">Total Lecturers -
-										<span class="badge badge-primary"
-										th:text="${#lists.size(course.faculties)}"></span>
-									</li>
-									<li class="list-group-item text-center">Maximum Strength -
-										<span class="badge badge-primary" th:text="${course.capacity}"></span>
-									</li>
-								</ul>
-								<div class="card-footer">
+								th:each="student : ${students}">
+								<h4 class="card-header"
+									th:text="*{student.firstName}+' '+*{student.lastName}"></h4>
 
-									<a th:href="@{'/admin/viewstudent/' + ${course.id}+'/0'}"
-										class="btn btn-sm btn-outline-info">Students</a> <a
-										th:href="@{'/admin/viewstaff/' + ${course.id}}"
-										class="btn btn-sm btn-outline-success">Staffs</a> <a
-										th:href="@{'/admin/updatecourse/' + ${course.id}}"
+								<ul th:if="*{!student.getCourses().isEmpty()}"
+									class="list-group list-group-flush">
+									<th:block th:object="${greeting}">
+										<li class="list-group-item"
+											th:each="assignedcourse : ${student.courses}"
+											th:text="${assignedcourse.name}"></li>
+									</th:block>
+								</ul>
+								<p th:if="*{student.getCourses().isEmpty()}"
+									class="list-group list-group-flush text-center">No Courses
+									Assigned</p>
+								<div class="card-footer">
+									<a th:href="@{'/admin/managecourse/' + ${student.id}}"
+										class="btn btn-sm btn-outline-success">View</a> <a
+										th:href="@{'/admin/managecourse/' + ${student.id}}"
+										class="btn btn-sm btn-outline-info">Assign</a> <a
+										th:href="@{'/admin/updatestudent/' + ${student.id}}"
 										class="btn btn-sm btn-outline-warning">Update</a> <a
-										th:href="@{'/admin/deletecourse/' + ${course.id}}"
-										class="btn btn-sm btn-outline-danger">Delete </a>
+										th:href="@{'/admin/deletestudent/' + ${student.id}}"
+										class="btn btn-sm btn-outline-danger">Delete</a>
 								</div>
 							</div>
 						</div>

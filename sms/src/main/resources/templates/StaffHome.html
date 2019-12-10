@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet"
+	href="https://bootswatch.com/4/united/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style th:insert="~{Components :: style}"></style>
+<meta charset="ISO-8859-1">
+<title>Faculty Form</title>
+<style>
+.pd-0 {
+	padding: 0;
+}
+</style>
+</head>
+<body>
+	<nav th:insert="~{Components :: navbar}"></nav>
+	<div class="d-flex" id="wrapper">
+		<div th:insert="~{Components :: adminSidebar}"></div>
+		<div id="page-content-wrapper">
+			<div class="container-fluid">
+				<div class="container-fluid">
+					<br /> <br />
+					<h4 class="text-center" th:text="${course.name}"></h4>
+					<div class="card mb-2 pd-0">
+						<h4 class="card-header text-center">Assigned Staff</h4>
+						<table class="table" th:if="${!course.faculties.isEmpty()}">
+							<tr th:each="faculty : ${course.faculties}">
+								<td class="pl-3" th:text="${faculty.getFirstName()}" />
+								<td><a
+									th:href="@{'/admin/removefaculty/' + ${faculty.id}+'/'+${course.id}}"
+									class="btn btn-outline-danger btn-sm">Remove</a></td>
+							</tr>
+						</table>
+
+						<p th:if="${course.faculties.isEmpty()}" class="text-center">No
+							Faculties Assigned</p>
+					</div>
+					<div class="card pd-0">
+						<h4 class="card-header text-center">Assign New Faculty</h4>
+						<table class="table" th:if="${!availableFaculties.isEmpty()}">
+							<tr th:each="availablefaculty : ${availableFaculties}">
+								<td class="pl-3" th:text="${availablefaculty.getFirstName()}" />
+								<td><a
+									th:href="@{'/admin/assignfaculty/' + ${availablefaculty.id}+'/'+${course.id}}"
+									class="btn btn-outline-primary btn-sm">Assign</a></td>
+							</tr>
+						</table>
+						<p th:if="${availableFaculties.isEmpty()}" class="text-center">No
+							Lectures to assign</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:insert="~{Components :: footer}"></footer>
+	<div th:insert="~{Components :: bootstrapScripts}"></div>
+	<div th:insert="~{Components :: valScript}"></div>
+</body>
+</html>

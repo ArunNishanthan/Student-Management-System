@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet"
+	href="https://bootswatch.com/4/united/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css"
+	href="https://unpkg.com/lightpick@latest/css/lightpick.css">
+<style th:insert="~{Components :: style}"></style>
+<meta charset="ISO-8859-1">
+<title>Admin | Home</title>
+</head>
+<body>
+	<nav th:insert="~{Components :: navbar}"></nav>
+	<div class="d-flex" id="wrapper">
+		<div th:insert="~{Components :: adminSidebar}"></div>
+		<div id="page-content-wrapper">
+			<div class="container-fluid">
+				<br />
+				<h3 class="text-center">Admin DashBoard</h3>
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">Total Courses</h5>
+								<h1 class="card-text">150</h1>
+								<a href="#" class="btn btn-primary">Manage Courses</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">Total Lectures</h5>
+								<h1 class="card-text"></h1>
+								<a href="#" class="btn btn-primary">Manage Lecturers</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">Total Admin</h5>
+								<h1 class="card-text"></h1>
+								<a href="#" class="btn btn-primary">Manage Admin</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">Total Students Completed the Courses</h5>
+								<h1 class="card-text"></h1>
+								<a href="#" class="btn btn-primary">Manage Students</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">Total Students Enrolled in Courses</h5>
+								<h1 class="card-text"></h1>
+								<a href="#" class="btn btn-primary">Manage Students</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:insert="~{Components :: footer}"></footer>
+	<div th:insert="~{Components :: bootstrapScripts}"></div>
+	<div th:insert="~{Components :: valScript}"></div>
+
+</body>
+</html>
