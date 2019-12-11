@@ -14,62 +14,69 @@
 </style>
 </head>
 <body>
-	<nav th:insert="~{Components :: navbar}"></nav>
-	<div class="d-flex" id="wrapper">
-		<div th:insert="~{Components :: adminSidebar}"></div>
-		<div id="page-content-wrapper">
-			<div class="container-fluid">
-				<br />
-				<h3 class="text-center">Student List</h3>
-				<p class="text-center" th:if="${studentByCourse.isEmpty()}">No Students to display</p>
-				<table th:if="${!studentByCourse.isEmpty()}" class="table table-hover">
-					<thead>
-						<tr>
-							<th scope="col">Student Name</th>
-							<th scope="col">Date of Birth</th>
-							<th scope="col">Mobile Number</th>
-							<th scope="col">Email</th>
-							<th scope="col">Remove</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="student : ${studentByCourse}">
-							<td th:text="${student.firstName}+' '+${student.lastName}" />
-							<td th:text="${student.dateofBirth}" />
-							<td th:text="${student.mobileNo}" />
-							<td th:text="${student.email}" />
-							<td><a class="btn btn-sm btn-outline-danger"
-								th:href="@{'/admin/removestudent/'+${courseid}+'/'+ ${student.id}+'/'+${currentpage}}">Remove</a></td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="d-flex justify-content-center" th:if="${!studentByCourse.isEmpty()}">
-					<ul class="pagination pagination-lg">
-						<li class="page-item"
-							th:classappend="${currentpage}==0 ? disabled"><a
-							th:href="@{'/admin/viewstudent/'+${courseid}+'/' + 0}"
-							class="page-link" href="#">&laquo; </a></li>
-						<th:block th:each="i:${#numbers.sequence(1, pageCount)}">
-							<li class="page-item"
-								th:classappend="${currentpage}==${i-1} ? active"><a
-								class="page-link"
-								th:href="@{'/admin/viewstudent/'+${courseid}+'/' + ${i-1}}"
-								th:text="${i}"></a></li>
+	<div class="main-container">
+		<div class="body-container">
+			<nav th:insert="~{Components :: navbar}"></nav>
+			<div class="d-flex" id="wrapper">
+				<div th:insert="~{Components :: adminSidebar}"></div>
+				<div id="page-content-wrapper">
+					<div class="container-fluid">
+						<br />
+						<h3 class="text-center">Student List</h3>
+						<p class="text-center" th:if="${studentByCourse.isEmpty()}">No
+							Students to display</p>
+						<table th:if="${!studentByCourse.isEmpty()}"
+							class="table table-hover">
+							<thead>
+								<tr>
+									<th scope="col">Student Name</th>
+									<th scope="col">Date of Birth</th>
+									<th scope="col">Mobile Number</th>
+									<th scope="col">Email</th>
+									<th scope="col">Remove</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="student : ${studentByCourse}">
+									<td th:text="${student.firstName}+' '+${student.lastName}" />
+									<td th:text="${student.dateofBirth}" />
+									<td th:text="${student.mobileNo}" />
+									<td th:text="${student.email}" />
+									<td><a class="btn btn-sm btn-outline-danger"
+										th:href="@{'/admin/removestudent/'+${courseid}+'/'+ ${student.id}+'/'+${currentpage}}">Remove</a></td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="d-flex justify-content-center"
+							th:if="${!studentByCourse.isEmpty()}">
+							<ul class="pagination pagination-lg">
+								<li class="page-item"
+									th:classappend="${currentpage}==0 ? disabled"><a
+									th:href="@{'/admin/viewstudent/'+${courseid}+'/' + 0}"
+									class="page-link" href="#">&laquo; </a></li>
+								<th:block th:each="i:${#numbers.sequence(1, pageCount)}">
+									<li class="page-item"
+										th:classappend="${currentpage}==${i-1} ? active"><a
+										class="page-link"
+										th:href="@{'/admin/viewstudent/'+${courseid}+'/' + ${i-1}}"
+										th:text="${i}"></a></li>
 
-						</th:block>
-						<li class="page-item"
-							th:classappend="${currentpage}==${pageCount-1} ? disabled"><a
-							class="page-link"
-							th:href="@{'/admin/viewstudent/'+${courseid}+'/' + ${pageCount-1}}">&raquo;</a>
-						</li>
-					</ul>
+								</th:block>
+								<li class="page-item"
+									th:classappend="${currentpage}==${pageCount-1} ? disabled"><a
+									class="page-link"
+									th:href="@{'/admin/viewstudent/'+${courseid}+'/' + ${pageCount-1}}">&raquo;</a>
+								</li>
+							</ul>
+						</div>
+
+					</div>
 				</div>
-
 			</div>
 		</div>
+		<footer th:insert="~{Components :: footer}"></footer>
+		<div th:insert="~{Components :: bootstrapScripts}"></div>
+		<div th:insert="~{Components :: valScript}"></div>
 	</div>
-	<footer th:insert="~{Components :: footer}"></footer>
-	<div th:insert="~{Components :: bootstrapScripts}"></div>
-	<div th:insert="~{Components :: valScript}"></div>
 </body>
 </html>

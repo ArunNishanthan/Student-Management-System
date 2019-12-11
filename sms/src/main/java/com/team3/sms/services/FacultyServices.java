@@ -31,4 +31,8 @@ public class FacultyServices {
 		facultyRepository.delete(faculty);
 	}
 
+	public long totalFaculty() {
+		return facultyRepository.count();
+	}
+
 }

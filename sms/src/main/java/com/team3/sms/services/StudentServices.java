@@ -18,12 +18,20 @@ public class StudentServices {
 		studentRepository.save(student);
 	}
 
+	public void deleteStudent(Student student) {
+		studentRepository.delete(student);
+	}
+
 	public Student getStudentbyID(int id) {
 		return studentRepository.findById(id).get();
 	}
 
 	public ArrayList<Student> getStudentsByDepartment(Department department) {
 		return studentRepository.findByDepartment(department);
+	}
+
+	public long totalStudents() {
+		return studentRepository.count();
 	}
 
 }

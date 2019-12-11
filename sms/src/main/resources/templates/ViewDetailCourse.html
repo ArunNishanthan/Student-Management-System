@@ -14,52 +14,50 @@
 </style>
 </head>
 <body>
-	<nav th:insert="~{Components :: navbar}"></nav>
-	<div class="d-flex" id="wrapper">
-		<div th:insert="~{Components :: studentSidebar}"></div>
-		<div id="page-content-wrapper">
-			<div class="container-fluid">
-				<br /> <br />
+	<div class="main-container">
+		<div class="body-container">
+			<nav th:insert="~{Components :: navbar}"></nav>
+			<div class="d-flex" id="wrapper">
+				<div th:insert="~{Components :: studentSidebar}"></div>
+				<div id="page-content-wrapper">
+					<div class="container-fluid">
+						<br /> <br />
 
-				<!-- class="card mb-2 pd-0" -->
-				<div>
-					<h4 class="card-header text-center">Completed Courses Detail</h4>
-					<table class="table">
-						<tr>
-							<td>Course Name</td>
-							<td class="pl-3"
-								th:text="${completeCourse.getCourse().getName()}" /></td>
-						</tr>
-						<tr>
-							<td>Department Name</td>
-							<td class="pl-3"
-								th:text="${completeCourse.getCourse().getDepartment().getName()}" />
+						<!-- class="card mb-2 pd-0" -->
+						<div>
+							<h4 class="card-header text-center">Completed Courses Detail</h4>
+							<table class="table">
+								<tr>
+									<td>Course Name</td>
+									<td class="pl-3"
+										th:text="${completeCourse.getCourse().getName()}" /></td>
+								</tr>
+								<tr>
+									<td>Department Name</td>
+									<td class="pl-3"
+										th:text="${completeCourse.getCourse().getDepartment().getName()}" />
 
-						</tr>
+								</tr>
 
-						<tr>
-							<td>Marks</td>
-							<td class="pl-3" th:text="${completeCourse.getMarks()}" />
+								<tr>
+									<td>Marks</td>
+									<td class="pl-3" th:text="${completeCourse.getMarks()}" />
 
-						</tr>
-						<tr>
-							<td colspan="2"><a
-								class="btn btn-sm btn-outline-info text-center"
-								href="/student/viewStudentCourses/1">Back</a></td>
-						</tr>
-					</table>
+								</tr>
+								<tr>
+									<td colspan="2"><a
+										class="btn btn-sm btn-outline-info text-center"
+										href="/student/viewStudentCourses/1">Back</a></td>
+								</tr>
+							</table>
+						</div>
+					</div>
 				</div>
-				<!--  -->
-
-				<!--  -->
-
-
 			</div>
 		</div>
+		<footer th:insert="~{Components :: footer}"></footer>
+		<div th:insert="~{Components :: bootstrapScripts}"></div>
+		<div th:insert="~{Components :: valScript}"></div>
 	</div>
-	<footer th:insert="~{Components :: footer}"></footer>
-	<div th:insert="~{Components :: bootstrapScripts}"></div>
-	<div th:insert="~{Components :: valScript}"></div>
-
 </body>
 </html>

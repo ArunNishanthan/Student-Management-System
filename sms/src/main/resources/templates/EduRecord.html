@@ -8,44 +8,49 @@
 	href="https://unpkg.com/lightpick@latest/css/lightpick.css">
 <style th:insert="~{Components :: style}"></style>
 <meta charset="ISO-8859-1">
+
 <title>Student Record</title>
 </head>
 <body>
-	<nav th:insert="~{Components :: navbar}"></nav>
-	<div class="d-flex" id="wrapper">
-	<div th:insert="~{Components :: studentSidebar}"></div>
-		<div id="page-content-wrapper">
-			<div class="container-fluid">
-				<br />
-					<h3 class="text-center">Module Grades</h3>
-<form  method="get">
-<table class="table table-hover">
-  <tbody>
-  <th:block th:each=" mark,iterStat : ${marksheet}">
-  	<tr class="table-primary">
-      <td >Module</td>
-      <td th:text="${mark.course.name}"></td>
-    </tr>
-    <tr>
-      <td>Grade</td>
-      <td th:text="${grade[iterStat.index]}"></td>
-    </tr>
-    <tr>
-      <td>Description</td>
-      <td th:text="${des[iterStat.index]}"></td>
-    </tr>
-  </th:block>
-  <tr class="bg-success">
-      <td >CPA</td>
-      <td th:text="${cpa}"></td>
-   </tr>
-  </tbody>
-</table>
-</form>
+	<div class="main-container">
+		<div class="body-container">
+			<nav th:insert="~{Components :: navbar}"></nav>
+			<div class="d-flex" id="wrapper">
+				<div th:insert="~{Components :: studentSidebar}"></div>
+				<div id="page-content-wrapper">
+					<div class="container-fluid">
+						<br />
+						<h3 class="text-center">Module Grades</h3>
+						<table class="table table-hover">
+							<tbody>
+								<th:block th:each=" mark,iterStat : ${marksheet}">
+									<tr class="table-primary">
+										<td>Module</td>
+										<td th:text="${mark.course.name}"></td>
+									</tr>
+									<tr>
+										<td>Grade</td>
+										<td th:text="${grade[iterStat.index]}"></td>
+									</tr>
+									<tr>
+										<td>Description</td>
+										<td th:text="${des[iterStat.index]}"></td>
+									</tr>
+								</th:block>
+								<tr class="bg-success" th:if="${!marksheet.isEmpty()}">
+									<td>CPA</td>
+									<td th:text="${cpa}"></td>
+								</tr>
+							</tbody>
+						</table>
+						<p class="text-center" th:if="${marksheet.isEmpty()}">Currently
+							no records</p>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div >
-	<footer th:insert="~{Components :: footer}"></footer>
+		<footer th:insert="~{Components :: footer}"></footer>
+	</div>
 	<div th:insert="~{Components :: bootstrapScripts}"></div>
 	<div th:insert="~{Components :: valScript}"></div>
 </body>

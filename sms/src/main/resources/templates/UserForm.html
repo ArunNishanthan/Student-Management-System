@@ -11,344 +11,352 @@
 <title>Admin | Home</title>
 </head>
 <body>
-	<nav th:insert="~{Components :: navbar}"></nav>
-	<div class="d-flex" id="wrapper">
-		<div th:insert="~{Components :: adminSidebar}"></div>
-		<div id="page-content-wrapper">
-			<div class="container-fluid">
-				<br />
-				<h3 class="text-center">Create User</h3>
-				<ul class="nav nav-tabs">
-					<li class="nav-item"><a class="nav-link active"
-						data-toggle="tab" href="#student">Student</a></li>
-					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#lecturer">Lecturer</a></li>
-					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#admin">Admin</a></li>
+	<div class="main-container">
+		<div class="body-container">
+			<nav th:insert="~{Components :: navbar}"></nav>
+			<div class="d-flex" id="wrapper">
+				<div th:insert="~{Components :: adminSidebar}"></div>
+				<div id="page-content-wrapper">
+					<div class="container-fluid">
+						<br />
+						<h3 class="text-center">Create User</h3>
+						<ul class="nav nav-tabs">
+							<li class="nav-item"><a class="nav-link active"
+								data-toggle="tab" href="#student">Student</a></li>
+							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+								href="#lecturer">Lecturer</a></li>
+							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+								href="#admin">Admin</a></li>
 
-				</ul>
-				<div id="myTabContent" class="tab-content">
-					<div class="tab-pane fade show active" id="student"><form class="p-3" action="/admin/checkstudent" id="studentform"
-					th:object="${student}" method="post">
-					<input type="hidden" th:field="*{id}" />
-					<div class="form-group"
-						th:classappend="${#fields.hasErrors('firstName')} ? has-danger">
-						<label for="firstName">First Name</label> <input type="text"
-							class="form-control" id="firstName"
-							placeholder="Enter First Name" th:field="*{firstName}"
-							th:classappend="${#fields.hasErrors('firstName')} ? is-invalid">
-						<div th:if="${#fields.hasErrors('firstName')}"
-							class="invalid-feedback" th:errors="*{firstName}"></div>
-					</div>
-					<div class="form-group"
-						th:classappend="${#fields.hasErrors('lastName')} ? has-danger">
-						<label for="lastName">Last Name</label> <input type="text"
-							class="form-control" id="lastName" placeholder="Enter Last Name"
-							th:field="*{lastName}"
-							th:classappend="${#fields.hasErrors('lastName')} ? is-invalid">
-						<div th:if="${#fields.hasErrors('lastName')}"
-							class="invalid-feedback" th:errors="*{lastName}"></div>
-					</div>
-					<label for="gender">Gender</label>
-					<div class="form-group"
-						th:classappend="${#fields.hasErrors('gender')} ? has-danger">
-						<div class="custom-control custom-radio">
-							<input type="radio" id="customRadio1" name="gender"
-								class="custom-control-input" checked="" value="F"
-								th:field="*{gender}"
-								th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
-							<label class="custom-control-label" for="customRadio1">Female</label>
+						</ul>
+						<div id="myTabContent" class="tab-content">
+							<div class="tab-pane fade show active" id="student">
+								<form class="p-3" action="/admin/checkstudent" id="studentform"
+									th:object="${student}" method="post">
+									<input type="hidden" th:field="*{id}" />
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('firstName')} ? has-danger">
+										<label for="firstName">First Name</label> <input type="text"
+											class="form-control" id="firstName"
+											placeholder="Enter First Name" th:field="*{firstName}"
+											th:classappend="${#fields.hasErrors('firstName')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('firstName')}"
+											class="invalid-feedback" th:errors="*{firstName}"></div>
+									</div>
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('lastName')} ? has-danger">
+										<label for="lastName">Last Name</label> <input type="text"
+											class="form-control" id="lastName"
+											placeholder="Enter Last Name" th:field="*{lastName}"
+											th:classappend="${#fields.hasErrors('lastName')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('lastName')}"
+											class="invalid-feedback" th:errors="*{lastName}"></div>
+									</div>
+									<label for="gender">Gender</label>
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('gender')} ? has-danger">
+										<div class="custom-control custom-radio">
+											<input type="radio" id="customRadio1" name="gender"
+												class="custom-control-input" checked="" value="F"
+												th:field="*{gender}"
+												th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
+											<label class="custom-control-label" for="customRadio1">Female</label>
+										</div>
+										<div class="custom-control custom-radio">
+											<input type="radio" id="customRadio2" name="gender"
+												class="custom-control-input" value="M" th:field="*{gender}"
+												th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
+											<label class="custom-control-label" for="customRadio2">Male</label>
+										</div>
+										<div class="custom-control custom-radio">
+											<input type="radio" id="customRadio3" name="gender"
+												class="custom-control-input" value="O" th:field="*{gender}"
+												th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
+											<label class="custom-control-label" for="customRadio3">Others</label>
+										</div>
+										<div th:if="${#fields.hasErrors('gender')}"
+											class="invalid-feedback" th:errors="*{gender}"></div>
+									</div>
+
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('dateofBirth')} ? has-danger">
+										<label for="dateofBirth">Date of Birth</label> <input
+											type="text" id="dateofBirth" th:field="*{dateofBirth}"
+											class="form-control" placeholder="Enter Date of Birth"
+											th:classappend="${#fields.hasErrors('dateofBirth')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('dateofBirth')}"
+											class="invalid-feedback" th:errors="*{dateofBirth}"></div>
+									</div>
+
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('address')} ? has-danger">
+										<label for="address">Address</label>
+										<textarea class="form-control" id="address" rows="3"
+											spellcheck="false" th:field="*{address}"
+											placeholder="Enter the Address"
+											th:classappend="${#fields.hasErrors('address')} ? is-invalid"></textarea>
+
+										<div th:if="${#fields.hasErrors('address')}"
+											class="invalid-feedback" th:errors="*{address}"></div>
+
+									</div>
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('email')} ? has-danger">
+										<label for="email">Email Address</label> <input type="email"
+											class="form-control" id="email"
+											placeholder="Enter Email Address" th:field="*{email}"
+											th:classappend="${#fields.hasErrors('email')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('email')}"
+											class="invalid-feedback" th:errors="*{email}"></div>
+									</div>
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('mobileNo')} ? has-danger">
+										<label for="mobileNo">Mobile Number</label> <input type="tel"
+											class="form-control" id="mobileNo" placeholder="87654321"
+											pattern="[0-9]{8}" th:field="*{mobileNo}" value=" "
+											th:classappend="${#fields.hasErrors('mobileNo')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('mobileNo')}"
+											class="invalid-feedback" th:errors="*{mobileNo}"></div>
+									</div>
+
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('department')} ? has-danger">
+										<label for="department">Department</label> <select
+											class="custom-select" th:field="*{department}"
+											id="department">
+											<option value="" selected="">Please Select the
+												Department</option>
+											<option th:each="department : ${departments}"
+												th:value="${department.getId()}"
+												th:text="${department.getName()}"></option>
+										</select>
+										<div th:if="${#fields.hasErrors('department')}"
+											class="invalid-feedback" th:errors="*{department}"></div>
+									</div>
+									<div class="col text-center">
+										<button type="submit" class="btn btn-primary">Submit</button>
+									</div>
+								</form>
+							</div>
+							<div class="tab-pane fade" id="lecturer">
+								<form class="p-3" action="/admin/checkfaculty" id="Facultyform"
+									th:object="${faculty}" method="post">
+									<input type="hidden" th:field="*{id}" />
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('firstName')} ? has-danger">
+										<label for="firstName">First Name</label> <input type="text"
+											class="form-control" id="firstName"
+											placeholder="Enter First Name" th:field="*{firstName}"
+											th:classappend="${#fields.hasErrors('firstName')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('firstName')}"
+											class="invalid-feedback" th:errors="*{firstName}"></div>
+									</div>
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('lastName')} ? has-danger">
+										<label for="lastName">Last Name</label> <input type="text"
+											class="form-control" id="lastName"
+											placeholder="Enter Last Name" th:field="*{lastName}"
+											th:classappend="${#fields.hasErrors('lastName')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('lastName')}"
+											class="invalid-feedback" th:errors="*{lastName}"></div>
+									</div>
+
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('gender')} ? has-danger">
+										<label for="gender">Gender</label>
+										<div class="custom-control custom-radio">
+											<input type="radio" id="customRadio21" name="gender"
+												class="custom-control-input" checked="" value="Female"
+												th:field="*{gender}"
+												th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
+											<label class="custom-control-label" for="customRadio21">Female</label>
+										</div>
+										<div class="custom-control custom-radio">
+											<input type="radio" id="customRadio22" name="gender"
+												class="custom-control-input" value="Male"
+												th:field="*{gender}"
+												th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
+											<label class="custom-control-label" for="customRadio22">Male</label>
+										</div>
+										<div class="custom-control custom-radio">
+											<input type="radio" id="customRadio23" name="gender"
+												class="custom-control-input" value="Others"
+												th:field="*{gender}"
+												th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
+											<label class="custom-control-label" for="customRadio23">Others</label>
+										</div>
+										<div th:if="${#fields.hasErrors('gender')}"
+											class="invalid-feedback" th:errors="*{gender}"></div>
+									</div>
+
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('dateofBirth')} ? has-danger">
+										<label for="dateofBirth">Date of Birth</label> <input
+											type="text" id="dateofBirth" th:field="*{dateofBirth}"
+											class="form-control" placeholder="Enter Date of Birth"
+											th:classappend="${#fields.hasErrors('dateofBirth')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('dateofBirth')}"
+											class="invalid-feedback" th:errors="*{dateofBirth}"></div>
+									</div>
+
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('address')} ? has-danger">
+										<label for="address">Address</label>
+										<textarea class="form-control" id="address" rows="3"
+											spellcheck="false" th:field="*{address}"
+											placeholder="Enter the Address"
+											th:classappend="${#fields.hasErrors('address')} ? is-invalid"></textarea>
+
+										<div th:if="${#fields.hasErrors('address')}"
+											class="invalid-feedback" th:errors="*{address}"></div>
+
+									</div>
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('email')} ? has-danger">
+										<label for="email">Email Address</label> <input type="email"
+											class="form-control" id="email"
+											placeholder="Enter Email Address" th:field="*{email}"
+											th:classappend="${#fields.hasErrors('email')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('email')}"
+											class="invalid-feedback" th:errors="*{email}"></div>
+									</div>
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('mobileNo')} ? has-danger">
+										<label for="mobileNo">Mobile Number</label> <input type="tel"
+											class="form-control" id="mobileNo" placeholder="87654321"
+											pattern="[0-9]{8}" th:field="*{mobileNo}" value=" "
+											th:classappend="${#fields.hasErrors('mobileNo')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('mobileNo')}"
+											class="invalid-feedback" th:errors="*{mobileNo}"></div>
+									</div>
+
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('department')} ? has-danger">
+										<label for="department">Department</label> <select
+											class="custom-select" th:field="*{department}"
+											id="department">
+											<option value="" selected="">Please Select the
+												Department</option>
+											<option th:each="department : ${departments}"
+												th:value="${department.getId()}"
+												th:text="${department.getName()}"></option>
+										</select>
+										<div th:if="${#fields.hasErrors('department')}"
+											class="invalid-feedback" th:errors="*{department}"></div>
+									</div>
+
+									<div class="col text-center">
+										<button type="submit" class="btn btn-primary">Submit</button>
+									</div>
+								</form>
+							</div>
+							<div class="tab-pane fade" id="admin">
+								<form class="p-3" action="/admin/checkadmin" id="Adminform"
+									th:object="${admin}" method="post">
+									<input type="hidden" th:field="*{id}" />
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('firstName')} ? has-danger">
+										<label for="firstName">First Name</label> <input type="text"
+											class="form-control" id="firstName"
+											placeholder="Enter First Name" th:field="*{firstName}"
+											th:classappend="${#fields.hasErrors('firstName')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('firstName')}"
+											class="invalid-feedback" th:errors="*{firstName}"></div>
+									</div>
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('lastName')} ? has-danger">
+										<label for="lastName">Last Name</label> <input type="text"
+											class="form-control" id="lastName"
+											placeholder="Enter Last Name" th:field="*{lastName}"
+											th:classappend="${#fields.hasErrors('lastName')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('lastName')}"
+											class="invalid-feedback" th:errors="*{lastName}"></div>
+									</div>
+
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('gender')} ? has-danger">
+										<label for="gender">Gender</label>
+										<div class="custom-control custom-radio">
+											<input type="radio" id="customRadio31" name="gender"
+												class="custom-control-input" checked="" value="Female"
+												th:field="*{gender}"
+												th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
+											<label class="custom-control-label" for="customRadio31">Female</label>
+										</div>
+										<div class="custom-control custom-radio">
+											<input type="radio" id="customRadio32" name="gender"
+												class="custom-control-input" value="Male"
+												th:field="*{gender}"
+												th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
+											<label class="custom-control-label" for="customRadio32">Male</label>
+										</div>
+										<div class="custom-control custom-radio">
+											<input type="radio" id="customRadio33" name="gender"
+												class="custom-control-input" value="Others"
+												th:field="*{gender}"
+												th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
+											<label class="custom-control-label" for="customRadio33">Others</label>
+										</div>
+										<div th:if="${#fields.hasErrors('gender')}"
+											class="invalid-feedback" th:errors="*{gender}"></div>
+									</div>
+
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('dateofBirth')} ? has-danger">
+										<label for="dateofBirth">Date of Birth</label> <input
+											type="text" id="dateofBirth" th:field="*{dateofBirth}"
+											class="form-control" placeholder="Enter Date of Birth"
+											th:classappend="${#fields.hasErrors('dateofBirth')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('dateofBirth')}"
+											class="invalid-feedback" th:errors="*{dateofBirth}"></div>
+									</div>
+
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('address')} ? has-danger">
+										<label for="address">Address</label>
+										<textarea class="form-control" id="address" rows="3"
+											spellcheck="false" th:field="*{address}"
+											placeholder="Enter the Address"
+											th:classappend="${#fields.hasErrors('address')} ? is-invalid"></textarea>
+
+										<div th:if="${#fields.hasErrors('address')}"
+											class="invalid-feedback" th:errors="*{address}"></div>
+
+									</div>
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('email')} ? has-danger">
+										<label for="email">Email Address</label> <input type="email"
+											class="form-control" id="email"
+											placeholder="Enter Email Address" th:field="*{email}"
+											th:classappend="${#fields.hasErrors('email')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('email')}"
+											class="invalid-feedback" th:errors="*{email}"></div>
+									</div>
+									<div class="form-group"
+										th:classappend="${#fields.hasErrors('mobileNo')} ? has-danger">
+										<label for="mobileNo">Mobile Number</label> <input type="tel"
+											class="form-control" id="mobileNo" placeholder="87654321"
+											pattern="[0-9]{8}" th:field="*{mobileNo}" value=" "
+											th:classappend="${#fields.hasErrors('mobileNo')} ? is-invalid">
+										<div th:if="${#fields.hasErrors('mobileNo')}"
+											class="invalid-feedback" th:errors="*{mobileNo}"></div>
+									</div>
+
+									<div class="col text-center">
+										<button type="submit" class="btn btn-primary">Submit</button>
+									</div>
+								</form>
+							</div>
+
 						</div>
-						<div class="custom-control custom-radio">
-							<input type="radio" id="customRadio2" name="gender"
-								class="custom-control-input" value="M" th:field="*{gender}"
-								th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
-							<label class="custom-control-label" for="customRadio2">Male</label>
-						</div>
-						<div class="custom-control custom-radio">
-							<input type="radio" id="customRadio3" name="gender"
-								class="custom-control-input" value="O" th:field="*{gender}"
-								th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
-							<label class="custom-control-label" for="customRadio3">Others</label>
-						</div>
-						<div th:if="${#fields.hasErrors('gender')}"
-							class="invalid-feedback" th:errors="*{gender}"></div>
-					</div>
-
-					<div class="form-group"
-						th:classappend="${#fields.hasErrors('dateofBirth')} ? has-danger">
-						<label for="dateofBirth">Date of Birth</label> <input type="text"
-							id="dateofBirth" th:field="*{dateofBirth}" class="form-control"
-							placeholder="Enter Date of Birth"
-							th:classappend="${#fields.hasErrors('dateofBirth')} ? is-invalid">
-						<div th:if="${#fields.hasErrors('dateofBirth')}"
-							class="invalid-feedback" th:errors="*{dateofBirth}"></div>
-					</div>
-
-					<div class="form-group"
-						th:classappend="${#fields.hasErrors('address')} ? has-danger">
-						<label for="address">Address</label>
-						<textarea class="form-control" id="address" rows="3"
-							spellcheck="false" th:field="*{address}"
-							placeholder="Enter the Address"
-							th:classappend="${#fields.hasErrors('address')} ? is-invalid"></textarea>
-
-						<div th:if="${#fields.hasErrors('address')}"
-							class="invalid-feedback" th:errors="*{address}"></div>
 
 					</div>
-					<div class="form-group"
-						th:classappend="${#fields.hasErrors('email')} ? has-danger">
-						<label for="email">Email Address</label> <input type="email"
-							class="form-control" id="email" placeholder="Enter Email Address"
-							th:field="*{email}"
-							th:classappend="${#fields.hasErrors('email')} ? is-invalid">
-						<div th:if="${#fields.hasErrors('email')}"
-							class="invalid-feedback" th:errors="*{email}"></div>
-					</div>
-					<div class="form-group"
-						th:classappend="${#fields.hasErrors('mobileNo')} ? has-danger">
-						<label for="mobileNo">Mobile Number</label> <input type="tel"
-							class="form-control" id="mobileNo" placeholder="87654321"
-							pattern="[0-9]{8}" th:field="*{mobileNo}" value=" "
-							th:classappend="${#fields.hasErrors('mobileNo')} ? is-invalid">
-						<div th:if="${#fields.hasErrors('mobileNo')}"
-							class="invalid-feedback" th:errors="*{mobileNo}"></div>
-					</div>
-
-					<div class="form-group"
-						th:classappend="${#fields.hasErrors('department')} ? has-danger">
-						<label for="department">Department</label> <select
-							class="custom-select" th:field="*{department}" id="department">
-							<option value="" selected="">Please Select the
-								Department</option>
-							<option th:each="department : ${departments}"
-								th:value="${department.getId()}"
-								th:text="${department.getName()}"></option>
-						</select>
-						<div th:if="${#fields.hasErrors('department')}"
-							class="invalid-feedback" th:errors="*{department}"></div>
-					</div>
-					<div class="col text-center">
-						<button type="submit" class="btn btn-primary">Submit</button>
-					</div>
-				</form></div>
-					<div class="tab-pane fade" id="lecturer">
-						<form class="p-3" action="/admin/checkfaculty" id="Facultyform"
-							th:object="${faculty}" method="post">
-							<input type="hidden" th:field="*{id}" />
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('firstName')} ? has-danger">
-								<label for="firstName">First Name</label> <input type="text"
-									class="form-control" id="firstName"
-									placeholder="Enter First Name" th:field="*{firstName}"
-									th:classappend="${#fields.hasErrors('firstName')} ? is-invalid">
-								<div th:if="${#fields.hasErrors('firstName')}"
-									class="invalid-feedback" th:errors="*{firstName}"></div>
-							</div>
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('lastName')} ? has-danger">
-								<label for="lastName">Last Name</label> <input type="text"
-									class="form-control" id="lastName"
-									placeholder="Enter Last Name" th:field="*{lastName}"
-									th:classappend="${#fields.hasErrors('lastName')} ? is-invalid">
-								<div th:if="${#fields.hasErrors('lastName')}"
-									class="invalid-feedback" th:errors="*{lastName}"></div>
-							</div>
-
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('gender')} ? has-danger">
-								<label for="gender">Gender</label>
-								<div class="custom-control custom-radio">
-									<input type="radio" id="customRadio21" name="gender"
-										class="custom-control-input" checked="" value="Female"
-										th:field="*{gender}"
-										th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
-									<label class="custom-control-label" for="customRadio21">Female</label>
-								</div>
-								<div class="custom-control custom-radio">
-									<input type="radio" id="customRadio22" name="gender"
-										class="custom-control-input" value="Male" th:field="*{gender}"
-										th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
-									<label class="custom-control-label" for="customRadio22">Male</label>
-								</div>
-								<div class="custom-control custom-radio">
-									<input type="radio" id="customRadio23" name="gender"
-										class="custom-control-input" value="Others"
-										th:field="*{gender}"
-										th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
-									<label class="custom-control-label" for="customRadio23">Others</label>
-								</div>
-								<div th:if="${#fields.hasErrors('gender')}"
-									class="invalid-feedback" th:errors="*{gender}"></div>
-							</div>
-
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('dateofBirth')} ? has-danger">
-								<label for="dateofBirth">Date of Birth</label> <input
-									type="text" id="dateofBirth" th:field="*{dateofBirth}"
-									class="form-control" placeholder="Enter Date of Birth"
-									th:classappend="${#fields.hasErrors('dateofBirth')} ? is-invalid">
-								<div th:if="${#fields.hasErrors('dateofBirth')}"
-									class="invalid-feedback" th:errors="*{dateofBirth}"></div>
-							</div>
-
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('address')} ? has-danger">
-								<label for="address">Address</label>
-								<textarea class="form-control" id="address" rows="3"
-									spellcheck="false" th:field="*{address}"
-									placeholder="Enter the Address"
-									th:classappend="${#fields.hasErrors('address')} ? is-invalid"></textarea>
-
-								<div th:if="${#fields.hasErrors('address')}"
-									class="invalid-feedback" th:errors="*{address}"></div>
-
-							</div>
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('email')} ? has-danger">
-								<label for="email">Email Address</label> <input type="email"
-									class="form-control" id="email"
-									placeholder="Enter Email Address" th:field="*{email}"
-									th:classappend="${#fields.hasErrors('email')} ? is-invalid">
-								<div th:if="${#fields.hasErrors('email')}"
-									class="invalid-feedback" th:errors="*{email}"></div>
-							</div>
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('mobileNo')} ? has-danger">
-								<label for="mobileNo">Mobile Number</label> <input type="tel"
-									class="form-control" id="mobileNo" placeholder="87654321"
-									pattern="[0-9]{8}" th:field="*{mobileNo}" value=" "
-									th:classappend="${#fields.hasErrors('mobileNo')} ? is-invalid">
-								<div th:if="${#fields.hasErrors('mobileNo')}"
-									class="invalid-feedback" th:errors="*{mobileNo}"></div>
-							</div>
-
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('department')} ? has-danger">
-								<label for="department">Department</label> <select
-									class="custom-select" th:field="*{department}" id="department">
-									<option value="" selected="">Please Select the
-										Department</option>
-									<option th:each="department : ${departments}"
-										th:value="${department.getId()}"
-										th:text="${department.getName()}"></option>
-								</select>
-								<div th:if="${#fields.hasErrors('department')}"
-									class="invalid-feedback" th:errors="*{department}"></div>
-							</div>
-
-							<div class="col text-center">
-								<button type="submit" class="btn btn-primary">Submit</button>
-							</div>
-						</form>
-					</div>
-					<div class="tab-pane fade" id="admin">
-						<form class="p-3" action="/admin/checkadmin" id="Adminform"
-							th:object="${admin}" method="post">
-							<input type="hidden" th:field="*{id}" />
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('firstName')} ? has-danger">
-								<label for="firstName">First Name</label> <input type="text"
-									class="form-control" id="firstName"
-									placeholder="Enter First Name" th:field="*{firstName}"
-									th:classappend="${#fields.hasErrors('firstName')} ? is-invalid">
-								<div th:if="${#fields.hasErrors('firstName')}"
-									class="invalid-feedback" th:errors="*{firstName}"></div>
-							</div>
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('lastName')} ? has-danger">
-								<label for="lastName">Last Name</label> <input type="text"
-									class="form-control" id="lastName"
-									placeholder="Enter Last Name" th:field="*{lastName}"
-									th:classappend="${#fields.hasErrors('lastName')} ? is-invalid">
-								<div th:if="${#fields.hasErrors('lastName')}"
-									class="invalid-feedback" th:errors="*{lastName}"></div>
-							</div>
-
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('gender')} ? has-danger">
-								<label for="gender">Gender</label>
-								<div class="custom-control custom-radio">
-									<input type="radio" id="customRadio31" name="gender"
-										class="custom-control-input" checked="" value="Female"
-										th:field="*{gender}"
-										th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
-									<label class="custom-control-label" for="customRadio31">Female</label>
-								</div>
-								<div class="custom-control custom-radio">
-									<input type="radio" id="customRadio32" name="gender"
-										class="custom-control-input" value="Male" th:field="*{gender}"
-										th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
-									<label class="custom-control-label" for="customRadio32">Male</label>
-								</div>
-								<div class="custom-control custom-radio">
-									<input type="radio" id="customRadio33" name="gender"
-										class="custom-control-input" value="Others"
-										th:field="*{gender}"
-										th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
-									<label class="custom-control-label" for="customRadio33">Others</label>
-								</div>
-								<div th:if="${#fields.hasErrors('gender')}"
-									class="invalid-feedback" th:errors="*{gender}"></div>
-							</div>
-
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('dateofBirth')} ? has-danger">
-								<label for="dateofBirth">Date of Birth</label> <input
-									type="text" id="dateofBirth" th:field="*{dateofBirth}"
-									class="form-control" placeholder="Enter Date of Birth"
-									th:classappend="${#fields.hasErrors('dateofBirth')} ? is-invalid">
-								<div th:if="${#fields.hasErrors('dateofBirth')}"
-									class="invalid-feedback" th:errors="*{dateofBirth}"></div>
-							</div>
-
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('address')} ? has-danger">
-								<label for="address">Address</label>
-								<textarea class="form-control" id="address" rows="3"
-									spellcheck="false" th:field="*{address}"
-									placeholder="Enter the Address"
-									th:classappend="${#fields.hasErrors('address')} ? is-invalid"></textarea>
-
-								<div th:if="${#fields.hasErrors('address')}"
-									class="invalid-feedback" th:errors="*{address}"></div>
-
-							</div>
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('email')} ? has-danger">
-								<label for="email">Email Address</label> <input type="email"
-									class="form-control" id="email"
-									placeholder="Enter Email Address" th:field="*{email}"
-									th:classappend="${#fields.hasErrors('email')} ? is-invalid">
-								<div th:if="${#fields.hasErrors('email')}"
-									class="invalid-feedback" th:errors="*{email}"></div>
-							</div>
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('mobileNo')} ? has-danger">
-								<label for="mobileNo">Mobile Number</label> <input type="tel"
-									class="form-control" id="mobileNo" placeholder="87654321"
-									pattern="[0-9]{8}" th:field="*{mobileNo}" value=" "
-									th:classappend="${#fields.hasErrors('mobileNo')} ? is-invalid">
-								<div th:if="${#fields.hasErrors('mobileNo')}"
-									class="invalid-feedback" th:errors="*{mobileNo}"></div>
-							</div>
-
-							<div class="col text-center">
-								<button type="submit" class="btn btn-primary">Submit</button>
-							</div>
-						</form>
-					</div>
-
 				</div>
-
 			</div>
 		</div>
+		<footer th:insert="~{Components :: footer}"></footer>
+		<div th:insert="~{Components :: bootstrapScripts}"></div>
+		<div th:insert="~{Components :: valScript}"></div>
 	</div>
-
-	<footer th:insert="~{Components :: footer}"></footer>
-	<div th:insert="~{Components :: bootstrapScripts}"></div>
-	<div th:insert="~{Components :: valScript}"></div>
-
 </body>
 </html>

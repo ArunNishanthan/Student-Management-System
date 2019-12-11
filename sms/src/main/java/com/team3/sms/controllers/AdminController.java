@@ -47,7 +47,10 @@ public class AdminController {
 
 	@GetMapping("/home")
 	public String getHome(Model model) {
-		model.addAttribute("user", "admin");
+		model.addAttribute("students", studentservices.totalStudents());
+		model.addAttribute("courses", courseServices.totalCourse());
+		model.addAttribute("lecturers", facultyServices.totalFaculty());
+		model.addAttribute("admins", adminServices.totalAdmin());
 		return "AdminHome";
 	}
 
@@ -63,22 +66,37 @@ public class AdminController {
 	@PostMapping("/checkstudent")
 	public String submitStudent(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult,
 			Model model) {
+
 		if (bindingResult.hasErrors()) {
 			System.out.println(bindingResult.getAllErrors());
 			model.addAttribute("faculty", new Faculty());
 			model.addAttribute("admin", new Admin());
 			model.addAttribute("departments", formservices.getDepartments());
+			if (student.getId() == 0) {
+				return "UserForm";
+			}
 			return "StudentForm";
 		} else {
 			if (student.getId() == 0) {
 				student.setPassword(student.getFirstName());
-				student.setRole(Role.ISSTUDENT);
-			}
 
+			} else {
+				Student studentDb = studentservices.getStudentbyID(student.getId());
+				student.setPassword(studentDb.getPassword());
+				student.setCourses(student.getCourses());
+			}
+			student.setRole(Role.ISSTUDENT);
 			studentservices.saveStudent(student);
 
-			return "redirect:/admin/createuser";
+			return "redirect:/admin/studentViewDepartment/?depid=" + student.getDepartment().getId();
 		}
+	}
+
+	@GetMapping("/deletestudent/{studentid}")
+	public String deletestudent(@PathVariable("studentid") int studentid) {
+		Student student = studentservices.getStudentbyID(studentid);
+		studentservices.deleteStudent(student);
+		return "redirect:/admin/studentViewDepartment/?depid=" + student.getDepartment().getId();
 	}
 
 	@GetMapping("/updatestudent/{studentid}")
@@ -96,13 +114,39 @@ public class AdminController {
 			model.addAttribute("departments", formservices.getDepartments());
 			model.addAttribute("student", new Student());
 			model.addAttribute("admin", new Admin());
+			if (faculty.getId() == 0) {
+				return "UserForm";
+			}
 			return "FacultyForm";
 		} else {
-			faculty.setPassword(faculty.getFirstName());
+			if (faculty.getId() == 0) {
+				faculty.setPassword(faculty.getFirstName());
+			} else {
+				Faculty facultyDb = facultyServices.getFaculty(faculty.getId());
+				faculty.setPassword(facultyDb.getPassword());
+				faculty.setCourses(facultyDb.getCourses());
+				faculty.setStaffLeaves(faculty.getStaffLeaves());
+			}
+
 			faculty.setRole(Role.ISFACULTY);
 			facultyServices.saveFaculty(faculty);
 			return "redirect:/admin/managecourse/" + faculty.getId();
 		}
+	}
+
+	@GetMapping("/updatefaculty/{facid}")
+	public String getLoginPage(@PathVariable("facid") int facid, Model model) {
+		Faculty faculty = facultyServices.getFaculty(facid);
+		model.addAttribute("faculty", faculty);
+		model.addAttribute("departments", formservices.getDepartments());
+		return "FacultyForm";
+	}
+
+	@GetMapping("/deletefaculty/{facid}")
+	public String deletefaculty(@PathVariable("facid") int facid) {
+		Faculty faculty = facultyServices.getFaculty(facid);
+		facultyServices.removeFaculty(faculty);
+		return "redirect:/admin/viewcoursefaculty?depid=" + faculty.getDepartment().getId();
 	}
 
 	@PostMapping("/checkadmin")
@@ -172,21 +216,6 @@ public class AdminController {
 		faculty.setCourses(coursesFac);
 		facultyServices.saveFaculty(faculty);
 		return "redirect:/admin/managecourse/" + facid;
-	}
-
-	@GetMapping("/updatefaculty/{facid}")
-	public String getLoginPage(@PathVariable("facid") int facid, Model model) {
-		Faculty faculty = facultyServices.getFaculty(facid);
-		model.addAttribute("faculty", faculty);
-		model.addAttribute("departments", formservices.getDepartments());
-		return "FacultyForm";
-	}
-
-	@GetMapping("/deletefaculty/{facid}")
-	public String deletefaculty(@PathVariable("facid") int facid) {
-		Faculty faculty = facultyServices.getFaculty(facid);
-		facultyServices.removeFaculty(faculty);
-		return "redirect:/admin/viewcoursefaculty?depid=" + faculty.getDepartment().getId();
 	}
 
 	@GetMapping("/createcourse")

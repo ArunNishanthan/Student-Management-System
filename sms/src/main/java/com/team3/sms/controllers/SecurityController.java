@@ -39,8 +39,6 @@ public class SecurityController {
 	@RequestMapping("/")
 	public String route(@AuthenticationPrincipal UserPrincipal currentUser, HttpServletRequest request, Model model,
 			HttpSession session) {
-		System.out.println(currentUser.getAuthorities());
-
 		String email = currentUser.getUsername();
 
 		User user = formServices.getUserbyEmail(email);

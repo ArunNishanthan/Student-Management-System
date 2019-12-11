@@ -30,4 +30,8 @@ public class CourseServices {
 		courseRepository.delete(course);
 	}
 
+	public long totalCourse() {
+		return courseRepository.count();
+	}
+
 }

@@ -38,8 +38,8 @@ public class StudentController {
 		return "studenthome";
 	}
 
-	@GetMapping("/choseAvailableCourse/{deptId}")
-	public String LoadAssignCourse(@PathVariable("deptId") int deptId, Model model, HttpSession session) {
+	@GetMapping("/choseAvailableCourse")
+	public String LoadAssignCourse(Model model, HttpSession session) {
 		Student student = (Student) session.getAttribute("usersession");
 		ArrayList<Course> courseList = new ArrayList<Course>();
 		courseList = courseService.LoadCourseBasedonDep(student.getDepartment());// course list in login user's
@@ -221,12 +221,12 @@ public class StudentController {
 	}
 
 	@PostMapping("/savePRecord")
-	public String savePRecord(Student student) {
-		if (student.getCourses() == null) {
-			ArrayList<Course> cs = new ArrayList<Course>();
-			student.setCourses(cs);
-		}
-		stuService.saveStudent(student);
+	public String savePRecord(Student student, HttpSession session) {
+		Student studentDb = (Student) session.getAttribute("usersession");
+		studentDb.setAddress(student.getAddress());
+		studentDb.setMobileNo(student.getMobileNo());
+		studentDb.setPassword(student.getPassword());
+		stuService.saveStudent(studentDb);
 		return "StudentHome";
 	}
 

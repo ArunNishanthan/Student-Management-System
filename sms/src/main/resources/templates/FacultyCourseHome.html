@@ -14,55 +14,59 @@
 </style>
 </head>
 <body>
-	<nav th:insert="~{Components :: navbar}"></nav>
-	<div class="d-flex" id="wrapper">
-		<div th:insert="~{Components :: adminSidebar}"></div>
-		<div id="page-content-wrapper">
-			<div class="container-fluid">
-				<br />
-				<h3 class="text-center">Manage Faculty</h3>
-				<form class="p-3" action="viewcoursefaculty" id="depfrom"
-					method="post">
-					<input type=hidden />
-					<div class="form-group">
-						<select th:name="depid" onchange="this.form.submit()"
-							class="custom-select" id="department">
-							<option value="" selected="">Please Select the
-								Department</option>
-							<option th:each="dep : ${departments}" th:value="${dep.getId()}"
-								th:text="${dep.getName()}"></option>
-						</select>
-					</div>
-				</form>
-				<div th:if="${department}">
-					<h3 class="text-center" th:text="${department.name}"></h3>
-					<br />
-					<div class="container mb-2">
-						<div class="row">
-							<div class="card mb-2 col-sm-4 pd-0  text-center"
-								th:each="faculty : ${faculties}">
-								<h4 class="card-header"
-									th:text="*{faculty.firstName}+' '+*{faculty.lastName}"></h4>
+	<div class="main-container">
+		<div class="body-container">
+			<nav th:insert="~{Components :: navbar}"></nav>
+			<div class="d-flex" id="wrapper">
+				<div th:insert="~{Components :: adminSidebar}"></div>
+				<div id="page-content-wrapper">
+					<div class="container-fluid">
+						<br />
+						<h3 class="text-center">Manage Faculty</h3>
+						<form class="p-3" action="viewcoursefaculty" id="depfrom"
+							>
+							<input type=hidden />
+							<div class="form-group">
+								<select th:name="depid" onchange="this.form.submit()"
+									class="custom-select" id="department">
+									<option value="" selected="">Please Select the
+										Department</option>
+									<option th:each="dep : ${departments}"
+										th:value="${dep.getId()}" th:text="${dep.getName()}"></option>
+								</select>
+							</div>
+						</form>
+						<div th:if="${department}">
+							<h3 class="text-center" th:text="${department.name}"></h3>
+							<br />
+							<div class="container mb-2">
+								<div class="row">
+									<div class="card mb-2 col-sm-4 pd-0  text-center"
+										th:each="faculty : ${faculties}">
+										<h4 class="card-header"
+											th:text="*{faculty.firstName}+' '+*{faculty.lastName}"></h4>
 
-								<ul th:if="*{!faculty.getCourses().isEmpty()}"
-									class="list-group list-group-flush">
-									<th:block th:object="${greeting}">
-										<li class="list-group-item"
-											th:each="assignedcourse : ${faculty.courses}"
-											th:text="${assignedcourse.name}"></li>
-									</th:block>
-								</ul>
-								<p th:if="*{faculty.getCourses().isEmpty()}"
-									class="list-group list-group-flush text-center">No Courses
-									Assigned</p>
-								<div class="card-footer">
+										<ul th:if="*{!faculty.getCourses().isEmpty()}"
+											class="list-group list-group-flush">
+											<th:block th:object="${greeting}">
+												<li class="list-group-item"
+													th:each="assignedcourse : ${faculty.courses}"
+													th:text="${assignedcourse.name}"></li>
+											</th:block>
+										</ul>
+										<p th:if="*{faculty.getCourses().isEmpty()}"
+											class="list-group list-group-flush text-center">No
+											Courses Assigned</p>
+										<div class="card-footer">
 
-									<a th:href="@{'/admin/managecourse/' + ${faculty.id}}"
-										class="btn btn-sm btn-outline-info">Assign Course</a> <a
-										th:href="@{'/admin/updatefaculty/' + ${faculty.id}}"
-										class="btn btn-sm btn-outline-warning">Update</a> <a
-										th:href="@{'/admin/deletefaculty/' + ${faculty.id}}"
-										class="btn btn-sm btn-outline-danger">Delete Faculty</a>
+											<a th:href="@{'/admin/managecourse/' + ${faculty.id}}"
+												class="btn btn-sm btn-outline-info">Assign Course</a> <a
+												th:href="@{'/admin/updatefaculty/' + ${faculty.id}}"
+												class="btn btn-sm btn-outline-warning">Update</a> <a
+												th:href="@{'/admin/deletefaculty/' + ${faculty.id}}"
+												class="btn btn-sm btn-outline-danger">Delete Faculty</a>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -70,9 +74,9 @@
 				</div>
 			</div>
 		</div>
+		<footer th:insert="~{Components :: footer}"></footer>
+		<div th:insert="~{Components :: bootstrapScripts}"></div>
+		<div th:insert="~{Components :: valScript}"></div>
 	</div>
-	<footer th:insert="~{Components :: footer}"></footer>
-	<div th:insert="~{Components :: bootstrapScripts}"></div>
-	<div th:insert="~{Components :: valScript}"></div>
 </body>
 </html>

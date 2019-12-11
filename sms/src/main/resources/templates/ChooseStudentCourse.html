@@ -14,90 +14,91 @@
 </style>
 </head>
 <body>
-<nav th:insert="~{Components :: navbar}"></nav>
-	<div class="d-flex" id="wrapper">
-		<div th:insert="~{Components :: studentSidebar}"></div>
-		<div id="page-content-wrapper">
-			<div class="container-fluid">
-				<br /> <br />
-				<!-- Display Student Name -->
-				<h4 class="text-center"
-					th:text="${student.firstName} +' '+${student.lastName}"></h4>
-				<!-- End Display Student Name -->
-				
-				<!-- class="card mb-2 pd-0"  -->
-				<div >
-					<h4 class="header text-center">Enrolled Courses</h4>
-					<div class="row" th:if="${!student.getCourses().isEmpty()}">
-							<div class="card mb-2 col-sm-4 pd-0  text-center"
-								th:each="enrollCourse : ${student.courses}">
-								<h4 class="card-header"
-									th:text="*{enrollCourse.name}"></h4>
-								<p th:text="*{enrollCourse.getDepartment().getName()}"
-									class="list-group list-group-flush text-center"></p>
-									
-								<div class="card-footer">
-									<a th:href="@{'/student/removeEnrollCourseFromChoose/' + ${enrollCourse.getId()}}"
-										class="btn btn-sm btn-outline-info text-center">Remove Course</a>
-								</div>
-							</div>
-					</div>
+	<div class="main-container">
+		<div class="body-container">
+			<nav th:insert="~{Components :: navbar}"></nav>
+			<div class="d-flex" id="wrapper">
+				<div th:insert="~{Components :: studentSidebar}"></div>
+				<div id="page-content-wrapper">
+					<div class="container-fluid">
+						<br /> <br />
+						<!-- Display Student Name -->
+						<h4 class="text-center"
+							th:text="${student.firstName} +' '+${student.lastName}"></h4>
+						<!-- End Display Student Name -->
 
-					<p th:if="${student.courses.isEmpty()}" class="text-center">No
-						Enrolled Courses</p>
-				</div>
-				<!--  -->
-				<!-- class="card pd-0" -->
-				<div >
-					<h4 class="header text-center">Assign New Course</h4>
-					
-						<div class="row" th:if="${!availableCourses.isEmpty()}">
-							<div class="card mb-2 col-sm-4 pd-0  text-center"
-								th:each="availCourse : ${availableCourses}">
-								<h4 class="card-header"
-									th:text="*{availCourse.name}"></h4>
-								<p th:text="*{availCourse.getDepartment().getName()}"
-									class="list-group list-group-flush text-center"></p>
-								<div class="card-footer">
-									<a th:href="@{'/student/assignChosenCourse/' + ${availCourse.getId()}}"
-										class="btn btn-sm btn-outline-info text-center">Choose Course</a>
+						<!-- class="card mb-2 pd-0"  -->
+						<div>
+							<h4 class="header text-center">Enrolled Courses</h4>
+							<div class="row" th:if="${!student.getCourses().isEmpty()}">
+								<div class="card mb-2 col-sm-4 pd-0  text-center"
+									th:each="enrollCourse : ${student.courses}">
+									<h4 class="card-header" th:text="*{enrollCourse.name}"></h4>
+									<p th:text="*{enrollCourse.getDepartment().getName()}"
+										class="list-group list-group-flush text-center"></p>
+
+									<div class="card-footer">
+										<a
+											th:href="@{'/student/removeEnrollCourseFromChoose/' + ${enrollCourse.getId()}}"
+											class="btn btn-sm btn-outline-info text-center">Remove
+											Course</a>
+									</div>
 								</div>
 							</div>
-					</div>
-					<p th:if="${availableCourses.isEmpty()}" class="text-center">No
-						Courses to assign</p>
-				</div>
-				<!--  -->
-				
-				<!--  -->
-				<!-- class="card pd-0" -->
-				<div >
-					<h4 class="header text-center">Unavailable
-					 Course</h4>
-					<div  class="row" th:if="${!unAvailableCourses.isEmpty()}">
-							<div class="card mb-2 col-sm-4 pd-0  text-center"
-								th:each="unAvailCourse : ${unAvailableCourses}">
-								<h4 class="card-header"
-									th:text="*{unAvailCourse.name}"></h4>
-								<p th:text="*{unAvailCourse.getDepartment().getName()}"
-									class="list-group list-group-flush text-center"></p>
-								<div class="card-footer">
-									
+
+							<p th:if="${student.courses.isEmpty()}" class="text-center">No
+								Enrolled Courses</p>
+						</div>
+						<!--  -->
+						<!-- class="card pd-0" -->
+						<div>
+							<h4 class="header text-center">Available Courses to Choose</h4>
+
+							<div class="row" th:if="${!availableCourses.isEmpty()}">
+								<div class="card mb-2 col-sm-4 pd-0  text-center"
+									th:each="availCourse : ${availableCourses}">
+									<h4 class="card-header" th:text="*{availCourse.name}"></h4>
+									<p th:text="*{availCourse.getDepartment().getName()}"
+										class="list-group list-group-flush text-center"></p>
+									<div class="card-footer">
+										<a
+											th:href="@{'/student/assignChosenCourse/' + ${availCourse.getId()}}"
+											class="btn btn-sm btn-outline-info text-center">Choose
+											Course</a>
+									</div>
 								</div>
 							</div>
+							<p th:if="${availableCourses.isEmpty()}" class="text-center">No
+								Courses to assign</p>
+						</div>
+						<!--  -->
+
+						<!--  -->
+						<!-- class="card pd-0" -->
+						<div>
+							<h4 class="header text-center">Unavailable Course</h4>
+							<div class="row" th:if="${!unAvailableCourses.isEmpty()}">
+								<div class="card mb-2 col-sm-4 pd-0  text-center"
+									th:each="unAvailCourse : ${unAvailableCourses}">
+									<h4 class="card-header" th:text="*{unAvailCourse.name}"></h4>
+									<p th:text="*{unAvailCourse.getDepartment().getName()}"
+										class="list-group list-group-flush text-center"></p>
+									<div class="card-footer"></div>
+								</div>
+							</div>
+							<p th:if="${unAvailableCourses.isEmpty()}" class="text-center">No
+								Unavailable Courses</p>
+						</div>
+						<!--  -->
 					</div>
-					<p th:if="${unAvailableCourses.isEmpty()}" class="text-center">No
-						Unavailable Courses</p>
 				</div>
-				<!--  -->
 			</div>
 		</div>
+		<footer th:insert="~{Components :: footer}"></footer>
+		<div th:insert="~{Components :: bootstrapScripts}"></div>
+		<div th:insert="~{Components :: valScript}"></div>
+
 	</div>
-	<footer th:insert="~{Components :: footer}"></footer>
-	<div th:insert="~{Components :: bootstrapScripts}"></div>
-	<div th:insert="~{Components :: valScript}"></div>
-
-
 
 
 

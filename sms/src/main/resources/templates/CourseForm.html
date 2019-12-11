@@ -11,69 +11,72 @@
 <title>Course Form</title>
 </head>
 <body>
-	<nav th:insert="~{Components :: navbar}"></nav>
-	<div class="d-flex" id="wrapper">
-		<div th:insert="~{Components :: adminSidebar}"></div>
-		<div id="page-content-wrapper">
-			<div class="container-fluid">
-				<br />
-				<h3 class="text-center">Course Form</h3>
-				<form class="p-3" action="/admin/checkcourse" id="courseform"
-					th:object="${course}" method="post">
-					<input type="hidden" th:field="*{id}" />
-					<div class="form-group"
-						th:classappend="${#fields.hasErrors('name')} ? has-danger">
-						<label for="name">Name</label> <input type="text"
-							class="form-control" id="name" placeholder="Enter Course Name"
-							th:field="*{name}"
-							th:classappend="${#fields.hasErrors('name')} ? is-invalid">
-						<div th:if="${#fields.hasErrors('name')}" class="invalid-feedback"
-							th:errors="*{name}"></div>
+	<div class="main-container">
+		<div class="body-container">
+			<nav th:insert="~{Components :: navbar}"></nav>
+			<div class="d-flex" id="wrapper">
+				<div th:insert="~{Components :: adminSidebar}"></div>
+				<div id="page-content-wrapper">
+					<div class="container-fluid">
+						<br />
+						<h3 class="text-center">Course Form</h3>
+						<form class="p-3" action="/admin/checkcourse" id="courseform"
+							th:object="${course}" method="post">
+							<input type="hidden" th:field="*{id}" />
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('name')} ? has-danger">
+								<label for="name">Name</label> <input type="text"
+									class="form-control" id="name" placeholder="Enter Course Name"
+									th:field="*{name}"
+									th:classappend="${#fields.hasErrors('name')} ? is-invalid">
+								<div th:if="${#fields.hasErrors('name')}"
+									class="invalid-feedback" th:errors="*{name}"></div>
+							</div>
+
+
+
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('capacity')} ? has-danger">
+								<label for="capacity">Capacity</label> <input type="number"
+									id="capacity" th:field="*{capacity}" class="form-control"
+									placeholder="Enter capacity"
+									th:classappend="${#fields.hasErrors('capacity')} ? is-invalid">
+								<div th:if="${#fields.hasErrors('capacity')}"
+									class="invalid-feedback" th:errors="*{capacity}"></div>
+							</div>
+
+
+
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('department')} ? has-danger">
+								<label for="department">Department</label> <select
+									class="custom-select" th:field="*{department}" id="department">
+									<option value="" selected="">Please Select the
+										Department</option>
+									<option th:each="department : ${departments}"
+										th:value="${department.getId()}"
+										th:text="${department.getName()}"></option>
+								</select>
+								<div th:if="${#fields.hasErrors('department')}"
+									class="invalid-feedback" th:errors="*{department}"></div>
+							</div>
+							<div class="col text-center">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</form>
 					</div>
-
-
-
-					<div class="form-group"
-						th:classappend="${#fields.hasErrors('capacity')} ? has-danger">
-						<label for="capacity">Capacity</label> <input type="number"
-							id="capacity" th:field="*{capacity}" class="form-control"
-							placeholder="Enter capacity"
-							th:classappend="${#fields.hasErrors('capacity')} ? is-invalid">
-						<div th:if="${#fields.hasErrors('capacity')}"
-							class="invalid-feedback" th:errors="*{capacity}"></div>
-					</div>
-
-
-
-					<div class="form-group"
-						th:classappend="${#fields.hasErrors('department')} ? has-danger">
-						<label for="department">Department</label> <select
-							class="custom-select" th:field="*{department}" id="department">
-							<option value="" selected="">Please Select the
-								Department</option>
-							<option th:each="department : ${departments}"
-								th:value="${department.getId()}"
-								th:text="${department.getName()}"></option>
-						</select>
-						<div th:if="${#fields.hasErrors('department')}"
-							class="invalid-feedback" th:errors="*{department}"></div>
-					</div>
-					<div class="col text-center">
-						<button type="submit" class="btn btn-primary">Submit</button>
-					</div>
-				</form>
+				</div>
 			</div>
 		</div>
+		<footer th:insert="~{Components :: footer}"></footer>
+		<div th:insert="~{Components :: bootstrapScripts}"></div>
+		<div th:insert="~{Components :: valScript}"></div>
+		<script>
+			let cap = document.getElementById('capacity').value;
+			if (cap == 0) {
+				document.getElementById('capacity').value = "";
+			}
+		</script>
 	</div>
-
-	<footer th:insert="~{Components :: footer}"></footer>
-	<div th:insert="~{Components :: bootstrapScripts}"></div>
-	<div th:insert="~{Components :: valScript}"></div>
-	<script>
-		let cap = document.getElementById('capacity').value;
-		if (cap == 0) {
-			document.getElementById('capacity').value = "";
-		}
-	</script>
 </body>
 </html>
