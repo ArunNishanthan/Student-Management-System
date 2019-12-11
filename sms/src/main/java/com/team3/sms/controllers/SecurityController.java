@@ -25,7 +25,8 @@ public class SecurityController {
 	private FormServices formServices;
 
 	@RequestMapping("/login")
-	public String getLoginPage(Model model) {
+	public String getLoginPage(Model model, SessionStatus status) {
+		status.setComplete();
 		model.addAttribute("user", new LoginUser());
 		return "login";
 	}
@@ -34,6 +35,11 @@ public class SecurityController {
 	public String getLogoutPage(SessionStatus status) {
 		status.setComplete();
 		return "home";
+	}
+
+	@GetMapping("/403")
+	public String Unauth() {
+		return "403";
 	}
 
 	@RequestMapping("/")

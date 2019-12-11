@@ -1,6 +1,7 @@
 package com.team3.sms.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.team3.sms.models.Announcement;
 import com.team3.sms.models.Course;
 import com.team3.sms.models.MarksSheet;
 import com.team3.sms.models.Student;
+import com.team3.sms.services.AnnouncementServices;
 import com.team3.sms.services.CourseServices;
 import com.team3.sms.services.MarksSheetServices;
 import com.team3.sms.services.StudentServices;
@@ -32,15 +35,27 @@ public class StudentController {
 	private CourseServices courseService;
 	@Autowired
 	private MarksSheetServices markService;
+	@Autowired
+	private AnnouncementServices announcementServices;
 
 	@GetMapping("/home")
-	public String Home() {
+	public String Home(Model model, HttpSession session) {
+		Student userstudent = (Student) session.getAttribute("usersession");
+		Student student = stuService.getStudentbyID(userstudent.getId());
+		ArrayList<Course> courseList = new ArrayList<Course>(student.getCourses());
+		ArrayList<Announcement> announcements = new ArrayList<Announcement>();
+		for (Course course : courseList) {
+			announcements.addAll(announcementServices.getAnnouncementbyCourse(course));
+		}
+		Collections.sort(announcements, Collections.reverseOrder());
+		model.addAttribute("announcements", announcements);
 		return "studenthome";
 	}
 
 	@GetMapping("/choseAvailableCourse")
 	public String LoadAssignCourse(Model model, HttpSession session) {
-		Student student = (Student) session.getAttribute("usersession");
+		Student userstudent = (Student) session.getAttribute("usersession");
+		Student student = stuService.getStudentbyID(userstudent.getId());
 		ArrayList<Course> courseList = new ArrayList<Course>();
 		courseList = courseService.LoadCourseBasedonDep(student.getDepartment());// course list in login user's
 		ArrayList<MarksSheet> completeCourseList = new ArrayList<MarksSheet>();
@@ -53,16 +68,22 @@ public class StudentController {
 			if (course.getCapacity() > course.getStudents().size()) {
 				// check courses are taken by user
 				if (!course.getStudents().contains(student)) {
-					for (MarksSheet m : completeCourseList) {
-						if (m.getCourse().getId() != course.getId()) {
-							availCourse.add(course);
+					if (completeCourseList.size() != 0) {
+						for (MarksSheet m : completeCourseList) {
+							if (m.getCourse().getId() != course.getId()) {
+								availCourse.add(course);
+							}
 						}
+					} else {
+						availCourse.add(course);
 					}
 
 				}
 
 			} else {
-				unAvailCourse.add(course);
+				if (!course.getStudents().contains(student)) {
+					unAvailCourse.add(course);
+				}
 			}
 		}
 		System.out.println(student.getCourses().size());
@@ -74,27 +95,29 @@ public class StudentController {
 
 	@GetMapping("/assignChosenCourse/{cid}")
 	public String assignChosenCourse(@PathVariable("cid") int cid, HttpSession session) {
-		Student student = (Student) session.getAttribute("usersession");
-		Course course = new Course();
-		course = courseService.getCourse(cid);
+		Student userstudent = (Student) session.getAttribute("usersession");
+		Student student = stuService.getStudentbyID(userstudent.getId());
+		Course course = courseService.getCourse(cid);
 		ArrayList<Course> courseStudentList = new ArrayList<>(student.getCourses());
 		courseStudentList.add(course);
 		student.setCourses(courseStudentList);
+
 		stuService.saveStudent(student);
 
-		return "redirect:/student/choseAvailableCourse/" + student.getDepartment().getId();
+		return "redirect:/student/choseAvailableCourse";
 	}
 
 	@GetMapping("/removeEnrollCourseFromChoose/{cid}")
 	public String removeEnrollCourseFromChoose(@PathVariable("cid") int cid, HttpSession session) {
-		Student student = (Student) session.getAttribute("usersession");
 		removeEnrollCourseMethod(cid, session);
-		return "redirect:/student/choseAvailableCourse/" + student.getDepartment().getId();
+		return "redirect:/student/choseAvailableCourse";
 	}
 
 	@GetMapping("/viewStudentCourses")
 	public String viewStudentCourses(Model model, HttpSession session) {
-		Student student = (Student) session.getAttribute("usersession");
+		Student userstudent = (Student) session.getAttribute("usersession");
+		Student student = new Student();
+		student = stuService.getStudentbyID(userstudent.getId());
 
 		ArrayList<MarksSheet> completeCourseList = new ArrayList<MarksSheet>();
 		completeCourseList = markService.getCompleteMarksSheet(student);
@@ -107,13 +130,15 @@ public class StudentController {
 
 	@GetMapping("/removeEnrollCourseFromView/{cid}")
 	public String removeEnrollCourseFromView(@PathVariable("cid") int cid, HttpSession session) {
-		Student student = (Student) session.getAttribute("usersession");
+
 		removeEnrollCourseMethod(cid, session);
-		return "redirect:/student/viewStudentCourses/" + student.getDepartment().getId();
+		return "redirect:/student/viewStudentCourses";
 	}
 
 	public void removeEnrollCourseMethod(int cid, HttpSession session) {
-		Student student = (Student) session.getAttribute("usersession");
+		Student userstudent = (Student) session.getAttribute("usersession");
+		Student student = new Student();
+		student = stuService.getStudentbyID(userstudent.getId());
 		Course course = new Course();
 		course = courseService.getCourse(cid);
 		ArrayList<Course> courseStudentList = new ArrayList<>(student.getCourses());

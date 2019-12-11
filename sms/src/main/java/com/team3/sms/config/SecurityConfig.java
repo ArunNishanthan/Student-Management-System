@@ -35,7 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/admin/**").hasRole("ISADMIN").antMatchers("/student/**")
 				.hasRole("ISSTUDENT").antMatchers("/faculty/**").hasRole("ISFACULTY").and().formLogin()
-				.loginPage("/login").successForwardUrl("/").and().logout().permitAll();
+				.loginPage("/login").successForwardUrl("/").and().logout().permitAll().and().exceptionHandling()
+				.accessDeniedPage("/403");
 
 		http.csrf().disable();
 	}

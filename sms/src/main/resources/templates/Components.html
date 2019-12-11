@@ -95,9 +95,9 @@ body {
 		class="bg-light border-right text-white" id="sidebar-wrapper">
 		<div class="list-group list-group-flush">
 			<div class="list-group-item list-group-item-action dropdown-menu">
-				<h6 class="dropdown-header">Available Course</h6>
-				<a class="dropdown-item"
-					href="/student/choseAvailableCourse">Select
+				<a class="dropdown-item" href="/student/home">Home </a>
+				<h6 class="dropdown-header">Course</h6>
+				<a class="dropdown-item" href="/student/choseAvailableCourse">Select
 					Courses </a> <a class="dropdown-item"
 					href="/student/viewStudentCourses">My Courses </a>
 			</div>
@@ -126,11 +126,13 @@ body {
 				<a class="dropdown-item" href="/admin/createcourse">Create
 					Course</a> <a href="/admin/viewcourse" class="dropdown-item">Manage
 					Courses</a>
+
 			</div>
 			<div
 				class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
 				<h6 class="dropdown-header">Manage Users</h6>
 				<a class="dropdown-item" href="/admin/createuser">Create User</a> <a
+					href="/admin/viewadmins" class="dropdown-item">Manage Admins</a> <a
 					class="dropdown-item" href="/admin/viewcoursefaculty">Manage
 					Faculty</a> <a class="dropdown-item"
 					href="/admin/studentViewDepartment">Manage Students</a>
@@ -205,6 +207,49 @@ body {
 										},
 
 										department : {
+											minlength : 1,
+											required : true
+										}
+									},
+									highlight : function(element) {
+										$(element).closest('.form-group')
+												.removeClass('has-success')
+												.addClass('has-danger')
+												.children().removeClass(
+														'is-valid').addClass(
+														'is-invalid');
+									},
+									success : function(element) {
+										element.closest('.form-group')
+												.removeClass('has-danger')
+												.addClass('has-success')
+												.children().removeClass(
+														'is-invalid').addClass(
+														'is-valid');
+									},
+
+									errorPlacement : function(label, element) {
+										if (element.attr("name") === "gender") {
+											element.parent().parent().append(
+													label); // this would append the label after all your checkboxes/labels (so the error-label will be the last element in <div class="controls"> )
+										} else {
+											label.insertAfter(element); // standard behaviour
+										}
+									}
+								});
+					});
+
+			$(document).ready(
+					function() {
+						$('#annoucementform').validate(
+								{
+									rules : {
+										message : {
+											minlength : 3,
+											required : true
+										},
+
+										course : {
 											minlength : 1,
 											required : true
 										}

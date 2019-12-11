@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet"
+	href="https://bootswatch.com/4/united/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css"
+	href="https://unpkg.com/lightpick@latest/css/lightpick.css">
+<style th:insert="~{Components :: style}"></style>
+<meta charset="ISO-8859-1">
+<title>Admin | Home</title>
+</head>
+<body>
+	<nav th:insert="~{Components :: navbar}"></nav>
+	<div class="d-flex" id="wrapper">
+		<div th:insert="~{Components :: adminSidebar}"></div>
+		<div id="page-content-wrapper">
+			<div class="container-fluid">
+				<br />
+				<h3 class="text-center">Student Details Information</h3>
+				<ul class="nav nav-tabs">
+					<li class="nav-item"><a class="nav-link active"
+						data-toggle="tab" href="#student">Personal Information</a></li>
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#lecturer">Enrolled Courses</a></li>
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#admin">Completed Courses</a></li>
+
+				</ul>
+				<div id="myTabContent" class="tab-content">
+					<!-- Personal Information -->
+					<div class="tab-pane fade show active" id="student">
+					<table class="table" >
+						<tr>
+							<td>Name</td>
+							<td class="pl-3"
+									th:text="*{student.getFirstName()}+' '+*{student.getLastName()}"></td>
+						</tr>
+						<tr>
+							<td>Phone Number</td>
+							<td class="pl-3"
+								th:text="${student.getDateofBirth()}" />
+
+						</tr>
+
+						<tr>
+							<td>Mobile Number</td>
+							<td class="pl-3" th:text="${student.getMobileNo()}" />
+
+						</tr>
+						<tr>
+							<td>Address</td>
+							<td class="pl-3" th:text="${student.getAddress()}" />
+
+						</tr>
+						<tr>
+							<td>Gender</td>
+							<td class="pl-3" th:text="${student. getGender()}" />
+
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td class="pl-3" th:text="${student.getEmail()}" />
+
+						</tr>
+							<tr>
+							<td>Department</td>
+							<td class="pl-3" th:text="${student .getDepartment().getName()}" />
+
+						</tr>
+						
+					</table>
+					
+					</div>
+					<!-- End Personal Information -->
+
+					<!-- Enrolled Courses -->
+					<div class="tab-pane fade" id="lecturer">
+						<div class="row" th:if="${!student.getCourses().isEmpty()}">
+							<div class="card mb-2 col-sm-4 pd-0  text-center"
+								th:each="enrollCourse : ${student.courses}">
+								<h4 class="card-header" th:text="*{enrollCourse.name}"></h4>
+								<p
+										th:text="*{enrollCourse.getDepartment().getName()}"
+										class="list-group list-group-flush text-center"></p>
+
+								<div class="card-footer">
+									<a
+									th:href="@{'/admin/removeEnrollCourseFromAdmin/' + ${enrollCourse.id}+'/'+${student.id}}"
+									class="btn btn-sm btn-outline-info text-center">Remove
+									Course</a>
+								</div>
+							</div>
+						</div>
+						<p th:if="${student.getCourses().isEmpty()}" class="text-center">No
+							Enrolled Courses</p>
+					</div>
+					<!-- End Enrolled Course -->
+
+					<!-- Completed Courses -->
+					<div class="tab-pane fade" id="admin">
+						<div class="row" th:if="${!completeCourses.isEmpty()}">
+							<div class="card mb-2 col-sm-4 pd-0  text-center"
+								th:each="completeCourse : ${completeCourses}">
+								<h4 class="card-header"
+									th:text="*{completeCourse.getCourse().getName()}"></h4>
+								<p>Mark</p><p
+									th:text="*{completeCourse.getMarks()}"
+									class="list-group list-group-flush text-center"></p>
+								<div class="card-footer">
+									<p
+										th:text="*{completeCourse.getCourse().getDepartment().getName()}"
+										class="list-group list-group-flush text-center"></p>
+								</div>
+							</div>
+
+
+						</div>
+						<p th:if="${completeCourses.isEmpty()}" class="text-center">No
+							Completed Courses</p>
+					</div>
+					<!-- End Completed Courses -->
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<footer th:insert="~{Components :: footer}"></footer>
+	<div th:insert="~{Components :: bootstrapScripts}"></div>
+	<div th:insert="~{Components :: valScript}"></div>
+
+</body>
+</html>

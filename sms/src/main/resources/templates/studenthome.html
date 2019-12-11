@@ -1,10 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link rel="stylesheet"
+	href="https://bootswatch.com/4/materia/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta charset="ISO-8859-1">
+<style th:insert="~{Components :: style}"></style>
 <title>Student | Home</title>
 </head>
 <body>
-<h3>Student</h3>
+	<div class="main-container">
+		<div class="body-container">
+			<nav th:insert="~{Components :: navbar}"></nav>
+			<div class="d-flex" id="wrapper">
+
+				<div th:insert="~{Components :: studentSidebar}"></div>
+				<div id="page-content-wrapper">
+					<div class="container-fluid">
+						<br />
+						<h3 class="text-center">Announcements</h3>
+						<div class="row">
+							<div th:each="ann : ${announcements}" class="card border-primary m-5" style="max-width: 20rem;">
+								<div class="card-header pb-0">
+									<h5 class="card-title" th:text="${ann.course.name}"></h5>
+									<h6 class="card-subtitle" th:text="${ann.facultyname}"></h6>
+									<p th:text="${ann.date}"></p>
+								</div>
+								<div class="card-body">
+									<p class="card-text" th:text="${ann.message}"></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer th:insert="~{Components :: footer}"></footer>
+		<div th:insert="~{Components :: bootstrapScripts}"></div>
+		<div th:insert="~{Components :: valScript}"></div>
+	</div>
 </body>
 </html>

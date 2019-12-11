@@ -22,11 +22,13 @@ import com.team3.sms.models.Admin;
 import com.team3.sms.models.Course;
 import com.team3.sms.models.Department;
 import com.team3.sms.models.Faculty;
+import com.team3.sms.models.MarksSheet;
 import com.team3.sms.models.Student;
 import com.team3.sms.services.AdminServices;
 import com.team3.sms.services.CourseServices;
 import com.team3.sms.services.FacultyServices;
 import com.team3.sms.services.FormServices;
+import com.team3.sms.services.MarksSheetServices;
 import com.team3.sms.services.StudentServices;
 
 @RequestMapping("/admin")
@@ -44,6 +46,8 @@ public class AdminController {
 	private CourseServices courseServices;
 	@Autowired
 	private AdminServices adminServices;
+	@Autowired
+	private MarksSheetServices markService;
 
 	@GetMapping("/home")
 	public String getHome(Model model) {
@@ -83,7 +87,7 @@ public class AdminController {
 			} else {
 				Student studentDb = studentservices.getStudentbyID(student.getId());
 				student.setPassword(studentDb.getPassword());
-				student.setCourses(student.getCourses());
+				student.setCourses(studentDb.getCourses());
 			}
 			student.setRole(Role.ISSTUDENT);
 			studentservices.saveStudent(student);
@@ -366,6 +370,43 @@ public class AdminController {
 			model.addAttribute("students", studentservices.getStudentsByDepartment(department));
 		}
 		return "StudentCourseHome";
+	}
+
+	@GetMapping("/viewstudentdetails/{sid}")
+	public String viewstudentdetails(@PathVariable("sid") int sid, Model model) {
+		Student student = studentservices.getStudentbyID(sid);
+		ArrayList<MarksSheet> completeCourse = markService.getCompleteMarksSheet(student);
+		model.addAttribute("student", student);
+		model.addAttribute("completeCourses", completeCourse);
+		return "ViewStudentDetails";
+	}
+
+	@GetMapping("/removeEnrollCourseFromAdmin/{cid}/{sid}")
+	public String removeEnrollCourseFromAdmin(@PathVariable("cid") int cid, @PathVariable("sid") int sid) {
+
+		removeEnrollCourseMethod(cid, sid);
+		return "redirect:/admin/viewstudentdetails/" + sid;
+	}
+
+	public void removeEnrollCourseMethod(int cid, int sid) {
+
+		Student student = new Student();
+		student = studentservices.getStudentbyID(sid);
+		Course course = new Course();
+		course = courseServices.getCourse(cid);
+		ArrayList<Course> courseStudentList = new ArrayList<>(student.getCourses());
+		if (courseStudentList.contains(course)) {
+			courseStudentList.remove(course);
+		}
+
+		student.setCourses(courseStudentList);
+		studentservices.saveStudent(student);
+	}
+
+	@RequestMapping("/viewadmins")
+	public String LoadAdmins(Model model) {
+
+		return "FacultyCourseHome";
 	}
 
 }
