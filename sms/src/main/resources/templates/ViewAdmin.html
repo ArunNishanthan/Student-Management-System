@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet"
+	href="https://bootswatch.com/4/united/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css"
+	href="https://unpkg.com/lightpick@latest/css/lightpick.css">
+<style th:insert="~{Components :: style}"></style>
+<meta charset="ISO-8859-1">
+<title>Admin | Admin Details</title>
+</head>
+<body>
+	<nav th:insert="~{Components :: navbar}"></nav>
+	<div class="d-flex" id="wrapper">
+		<div th:insert="~{Components :: adminSidebar}"></div>
+		<div id="page-content-wrapper">
+			<div class="container-fluid">
+				<br />
+				<h3 class="text-center">View Admin Details</h3>
+				<br />
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane fade show active" id="student">
+						<table class="table">
+							<tr>
+								<td>Name</td>
+								<td class="pl-3"
+									th:text="*{admin.getFirstName()}+' '+*{admin.getLastName()}"></td>
+							</tr>
+							<tr>
+								<td>Date of Birth</td>
+								<td class="pl-3" th:text="${admin.getDateofBirth()}" />
+
+							</tr>
+
+							<tr>
+								<td>Mobile Number</td>
+								<td class="pl-3" th:text="${admin.getMobileNo()}" />
+
+							</tr>
+							<tr>
+								<td>Address</td>
+								<td class="pl-3" th:text="${admin.getAddress()}" />
+
+							</tr>
+							<tr>
+								<td>Gender</td>
+								<td class="pl-3" th:text="${admin.getGender()}" />
+
+							</tr>
+							<tr>
+								<td>Email</td>
+								<td class="pl-3" th:text="${admin.getEmail()}" />
+
+							</tr>
+
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:insert="~{Components :: footer}"></footer>
+	<div th:insert="~{Components :: bootstrapScripts}"></div>
+	<div th:insert="~{Components :: valScript}"></div>
+
+</body>
+</html>

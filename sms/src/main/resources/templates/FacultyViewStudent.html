@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style th:insert="~{Components :: style}"></style>
 <meta charset="ISO-8859-1">
-<title>Admin | View Student</title>
+<title>Faculty | View Student</title>
 <style>
 .pd-0 {
 	padding: 0;
@@ -18,7 +18,7 @@
 		<div class="body-container">
 			<nav th:insert="~{Components :: navbar}"></nav>
 			<div class="d-flex" id="wrapper">
-				<div th:insert="~{Components :: adminSidebar}"></div>
+				<div th:insert="~{Components :: facultySidebar}"></div>
 				<div id="page-content-wrapper">
 					<div class="container-fluid">
 						<br />
@@ -33,7 +33,7 @@
 									<th scope="col">Date of Birth</th>
 									<th scope="col">Mobile Number</th>
 									<th scope="col">Email</th>
-									<th scope="col">Remove</th>
+									<th scope="col">Details</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -42,8 +42,9 @@
 									<td th:text="${student.dateofBirth}" />
 									<td th:text="${student.mobileNo}" />
 									<td th:text="${student.email}" />
-									<td><a class="btn btn-sm btn-outline-danger"
-										th:href="@{'/admin/removestudent/'+${courseid}+'/'+ ${student.id}+'/'+${currentpage}}">Remove</a></td>
+									<td><a class="btn btn-sm btn-outline-info"
+										th:href="@{'/faculty/viewstudent/'+ ${student.id}}">More
+											Details</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -52,20 +53,20 @@
 							<ul class="pagination pagination-lg">
 								<li class="page-item"
 									th:classappend="${currentpage}==0 ? disabled"><a
-									th:href="@{'/admin/viewstudent/'+${courseid}+'/' + 0}"
+									th:href="@{'/faculty/viewstudent/'+${courseid}+'/' + 0}"
 									class="page-link" href="#">&laquo; </a></li>
 								<th:block th:each="i:${#numbers.sequence(1, pageCount)}">
 									<li class="page-item"
 										th:classappend="${currentpage}==${i-1} ? active"><a
 										class="page-link"
-										th:href="@{'/admin/viewstudent/'+${courseid}+'/' + ${i-1}}"
+										th:href="@{'/faculty/viewstudent/'+${courseid}+'/' + ${i-1}}"
 										th:text="${i}"></a></li>
 
 								</th:block>
 								<li class="page-item"
 									th:classappend="${currentpage}==${pageCount-1} ? disabled"><a
 									class="page-link"
-									th:href="@{'/admin/viewstudent/'+${courseid}+'/' + ${pageCount-1}}">&raquo;</a>
+									th:href="@{'/faculty/viewstudent/'+${courseid}+'/' + ${pageCount-1}}">&raquo;</a>
 								</li>
 							</ul>
 						</div>

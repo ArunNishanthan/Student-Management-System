@@ -9,44 +9,110 @@
 .error {
 	color: red;
 }
+
+img {
+	height: 90vh;
+}
 </style>
 
-<title>Login Form</title>
+<title>SMS | Login Form</title>
 </head>
 <body>
-	<br />
-	<br />
-	<br />
-	<div class="container">
-		<fieldset>
-			<legend>Login</legend>
-			<div class="dialog-row"></div>
-			<form th:object="${user}" id="loginform" th:action="@{login}" method="post">
-				<div class="form-group"
-					th:classappend="${#fields.hasErrors('username')} ? has-danger">
-					<label for="username">User Name</label> <input type="text"
-						class="form-control" name="username" aria-describedby="textHelp"
-						placeholder="Enter user name" th:field="*{username}"> 
-					<div th:if="${#fields.hasErrors('username')}" class="invalid-feedback"
-						th:errors="*{username}"></div>
-				</div>
+	<fieldset>
 
-				<div class="form-group"
-					th:classappend="${#fields.hasErrors('password')} ? has-danger">
-					<label for="InputPassword1">Password</label> <input type="password"
-						class="form-control" name="password" placeholder="Password"
-						th:field="*{password}">
-					<div th:if="${#fields.hasErrors('password')}"
-						class="invalid-feedback" th:errors="*{password}"></div>
+		<div class="row">
+			<div class="col-sm-8">
+				<div id="demo" class="carousel slide" data-ride="carousel">
+
+					<!-- Indicators -->
+					<ul class="carousel-indicators">
+						<li data-target="#demo" data-slide-to="0" class="active"></li>
+						<li data-target="#demo" data-slide-to="1"></li>
+						<li data-target="#demo" data-slide-to="2"></li>
+					</ul>
+
+					<!-- The slideshow -->
+					<div class="carousel-inner">
+						<div class="carousel-item active">
+							<img src="https://source.unsplash.com/user/erondu/"
+								alt="Los Angeles">
+						</div>
+						<div class="carousel-item">
+							<img th:src="@{grad.jpeg}" alt="Chicago">
+						</div>
+						<div class="carousel-item">
+							<img src="https://source.unsplash.com/user/" alt="New York">
+						</div>
+					</div>
+
+					<!-- Left and right controls -->
+					<a class="carousel-control-prev" href="#demo" data-slide="prev">
+						<span class="carousel-control-prev-icon"></span>
+					</a> <a class="carousel-control-next" href="#demo" data-slide="next">
+						<span class="carousel-control-next-icon"></span>
+					</a>
 				</div>
-				<label th:if="${param.error}"
-					th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
-					class="error"></label> <br />
-				<button type="submit" class="btn btn-primary">Submit</button>
-			</form>
-		</fieldset>
-	</div>
-		<div th:insert="~{Components :: bootstrapScripts}"></div>
-		<div th:insert="~{Components :: valScript}"></div>
+			</div>
+			<div class="col-sm-4">
+				<br /> <br /> <br /> <br />
+				<legend class="text-center">Login</legend>
+				<form th:object="${user}" id="loginform" th:action="@{login}"
+					method="post">
+					<div class="form-group"
+						th:classappend="${#fields.hasErrors('username')} ? has-danger">
+						<label for="username">User Name</label> <input type="text"
+							class="form-control" name="username" aria-describedby="textHelp"
+							placeholder="Enter user name" th:field="*{username}">
+						<div th:if="${#fields.hasErrors('username')}"
+							class="invalid-feedback" th:errors="*{username}"></div>
+					</div>
+
+					<div class="form-group"
+						th:classappend="${#fields.hasErrors('password')} ? has-danger">
+						<label for="InputPassword1">Password</label> <input
+							type="password" class="form-control" name="password"
+							placeholder="Password" th:field="*{password}">
+						<div th:if="${#fields.hasErrors('password')}"
+							class="invalid-feedback" th:errors="*{password}"></div>
+					</div>
+					<label th:if="${param.error}"
+						th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
+						class="error"></label> <br />
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+			
+		</div>
+	</fieldset>
+	<footer th:insert="~{Components :: footer}"></footer>
+	<div th:insert="~{Components :: bootstrapScripts}"></div>
+	<div th:insert="~{Components :: valScript}"></div>
+	<script>
+        $(document).ready(function () {
+            // Activate Carousel with a specified interval
+            $("#myCarousel").carousel({
+                interval : 200
+            });
+
+            // Enable Carousel Indicators
+            $(".item1").click(function () {
+                $("#myCarousel").carousel(0);
+            });
+            $(".item2").click(function () {
+                $("#myCarousel").carousel(1);
+            });
+            $(".item3").click(function () {
+                $("#myCarousel").carousel(2);
+            });
+
+            // Enable Carousel Controls
+            $(".carousel-control-prev").click(function () {
+                $("#myCarousel").carousel("prev");
+            });
+            $(".carousel-control-next").click(function () {
+                $("#myCarousel").carousel("next");
+            });
+        });
+    </script>
 </body>
 </html>

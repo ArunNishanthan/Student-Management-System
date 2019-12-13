@@ -8,7 +8,7 @@
 	href="https://unpkg.com/lightpick@latest/css/lightpick.css">
 <style th:insert="~{Components :: style}"></style>
 <meta charset="ISO-8859-1">
-<title>Admin | Student Form</title>
+<title>Admin | Admin Form</title>
 </head>
 <body>
 	<div class="main-container">
@@ -19,9 +19,9 @@
 				<div id="page-content-wrapper">
 					<div class="container-fluid">
 						<br />
-						<h3 class="text-center">Student Form</h3>
-						<form class="p-3" action="/admin/checkstudent" id="studentform"
-							th:object="${student}" method="post">
+						<h3 class="text-center">Admin Form</h3>
+						<form class="p-3" action="/admin/checkadmin" id="Adminform"
+							th:object="${admin}" method="post">
 							<input type="hidden" th:field="*{id}" />
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('firstName')} ? has-danger">
@@ -41,27 +41,29 @@
 								<div th:if="${#fields.hasErrors('lastName')}"
 									class="invalid-feedback" th:errors="*{lastName}"></div>
 							</div>
-							<label for="gender">Gender</label>
+
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('gender')} ? has-danger">
+								<label for="gender">Gender</label>
 								<div class="custom-control custom-radio">
-									<input type="radio" id="customRadio1" name="gender"
-										class="custom-control-input" checked="" value="F"
+									<input type="radio" id="customRadio31" name="gender"
+										class="custom-control-input" checked="" value="Female"
 										th:field="*{gender}"
 										th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
-									<label class="custom-control-label" for="customRadio1">Female</label>
+									<label class="custom-control-label" for="customRadio31">Female</label>
 								</div>
 								<div class="custom-control custom-radio">
-									<input type="radio" id="customRadio2" name="gender"
-										class="custom-control-input" value="M" th:field="*{gender}"
+									<input type="radio" id="customRadio32" name="gender"
+										class="custom-control-input" value="Male" th:field="*{gender}"
 										th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
-									<label class="custom-control-label" for="customRadio2">Male</label>
+									<label class="custom-control-label" for="customRadio32">Male</label>
 								</div>
 								<div class="custom-control custom-radio">
-									<input type="radio" id="customRadio3" name="gender"
-										class="custom-control-input" value="O" th:field="*{gender}"
+									<input type="radio" id="customRadio33" name="gender"
+										class="custom-control-input" value="Others"
+										th:field="*{gender}"
 										th:classappend="${#fields.hasErrors('gender')} ? is-invalid">
-									<label class="custom-control-label" for="customRadio3">Others</label>
+									<label class="custom-control-label" for="customRadio33">Others</label>
 								</div>
 								<div th:if="${#fields.hasErrors('gender')}"
 									class="invalid-feedback" th:errors="*{gender}"></div>
@@ -108,19 +110,6 @@
 									class="invalid-feedback" th:errors="*{mobileNo}"></div>
 							</div>
 
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('department')} ? has-danger">
-								<label for="department">Department</label> <select
-									class="custom-select" th:field="*{department}" id="department">
-									<option value="" selected="">Please Select the
-										Department</option>
-									<option th:each="department : ${departments}"
-										th:value="${department.getId()}"
-										th:text="${department.getName()}"></option>
-								</select>
-								<div th:if="${#fields.hasErrors('department')}"
-									class="invalid-feedback" th:errors="*{department}"></div>
-							</div>
 							<div class="col text-center">
 								<button type="submit" class="btn btn-primary">Submit</button>
 							</div>
@@ -129,9 +118,9 @@
 				</div>
 			</div>
 		</div>
-		<footer th:insert="~{Components :: footer}"></footer>
-		<div th:insert="~{Components :: bootstrapScripts}"></div>
-		<div th:insert="~{Components :: valScript}"></div>
 	</div>
+	<footer th:insert="~{Components :: footer}"></footer>
+	<div th:insert="~{Components :: bootstrapScripts}"></div>
+	<div th:insert="~{Components :: valScript}"></div>
 </body>
 </html>

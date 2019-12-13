@@ -8,12 +8,12 @@
 	href="https://unpkg.com/lightpick@latest/css/lightpick.css">
 <style th:insert="~{Components :: style}"></style>
 <meta charset="ISO-8859-1">
-<title>Admin | Student</title>
+<title>Faculty | Student</title>
 </head>
 <body>
 	<nav th:insert="~{Components :: navbar}"></nav>
 	<div class="d-flex" id="wrapper">
-		<div th:insert="~{Components :: adminSidebar}"></div>
+		<div th:insert="~{Components :: facultySidebar}"></div>
 		<div id="page-content-wrapper">
 			<div class="container-fluid">
 				<br />
@@ -28,49 +28,47 @@
 
 				</ul>
 				<div id="myTabContent" class="tab-content">
-					<!-- Personal Information -->
 					<div class="tab-pane fade show active" id="student">
-					<table class="table" >
-						<tr>
-							<td>Name</td>
-							<td class="pl-3"
-									th:text="*{student.getFirstName()}+' '+*{student.getLastName()}"></td>
-						</tr>
-						<tr>
-							<td>Date of Birth</td>
-							<td class="pl-3"
-								th:text="${student.getDateofBirth()}" />
-
-						</tr>
-
-						<tr>
-							<td>Mobile Number</td>
-							<td class="pl-3" th:text="${student.getMobileNo()}" />
-
-						</tr>
-						<tr>
-							<td>Address</td>
-							<td class="pl-3" th:text="${student.getAddress()}" />
-
-						</tr>
-						<tr>
-							<td>Gender</td>
-							<td class="pl-3" th:text="${student. getGender()}" />
-
-						</tr>
-						<tr>
-							<td>Email</td>
-							<td class="pl-3" th:text="${student.getEmail()}" />
-
-						</tr>
+						<table class="table">
 							<tr>
-							<td>Department</td>
-							<td class="pl-3" th:text="${student .getDepartment().getName()}" />
+								<td>Name</td>
+								<td class="pl-3"
+									th:text="*{student.getFirstName()}+' '+*{student.getLastName()}"></td>
+							</tr>
+							<tr>
+								<td>Date of Birth</td>
+								<td class="pl-3" th:text="${student.getDateofBirth()}" />
 
-						</tr>
-						
-					</table>
-					
+							</tr>
+
+							<tr>
+								<td>Mobile Number</td>
+								<td class="pl-3" th:text="${student.getMobileNo()}" />
+
+							</tr>
+							<tr>
+								<td>Address</td>
+								<td class="pl-3" th:text="${student.getAddress()}" />
+
+							</tr>
+							<tr>
+								<td>Gender</td>
+								<td class="pl-3" th:text="${student. getGender()}" />
+
+							</tr>
+							<tr>
+								<td>Email</td>
+								<td class="pl-3" th:text="${student.getEmail()}" />
+
+							</tr>
+							<tr>
+								<td>Department</td>
+								<td class="pl-3" th:text="${student .getDepartment().getName()}" />
+
+							</tr>
+
+						</table>
+
 					</div>
 					<!-- End Personal Information -->
 
@@ -79,33 +77,24 @@
 						<div class="row" th:if="${!student.getCourses().isEmpty()}">
 							<div class="card mb-2 col-sm-4 pd-0  text-center"
 								th:each="enrollCourse : ${student.courses}">
-								<h4 class="card-header" th:text="*{enrollCourse.name}"></h4>
-								<p
-										th:text="*{enrollCourse.getDepartment().getName()}"
-										class="list-group list-group-flush text-center"></p>
+								<h6 class="card-header" th:text="*{enrollCourse.name}"></h6>
+								<p th:text="*{enrollCourse.getDepartment().getName()}"
+									class="list-group list-group-flush text-center"></p>
 
-								<div class="card-footer">
-									<a
-									th:href="@{'/admin/removeEnrollCourseFromAdmin/' + ${enrollCourse.id}+'/'+${student.id}}"
-									class="btn btn-sm btn-outline-info text-center">Remove
-									Course</a>
-								</div>
+
 							</div>
 						</div>
 						<p th:if="${student.getCourses().isEmpty()}" class="text-center">No
 							Enrolled Courses</p>
 					</div>
-					<!-- End Enrolled Course -->
-
-					<!-- Completed Courses -->
 					<div class="tab-pane fade" id="admin">
 						<div class="row" th:if="${!completeCourses.isEmpty()}">
 							<div class="card mb-2 col-sm-4 pd-0  text-center"
 								th:each="completeCourse : ${completeCourses}">
 								<h4 class="card-header"
 									th:text="*{completeCourse.getCourse().getName()}"></h4>
-								<p>Mark</p><p
-									th:text="*{completeCourse.getMarks()}"
+								<p>Mark</p>
+								<p th:text="*{completeCourse.getMarks()}"
 									class="list-group list-group-flush text-center"></p>
 								<div class="card-footer">
 									<p

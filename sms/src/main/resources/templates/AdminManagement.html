@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style th:insert="~{Components :: style}"></style>
 <meta charset="ISO-8859-1">
-<title>Admin | Manage Student</title>
+<title>Admin | Manage Admin</title>
 <style>
 .pd-0 {
 	padding: 0;
@@ -22,38 +22,26 @@
 				<div id="page-content-wrapper">
 					<div class="container-fluid">
 						<br />
-						<h3 class="text-center">Manage Student</h3>
-						<form class="p-3" action="/admin/studentViewDepartment"
-							id="depfrom">
-							<input type=hidden />
-							<div class="form-group">
-								<select th:name="depid" onchange="this.form.submit()"
-									class="custom-select" id="department">
-									<option value="" selected="">Please Select the
-										Department</option>
-									<option th:each="dep : ${departments}"
-										th:value="${dep.getId()}" th:text="${dep.getName()}"></option>
-								</select>
-							</div>
-						</form>
-						<div th:if="${department}">
-							<h3 class="text-center" th:text="${department.name}"></h3>
+						<h3 class="text-center">Manage Admin</h3>
+
+						<div>
+
 							<br />
 							<div class="container mb-2">
 								<div class="row">
 									<div class="card mb-2 col-sm-4 pd-0  text-center"
-										th:each="student : ${students}">
+										th:each="admin : ${admins}">
 										<h4 class="card-header"
-											th:text="*{student.firstName}+' '+*{student.lastName}"></h4>
+											th:text="*{admin.firstName}+' '+*{admin.lastName}"></h4>
 
-										
-										<div class="card-footer">
-											<a th:href="@{'/admin/viewstudentdetails/' + ${student.id}}"
-												class="btn btn-sm btn-outline-success">View</a> <a
-												th:href="@{'/admin/updatestudent/' + ${student.id}}"
+										<div class="card-footer"
+											>
+											<a th:href="@{'/admin/viewadmin/' + ${admin.id}}"
+												class="btn btn-sm btn-outline-info">View</a> <a
+												th:href="@{'/admin/updateadmin/' + ${admin.id}}"
 												class="btn btn-sm btn-outline-warning">Update</a> <a
-												th:href="@{'/admin/deletestudent/' + ${student.id}}"
-												class="btn btn-sm btn-outline-danger">Delete</a>
+												th:href="@{'/admin/deleteadmin/' + ${admin.id}}"
+												th:if="${admin.id}!=${session.usersession.getId()}" class="btn btn-sm btn-outline-danger">Delete</a>
 										</div>
 									</div>
 								</div>

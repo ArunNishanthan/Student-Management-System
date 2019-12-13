@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 public class Announcement implements Comparable<Announcement> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private int id;
 	@NotEmpty
 	@Column(length = 500)
 	private String message;
@@ -74,7 +74,9 @@ public class Announcement implements Comparable<Announcement> {
 
 	@Override
 	public int compareTo(Announcement announcement) {
-		return this.id.compareTo(announcement.id);
+		Integer One = this.id;
+		Integer two = announcement.id;
+		return One.compareTo(two);
 	}
 
 }

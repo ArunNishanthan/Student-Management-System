@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet"
+	href="https://bootswatch.com/4/united/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style th:insert="~{Components :: style}"></style>
+<meta charset="ISO-8859-1">
+<title>Student Grade Report</title>
+<style>
+.pd-0 {
+	padding: 0;
+}
+</style>
+</head>
+<body>
+	<nav th:insert="~{Components :: navbar}"></nav>
+	<div class="d-flex" id="wrapper">
+		<div th:insert="~{Components :: facultySidebar}"></div>
+		<div id="page-content-wrapper">
+			<div class="container-fluid">
+				<br />
+				<h3 class="text-center">Student Grade Report</h3>
+				<form action="getgradereport" id="gradereport">
+					<div>
+						<input type=hidden />
+						<div class="form-group">
+							<select th:name="courseid" class="custom-select" id="course">
+								<option value="0" selected="">Please Select the Course</option>
+								<option th:each="course : ${courses}"
+									th:value="${course.getId()}" th:text="${course.getName()}"></option>
+							</select>
+						</div>
+						<input type=hidden />
+						<div class="form-group">
+						<!--  <input type="checkbox" name="marks" value=85>A+
+							  <input type="checkbox" name="marks" value=84>A
+							  <input type="checkbox" name="marks" value=79>A-
+							  <input type="checkbox" name="marks" value=74>B+
+							  <input type="checkbox" name="marks" value=69>B
+							  <input type="checkbox" name="marks" value=59>C+
+							  <input type="checkbox" name="marks" value=54>C-
+							  <input type="checkbox" name="marks" value=49>D+
+							  <input type="checkbox" name="marks" value=44>D-
+							  <input type="checkbox" name="marks" value=40>B- -->
+							 <select th:name="marks" class="custom-select" id="marks">
+							 	<option value="0" selected="">Please Select the Grade</option>
+								<option value=85>A+</option> 
+								<option value=84>A</option> 
+								<option value=79>A-</option> 
+ 								<option value=74>B+</option> 
+ 								<option value=69>B</option> 
+ 								<option value=64>B-</option> 
+ 								<option value=59>C+</option> 
+								<option value=54>C</option> 
+ 								<option value=49>D+</option> 
+ 								<option value=44>D</option> 
+ 								<option value=40>F</option> 
+ 							</select> 
+						</div>
+					</div>
+				</form>
+				<br /> 
+				<h3  th:if="${students!=null}" class="text-center" th:text="'Students with Grade '+${grade}+' in '+${coursename}"></h3>
+				<table th:if="${!#lists.isEmpty(students)}" class="table table-hover" >
+					<tbody>
+						<tr>
+							<th>No</th>
+							<th>Name</th>
+							<th>Marks</th>
+						</tr>
+						<th:block th:each=" student,iterStat: ${students}">
+							<tr class="table-primary">
+								<td th:text="${iterStat.index+1}"></td>
+								<td th:text="${student.firstName}+' '+${student.lastName}"></td>
+								<td th:text="${marksList[iterStat.index]}"></td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+				<button th:unless="${#lists.isEmpty(students)}" class="btn btn-primary" id="download">Download</button>
+				<br/>	<br/>
+				<p class="text-center" th:if="${#lists.isEmpty(students)}">No students available.</p>
+			</div>
+		</div>
+	</div>
+	
+	<footer th:insert="~{Components :: footer}"></footer>
+	<div th:insert="~{Components :: bootstrapScripts}"></div>
+	<div th:insert="~{Components :: valScript}"></div>
+	<script type="text/javascript">
+		let course = document.getElementById('course');
+		let mark = document.getElementById('marks');
+
+		course.onchange = submit;
+		mark.onchange = submit;
+
+		function submit() 
+		{
+			let courseId = document.getElementById('course').value;
+			let markId = document.getElementById('marks').value;
+
+			if (courseId !== "0" && markId !== "0") 
+			{
+				
+				let gradereport = document.getElementById('gradereport')
+						.submit();
+
+			}
+		}
+		
+		function download_csv(csv, filename)
+		{
+			  var csvFile;
+			  var downloadLink;
+
+			  // CSV FILE
+			  csvFile = new Blob([csv], { type: "text/csv" });
+
+			  // Download link
+			  downloadLink = document.createElement("a");
+
+			  // File name
+			  downloadLink.download = filename;
+
+			  // We have to create a link to the file
+			  downloadLink.href = window.URL.createObjectURL(csvFile);
+
+			  // Make sure that the link is not displayed
+			  downloadLink.style.display = "none";
+
+			  // Add the link to your DOM
+			  document.body.appendChild(downloadLink);
+
+			  // Lanzamos
+			  downloadLink.click();
+			}
+
+			function export_table_to_csv(html, filename)
+			 {
+			  var csv = [];
+			  var rows = document.querySelectorAll("table tr");
+
+			  for (var i = 0; i < rows.length; i++) {
+			    var row = [],
+			      cols = rows[i].querySelectorAll("td, th");
+
+			    for (var j = 0; j < cols.length; j++) row.push(cols[j].innerText);
+
+			    csv.push(row.join(","));
+			  }
+			  // Download CSV
+			  download_csv(csv.join("\n"), filename);
+			}
+
+			document.getElementById("download").addEventListener("click", function() {
+			  var html = document.querySelector("table").outerHTML;
+			  console.log("lol");
+			  export_table_to_csv(html, "table.csv");
+			});
+
+	</script>
+</body>
+</html>

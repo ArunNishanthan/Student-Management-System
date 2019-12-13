@@ -1,5 +1,6 @@
 package com.team3.sms.controllers;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.validation.Valid;
@@ -159,13 +160,27 @@ public class AdminController {
 			model.addAttribute("faculty", new Faculty());
 			model.addAttribute("student", new Student());
 			model.addAttribute("departments", formservices.getDepartments());
-			return "UserForm";
+			if (admin.getId() == 0) {
+				return "UserForm";
+			}
+			return "AdminForm";
 		} else {
-			admin.setPassword(admin.getFirstName());
+			if (admin.getId() == 0) {
+				admin.setPassword(admin.getFirstName());
+			} else {
+				Admin admindb = adminServices.getAdmin(admin.getId());
+				admin.setPassword(admindb.getPassword());
+			}
 			admin.setRole(Role.ISADMIN);
 			adminServices.saveAdmin(admin);
-			return "redirect:/admin/createuser";
+			return "redirect:/admin/viewadmins";
 		}
+	}
+
+	@RequestMapping("/viewadmin/{adminid}")
+	public String viewadmin(@PathVariable("adminid") int adminid, Model model) {
+		model.addAttribute("admin", adminServices.getAdmin(adminid));
+		return "ViewAdmin";
 	}
 
 	@RequestMapping("/viewcoursefaculty")
@@ -405,8 +420,78 @@ public class AdminController {
 
 	@RequestMapping("/viewadmins")
 	public String LoadAdmins(Model model) {
+		model.addAttribute("admins", adminServices.getAdmins());
+		return "AdminManagement";
+	}
 
-		return "FacultyCourseHome";
+	@GetMapping("/updateadmin/{aid}")
+	public String updateadmin(@PathVariable("aid") int aid, Model model) {
+		Admin admin = adminServices.getAdmin(aid);
+		model.addAttribute("admin", admin);
+		return "AdminForm";
+	}
+
+	@GetMapping("/deleteadmin/{aid}")
+	public String deleteadmin(@PathVariable("aid") int aid) {
+		Admin admin = adminServices.getAdmin(aid);
+		adminServices.removeAdmin(admin);
+		return "redirect:/admin/viewadmins";
+	}
+
+	@GetMapping("/cgpareport")
+	public String cgpaReport(Model model) {
+		model.addAttribute("departments", formservices.getDepartments());
+		return "CGPAReport";
+	}
+
+	@RequestMapping("/getcgpareport")
+	public String getcgpaReport(@RequestParam(value = "depid", defaultValue = "0") int did, Model model) {
+		double gradept[] = new double[] { 5.0, 5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0 };
+		Department department = formservices.getDepartment(did);
+		ArrayList<Student> studentsList = new ArrayList<Student>(department.getStudents());
+		ArrayList<MarksSheet> ms = new ArrayList<>();
+		ArrayList<String> cgpa = new ArrayList<>();
+		double gp = 0.0;
+		double cpa = 0.0;
+
+		for (Student stu : studentsList) {
+			ms = markService.getCompleteMarksSheet(stu);
+
+			for (int i = 0; i < ms.size(); i++) {
+				if (ms.get(i).getMarks() >= 85) {
+					gp = gradept[0];
+				} else if (ms.get(i).getMarks() <= 84 && ms.get(i).getMarks() >= 80) {
+					gp = gradept[1];
+				} else if (ms.get(i).getMarks() <= 79 && ms.get(i).getMarks() >= 75) {
+					gp = gradept[2];
+				} else if (ms.get(i).getMarks() <= 74 && ms.get(i).getMarks() >= 70) {
+					gp = gradept[3];
+				} else if (ms.get(i).getMarks() <= 69 && ms.get(i).getMarks() >= 65) {
+					gp = gradept[4];
+				} else if (ms.get(i).getMarks() <= 64 && ms.get(i).getMarks() >= 60) {
+					gp = gradept[5];
+				} else if (ms.get(i).getMarks() <= 59 && ms.get(i).getMarks() >= 55) {
+					gp = gradept[6];
+				} else if (ms.get(i).getMarks() <= 54 && ms.get(i).getMarks() >= 50) {
+					gp = gradept[7];
+				} else if (ms.get(i).getMarks() <= 49 && ms.get(i).getMarks() >= 45) {
+					gp = gradept[8];
+				} else if (ms.get(i).getMarks() <= 44 && ms.get(i).getMarks() >= 40) {
+					gp = gradept[9];
+				} else {
+					gp = gradept[10];
+				}
+				cpa += (gp * 6.0);
+			}
+			DecimalFormat df2 = new DecimalFormat("#.##");
+			cpa = cpa / (ms.size() * 6.0);
+			String cpa_new = df2.format(cpa);
+			cgpa.add(cpa_new);
+		}
+		model.addAttribute("departments", formservices.getDepartments());
+		model.addAttribute("studentsList", studentsList).addAttribute("cgpa", cgpa).addAttribute("depname",
+				department.getName());
+		return "CGPAReport";
 	}
 
 }
