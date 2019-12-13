@@ -2,6 +2,7 @@ package com.team3.sms.controllers;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -18,17 +19,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.team3.sms.enums.LeaveStatus;
 import com.team3.sms.enums.Role;
 import com.team3.sms.models.Admin;
 import com.team3.sms.models.Course;
 import com.team3.sms.models.Department;
 import com.team3.sms.models.Faculty;
 import com.team3.sms.models.MarksSheet;
+import com.team3.sms.models.StaffLeave;
 import com.team3.sms.models.Student;
 import com.team3.sms.services.AdminServices;
 import com.team3.sms.services.CourseServices;
 import com.team3.sms.services.FacultyServices;
 import com.team3.sms.services.FormServices;
+import com.team3.sms.services.LeaveService;
 import com.team3.sms.services.MarksSheetServices;
 import com.team3.sms.services.StudentServices;
 
@@ -49,6 +53,8 @@ public class AdminController {
 	private AdminServices adminServices;
 	@Autowired
 	private MarksSheetServices markService;
+	@Autowired
+	private LeaveService leaveService;
 
 	@GetMapping("/home")
 	public String getHome(Model model) {
@@ -167,9 +173,6 @@ public class AdminController {
 		} else {
 			if (admin.getId() == 0) {
 				admin.setPassword(admin.getFirstName());
-			} else {
-				Admin admindb = adminServices.getAdmin(admin.getId());
-				admin.setPassword(admindb.getPassword());
 			}
 			admin.setRole(Role.ISADMIN);
 			adminServices.saveAdmin(admin);
@@ -492,6 +495,91 @@ public class AdminController {
 		model.addAttribute("studentsList", studentsList).addAttribute("cgpa", cgpa).addAttribute("depname",
 				department.getName());
 		return "CGPAReport";
+	}
+
+	@GetMapping("/viewpendingleaves")
+	public String getPendingLeaves(Model model) {
+
+		List<StaffLeave> pendingLeaves = leaveService.findPendingLeaves();
+		model.addAttribute("pendingleaves", pendingLeaves);
+		System.out.println("Print pending leaves");
+		List<Faculty> pendingFaculties = new ArrayList<Faculty>();
+		for (StaffLeave pendingleave : pendingLeaves) {
+			pendingFaculties.add(leaveService.findFacultyByLeaveId(pendingleave.getId()));
+		}
+		System.out.println("Try to print faculty");
+		for (Faculty f : pendingFaculties) {
+			System.out.println(f);
+		}
+		model.addAttribute("pendingfaculties", pendingFaculties);
+		return "viewpendingleaves";
+
+	}
+
+	@GetMapping("/approveleave/{id}")
+	public String approveLeave(@PathVariable("id") int id) {
+
+		StaffLeave sl = leaveService.findLeavesByLeaveId(id);
+		StaffLeave approveLeave = sl;
+		approveLeave.setLeaveStatus(LeaveStatus.ISAPPROVED);
+		approveLeave.setId(sl.getId());
+		leaveService.deleteLeave(sl);
+		leaveService.saveLeave(approveLeave);
+		// return "redirect:/admin/viewapprovedleaves";
+		return "redirect:/admin/getleavereport?opt=1";
+	}
+
+	@GetMapping("/rejectleave/{id}")
+	public String rejectLeave(@PathVariable("id") int id) {
+
+		StaffLeave sl = leaveService.findLeavesByLeaveId(id);
+		StaffLeave rejectLeave = sl;
+		rejectLeave.setLeaveStatus(LeaveStatus.ISREJECTED);
+		rejectLeave.setId(sl.getId());
+		leaveService.deleteLeave(sl);
+		leaveService.saveLeave(rejectLeave);
+		// return "redirect:/admin/viewpendingleaves";
+		return "redirect:/admin/getleavereport?opt=2";
+	}
+
+	@GetMapping("/viewapprovedleaves")
+	public String getApprovedLeaves(Model model) {
+
+		List<StaffLeave> approvedLeaves = leaveService.findApprovedLeaves();
+		model.addAttribute("approvedleaves", approvedLeaves);
+		return "viewapprovedleaves";
+	}
+
+	// MyCode
+
+	@GetMapping("/leavereport")
+	public String leaveReport(Model model) {
+		return "LeaveReport";
+	}
+
+	@RequestMapping("/getleavereport")
+	public String getleaveReport(@RequestParam(value = "opt", defaultValue = "0") int id, Model model) {
+		// System.out.print("ID"+id);
+		ArrayList<String> facultyList = new ArrayList<>();
+		ArrayList<String> departmentList = new ArrayList<>();
+		ArrayList<StaffLeave> leavelList = new ArrayList<>();
+
+		if (id == 1) {
+			leavelList.addAll(leaveService.findApprovedLeaves());
+		}
+
+		if (id == 2) {
+			leavelList.addAll(leaveService.findRejectedLeaves());
+		}
+
+		for (StaffLeave list : leavelList) {
+			facultyList.add(list.getFaculty().getFirstName() + " " + list.getFaculty().getLastName());
+			departmentList.add(list.getFaculty().getDepartment().getName());
+		}
+
+		model.addAttribute("leaveList", leavelList).addAttribute("facultyList", facultyList)
+				.addAttribute("depList", departmentList).addAttribute("ID", id);
+		return "LeaveReport";
 	}
 
 }

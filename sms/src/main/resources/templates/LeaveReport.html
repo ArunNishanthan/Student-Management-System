@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://bootswatch.com/4/united/bootstrap.min.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style th:insert="~{Components :: style}"></style>
+    <meta charset="ISO-8859-1" />
+    <title>Admin | Leave Report</title>
+    <style>
+      .pd-0 {
+        padding: 0;
+      }
+
+      thead,
+      tbody {
+        display: block;
+      }
+
+      tbody {
+        height: 100px;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <nav th:insert="~{Components :: navbar}"></nav>
+    <div class="d-flex" id="wrapper">
+      <div th:insert="~{Components :: adminSidebar}"></div>
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <br />
+          <h3 class="text-center">Staff Leave Report</h3>
+          <form action="getleavereport" id="leavereport">
+            <div>
+              <input type="hidden" />
+              <div class="form-group">
+                <select th:name="opt" class="custom-select" id="opt">
+                  <option value="0" selected=""
+                    >Please Select the Option</option
+                  >
+                  <option value="1">Approved Leave</option>
+                  <option value="2">Rejected Leave</option>
+                </select>
+              </div>
+            </div>
+          </form>
+          <br />
+          <h3
+            th:if="${leaveList!=null}"
+            class="text-center"
+            th:text="${ID==1} ? 'Approved Leave Report' : 'Rejected Leave Report'"
+          ></h3>
+          <table
+            th:if="${!#lists.isEmpty(leaveList)}"
+            class="table table-hover"
+          >
+            <tbody>
+              <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Department Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Comment</th>
+                <th>Status</th>
+              </tr>
+              <th:block th:each=" leave,iterStat: ${leaveList}">
+                <tr class="table-primary">
+                  <td th:text="${iterStat.index+1}"></td>
+                  <td th:text="${facultyList[iterStat.index]}"></td>
+                  <td th:text="${depList[iterStat.index]}"></td>
+                  <td
+                    th:text="${#dates.format(leave.startDate,'dd-MM-yyyy')}"
+                  ></td>
+                  <td
+                    th:text="${#dates.format(leave.endDate,'dd-MM-yyyy')}"
+                  ></td>
+                  <td th:text="${leave.comments}"></td>
+                  <td
+                    th:text="${leave.leaveStatus.name()=='ISAPPROVED'} ? 'Approved' : 'Rejected'"
+                  ></td>
+                </tr>
+              </th:block>
+            </tbody>
+          </table>
+          <button
+            th:unless="${#lists.isEmpty(leaveList)}"
+            class="btn btn-primary"
+            id="download"
+          >
+            Download
+          </button>
+          <br />
+          <p class="text-center" th:if="${#lists.isEmpty(leaveList)}">
+            No Records Available.
+          </p>
+        </div>
+      </div>
+    </div>
+    <footer th:insert="~{Components :: footer}"></footer>
+    <div th:insert="~{Components :: bootstrapScripts}"></div>
+    <div th:insert="~{Components :: valScript}"></div>
+    <script type="text/javascript">
+      let opt = document.getElementById("opt");
+
+      opt.onchange = submit;
+
+      function submit() {
+        let optId = document.getElementById("opt").value;
+
+        if (optId !== "0") {
+          let leavereport = document.getElementById("leavereport").submit();
+        }
+      }
+
+      function download_csv(csv, filename) {
+        var csvFile;
+        var downloadLink;
+
+        // CSV FILE
+        csvFile = new Blob([csv], {
+          type: "text/csv"
+        });
+
+        // Download link
+        downloadLink = document.createElement("a");
+
+        // File name
+        downloadLink.download = filename;
+
+        // We have to create a link to the file
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+
+        // Make sure that the link is not displayed
+        downloadLink.style.display = "none";
+
+        // Add the link to your DOM
+        document.body.appendChild(downloadLink);
+
+        // Lanzamos
+        downloadLink.click();
+      }
+
+      function export_table_to_csv(html, filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("table tr");
+
+        for (var i = 0; i < rows.length; i++) {
+          var row = [],
+            cols = rows[i].querySelectorAll("td, th");
+
+          for (var j = 0; j < cols.length; j++) row.push(cols[j].innerText);
+
+          csv.push(row.join(","));
+        }
+
+        // Download CSV
+        download_csv(csv.join("\n"), filename);
+      }
+
+      document.getElementById("download").addEventListener("click", function() {
+        var html = document.querySelector("table").outerHTML;
+        console.log("lol");
+        export_table_to_csv(html, "table.csv");
+      });
+    </script>
+  </body>
+</html>

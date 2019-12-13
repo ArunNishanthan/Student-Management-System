@@ -22,14 +22,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.team3.sms.enums.LeaveStatus;
 import com.team3.sms.models.Announcement;
 import com.team3.sms.models.Course;
 import com.team3.sms.models.Faculty;
 import com.team3.sms.models.MarksSheet;
+import com.team3.sms.models.StaffLeave;
 import com.team3.sms.models.Student;
 import com.team3.sms.services.AnnouncementServices;
 import com.team3.sms.services.CourseServices;
 import com.team3.sms.services.FacultyServices;
+import com.team3.sms.services.LeaveService;
 import com.team3.sms.services.MarksSheetServices;
 import com.team3.sms.services.StudentServices;
 
@@ -47,6 +50,8 @@ public class FacultyController {
 	private MarksSheetServices markService;
 	@Autowired
 	private StudentServices studentService;
+	@Autowired
+	private LeaveService leaveService;
 
 	@GetMapping("/home")
 	public String getHome() {
@@ -273,5 +278,54 @@ public class FacultyController {
 		model.addAttribute("student", student);
 		model.addAttribute("completeCourses", completeCourse);
 		return "ViewStudentFull";
+	}
+
+	@GetMapping("/facultyPersonalProfile")
+	public String facultyPersonalProfile(Model model, HttpSession session) {
+		Faculty faculty = (Faculty) session.getAttribute("usersession");
+		faculty = facultyServices.getFaculty(faculty.getId());
+		model.addAttribute("faculty", faculty);
+		return "FacultyPersonalProfile";
+	}
+
+	@PostMapping("/updateFaculty")
+	public String updateFaculty(Faculty paraFaculty, HttpSession session) {
+		Faculty faculty = (Faculty) session.getAttribute("usersession");
+		faculty = facultyServices.getFaculty(faculty.getId());
+		faculty.setAddress(paraFaculty.getAddress());
+		faculty.setPassword(paraFaculty.getPassword());
+		faculty.setMobileNo(paraFaculty.getMobileNo());
+		facultyServices.saveFaculty(faculty);
+		return "redirect:/faculty/home";
+	}
+
+	// Alice's Part
+
+	@GetMapping("/showleaves")
+	public String getLeavesList(Model model, HttpSession session) {
+		Faculty faculty = (Faculty) session.getAttribute("usersession");
+		faculty = facultyServices.getFaculty(faculty.getId());
+		List<StaffLeave> sl = leaveService.findLeavesByFaculty(faculty);
+		model.addAttribute("facultyleaves", sl);
+		return "leavelist";
+
+	}
+
+	@GetMapping("/applyleaves")
+	public String getApplyLeave(Model model) {
+		model.addAttribute("leave", new StaffLeave());
+		return "leavesform";
+	}
+
+	@RequestMapping("/saveleave")
+	public String saveLeave(@ModelAttribute StaffLeave leave, HttpSession session) {
+
+		Faculty faculty = (Faculty) session.getAttribute("usersession");
+		faculty = facultyServices.getFaculty(faculty.getId());
+		leave.setLeaveStatus(LeaveStatus.ISPENDING);
+		leave.setFaculty(faculty);
+		leaveService.saveLeave(leave);
+		return "forward:/faculty/showleaves";
+
 	}
 }

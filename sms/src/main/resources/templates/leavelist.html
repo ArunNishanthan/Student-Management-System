@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="https://bootswatch.com/4/united/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+
+<link rel="stylesheet" type="text/css"
+	href="https://unpkg.com/lightpick@latest/css/lightpick.css">
+<style th:insert="~{Components :: style}"></style>
+<meta charset="ISO-8859-1">
+<title>Faculty | Leave Lists</title>
+<style>
+.btn {
+	cursor: auto;
+	width: 100px;
+}
+</style>
+</head>
+<body>
+	<div class="main-container">
+		<div class="body-container">
+			<nav th:insert="~{Components :: navbar}"></nav>
+			<div class="d-flex" id="wrapper">
+				<div th:insert="~{Components :: facultySidebar}"></div>
+				<div id="page-content-wrapper">
+					<div class="container-fluid">
+						<h1 class="text-center">Your Leave Lists</h1>
+
+
+						<table class="table table-hover" id="myTable">
+							<thead>
+
+								<th style="width: 20%;">Start Date</th>
+								<th style="width: 20%;">End Date</th>
+
+								<th style="width: 20%;">Comments</th>
+								<th style="width: 20%;">Status</th>
+							</thead>
+							<tbody>
+								<tr th:each="facultyleave:${facultyleaves}">
+									<!--  th:if="${widget.color == T(com.baeldung.thymeleaf.model.Color).RED}" -->
+									<td
+										th:text="*{#dates.format(facultyleave.startDate,'dd-MM-yyyy')}">
+										Start Date</td>
+									<td
+										th:text="*{#dates.format(facultyleave.endDate,'dd-MM-yyyy')}">
+										End Date</td>
+									<td th:text="*{facultyleave.comments}">Comments</td>
+									<td th:if="${facultyleave.leaveStatus.name()=='ISPENDING'}"
+										th:text="Pending" class="btn btn-info btn-sm"></td>
+									<td th:if="${facultyleave.leaveStatus.name()=='ISAPPROVED'}"
+										th:text="Approved" class="btn btn-success btn-sm "></td>
+									<td th:if="${facultyleave.leaveStatus.name()=='ISREJECTED'}"
+										th:text="Rejected" class="btn btn-danger btn-sm"></td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer th:insert="~{Components :: footer}"></footer>
+		<div th:insert="~{Components :: bootstrapScripts}"></div>
+
+
+		<script
+			src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+		<script>
+		$('#myTable').DataTable( {
+		    buttons: [
+		        'csv'
+		    ]
+		} );
+        </script>
+	</div>
+</body>
+</html>
+</body>
+</html>
