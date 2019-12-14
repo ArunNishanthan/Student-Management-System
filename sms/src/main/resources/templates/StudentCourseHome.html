@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <link rel="stylesheet"
-	href="https://bootswatch.com/4/united/bootstrap.min.css">
+	href="https://bootswatch.com/4/minty/bootstrap.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style th:insert="~{Components :: style}"></style>
 <meta charset="ISO-8859-1">
@@ -36,25 +36,31 @@
 								</select>
 							</div>
 						</form>
-						<div th:if="${department}">
-							<h3 class="text-center" th:text="${department.name}"></h3>
-							<br />
-							<div class="container mb-2">
-								<div class="row">
-									<div class="card mb-2 col-sm-4 pd-0  text-center"
-										th:each="student : ${students}">
-										<h4 class="card-header"
-											th:text="*{student.firstName}+' '+*{student.lastName}"></h4>
+					 <div class="text-center" th:unless="${department.id==0}">
+						<a
+							th:href="@{'/admin/download/'+${department.id}+'/studentsByDepartment.csv'}"
+							class="btn btn-primary">Download Student Details</a>
+					</div>
+					<br />
+					<div th:if="${department}">
+						<h3 class="text-center" th:text="${department.name}"></h3>
+						<br />
 
-										
-										<div class="card-footer">
-											<a th:href="@{'/admin/viewstudentdetails/' + ${student.id}}"
-												class="btn btn-sm btn-outline-success">View</a> <a
-												th:href="@{'/admin/updatestudent/' + ${student.id}}"
-												class="btn btn-sm btn-outline-warning">Update</a> <a
-												th:href="@{'/admin/deletestudent/' + ${student.id}}"
-												class="btn btn-sm btn-outline-danger">Delete</a>
-										</div>
+						<div class="container mb-2">
+							<div class="row">
+								<div class="card mb-2 col-sm-4 pd-0  text-center"
+									th:each="student : ${students}">
+									<h4 class="card-header"
+										th:text="*{student.firstName}+' '+*{student.lastName}"></h4>
+
+
+									<div class="card-footer">
+										<a th:href="@{'/admin/viewstudentdetails/' + ${student.id}}"
+											class="btn btn-sm btn-outline-success">View</a> <a
+											th:href="@{'/admin/updatestudent/' + ${student.id}}"
+											class="btn btn-sm btn-outline-warning">Update</a> <a
+											th:href="@{'/admin/deletestudent/' + ${student.id}}"
+											class="btn btn-sm btn-outline-danger">Delete</a>
 									</div>
 								</div>
 							</div>
@@ -63,9 +69,10 @@
 				</div>
 			</div>
 		</div>
-		<footer th:insert="~{Components :: footer}"></footer>
-		<div th:insert="~{Components :: bootstrapScripts}"></div>
-		<div th:insert="~{Components :: valScript}"></div>
+	</div>
+	<footer th:insert="~{Components :: footer}"></footer>
+	<div th:insert="~{Components :: bootstrapScripts}"></div>
+	<div th:insert="~{Components :: valScript}"></div>
 	</div>
 </body>
 </html>

@@ -1,9 +1,11 @@
 package com.team3.sms.controllers;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,7 @@ import com.team3.sms.models.StaffLeave;
 import com.team3.sms.models.Student;
 import com.team3.sms.services.AdminServices;
 import com.team3.sms.services.CourseServices;
+import com.team3.sms.services.CsvServices;
 import com.team3.sms.services.FacultyServices;
 import com.team3.sms.services.FormServices;
 import com.team3.sms.services.LeaveService;
@@ -451,45 +454,49 @@ public class AdminController {
 	public String getcgpaReport(@RequestParam(value = "depid", defaultValue = "0") int did, Model model) {
 		double gradept[] = new double[] { 5.0, 5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0 };
 		Department department = formservices.getDepartment(did);
-		ArrayList<Student> studentsList = new ArrayList<Student>(department.getStudents());
+		ArrayList<Student> studentsListdb = new ArrayList<Student>(department.getStudents());
 		ArrayList<MarksSheet> ms = new ArrayList<>();
 		ArrayList<String> cgpa = new ArrayList<>();
-		double gp = 0.0;
-		double cpa = 0.0;
+		ArrayList<Student> studentsList = new ArrayList<Student>();
 
-		for (Student stu : studentsList) {
+		for (Student stu : studentsListdb) {
 			ms = markService.getCompleteMarksSheet(stu);
-
-			for (int i = 0; i < ms.size(); i++) {
-				if (ms.get(i).getMarks() >= 85) {
-					gp = gradept[0];
-				} else if (ms.get(i).getMarks() <= 84 && ms.get(i).getMarks() >= 80) {
-					gp = gradept[1];
-				} else if (ms.get(i).getMarks() <= 79 && ms.get(i).getMarks() >= 75) {
-					gp = gradept[2];
-				} else if (ms.get(i).getMarks() <= 74 && ms.get(i).getMarks() >= 70) {
-					gp = gradept[3];
-				} else if (ms.get(i).getMarks() <= 69 && ms.get(i).getMarks() >= 65) {
-					gp = gradept[4];
-				} else if (ms.get(i).getMarks() <= 64 && ms.get(i).getMarks() >= 60) {
-					gp = gradept[5];
-				} else if (ms.get(i).getMarks() <= 59 && ms.get(i).getMarks() >= 55) {
-					gp = gradept[6];
-				} else if (ms.get(i).getMarks() <= 54 && ms.get(i).getMarks() >= 50) {
-					gp = gradept[7];
-				} else if (ms.get(i).getMarks() <= 49 && ms.get(i).getMarks() >= 45) {
-					gp = gradept[8];
-				} else if (ms.get(i).getMarks() <= 44 && ms.get(i).getMarks() >= 40) {
-					gp = gradept[9];
-				} else {
-					gp = gradept[10];
+			if (ms.size() != 0) {
+				studentsList.add(stu);
+				double gp = 0.0;
+				double cpa = 0.0;
+				for (int i = 0; i < ms.size(); i++) {
+					if (ms.get(i).getMarks() >= 85) {
+						gp = gradept[0];
+					} else if (ms.get(i).getMarks() <= 84 && ms.get(i).getMarks() >= 80) {
+						gp = gradept[1];
+					} else if (ms.get(i).getMarks() <= 79 && ms.get(i).getMarks() >= 75) {
+						gp = gradept[2];
+					} else if (ms.get(i).getMarks() <= 74 && ms.get(i).getMarks() >= 70) {
+						gp = gradept[3];
+					} else if (ms.get(i).getMarks() <= 69 && ms.get(i).getMarks() >= 65) {
+						gp = gradept[4];
+					} else if (ms.get(i).getMarks() <= 64 && ms.get(i).getMarks() >= 60) {
+						gp = gradept[5];
+					} else if (ms.get(i).getMarks() <= 59 && ms.get(i).getMarks() >= 55) {
+						gp = gradept[6];
+					} else if (ms.get(i).getMarks() <= 54 && ms.get(i).getMarks() >= 50) {
+						gp = gradept[7];
+					} else if (ms.get(i).getMarks() <= 49 && ms.get(i).getMarks() >= 45) {
+						gp = gradept[8];
+					} else if (ms.get(i).getMarks() <= 44 && ms.get(i).getMarks() >= 40) {
+						gp = gradept[9];
+					} else {
+						gp = gradept[10];
+					}
+					cpa += (gp * 6.0);
 				}
-				cpa += (gp * 6.0);
+				DecimalFormat df2 = new DecimalFormat("#.##");
+				cpa = cpa / (ms.size() * 6.0);
+				String cpa_new = df2.format(cpa);
+				cgpa.add(cpa_new);
+
 			}
-			DecimalFormat df2 = new DecimalFormat("#.##");
-			cpa = cpa / (ms.size() * 6.0);
-			String cpa_new = df2.format(cpa);
-			cgpa.add(cpa_new);
 		}
 		model.addAttribute("departments", formservices.getDepartments());
 		model.addAttribute("studentsList", studentsList).addAttribute("cgpa", cgpa).addAttribute("depname",
@@ -580,6 +587,36 @@ public class AdminController {
 		model.addAttribute("leaveList", leavelList).addAttribute("facultyList", facultyList)
 				.addAttribute("depList", departmentList).addAttribute("ID", id);
 		return "LeaveReport";
+	}
+
+	@GetMapping("/download/{courseid}/studentsByCourse.csv")
+	public void downloadCsvCourse(HttpServletResponse response, @PathVariable("courseid") int courseid)
+			throws IOException {
+		response.setContentType("text/csv");
+		response.setHeader("Content-Disposition", "attachment; file=studentsByCourse.csv");
+		Course course = courseServices.getCourse(courseid);
+		ArrayList<Student> studentByCourse = new ArrayList<>(course.getStudents());
+		CsvServices.downloadStudent(response.getWriter(), studentByCourse);
+	}
+
+	@GetMapping("/download/{depid}/studentsByDepartment.csv")
+	public void downloadCsvDepartment(HttpServletResponse response, @PathVariable("depid") int depid)
+			throws IOException {
+		response.setContentType("text/csv");
+		response.setHeader("Content-Disposition", "attachment; file=studentsByDepartment.csv");
+		Department department = formservices.getDepartment(depid);
+		ArrayList<Student> studentByDepartment = new ArrayList<>(department.getStudents());
+		CsvServices.downloadStudent(response.getWriter(), studentByDepartment);
+	}
+
+	@GetMapping("/download/{depid}/staffByDepartment.csv")
+	public void downloadCsvStaffDepartment(HttpServletResponse response, @PathVariable("depid") int depid)
+			throws IOException {
+		response.setContentType("text/csv");
+		response.setHeader("Content-Disposition", "attachment; file=staffByDepartment.csv");
+		Department department = formservices.getDepartment(depid);
+		ArrayList<Faculty> staffByDepartment = new ArrayList<>(department.getFaculties());
+		CsvServices.downloadFaculty(response.getWriter(), staffByDepartment);
 	}
 
 }

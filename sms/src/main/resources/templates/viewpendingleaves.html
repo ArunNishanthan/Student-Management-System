@@ -2,11 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <link rel="stylesheet"
-	href="https://bootswatch.com/4/united/bootstrap.min.css">
+	href="https://bootswatch.com/4/minty/bootstrap.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" type="text/css"
 	href="https://unpkg.com/lightpick@latest/css/lightpick.css">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 <style th:insert="~{Components :: style}"></style>
 <meta charset="ISO-8859-1">
 <title>Admin | Leave Records</title>
@@ -20,37 +21,42 @@
 				<br />
 				<div class="container">
 					<h3 class="text-center">Pending Leave Records</h3>
-					<input class="form-control" type="text"
-						placeholder="Search for Faculty.." id="myInput"
-						onkeyup="myFunction()">
 
-						<table th:if="${!#lists.isEmpty(pendingleaves)}" class="table table-hover" id="myTable">
-							<tr class="w3-tiny">
-						
-								<th style="width: 12.5%;">First Name</th>
-								<th style="width: 12.5%;">Last Name</th>
-								<th style="width: 12.5%;">Start Date</th>
-								<th style="width: 12.5%;">End Date</th>
-								<th style="width: 12.5%;">Comments</th>
-								<th>Approve/Reject</th>
-							</tr>
-							<!--<tr th:each="pendingfaculty:${pendingfaculties}"> -->
+					<table th:if="${!#lists.isEmpty(pendingleaves)}"
+						class="table table-hover" id="myTable">
+						<thead class="w3-tiny">
+							<th style="width: 12.5%;">First Name</th>
+							<th style="width: 12.5%;">Last Name</th>
+							<th style="width: 12.5%;">Start Date</th>
+							<th style="width: 12.5%;">End Date</th>
+							<th style="width: 12.5%;">Comments</th>
+							<th>Approve/Reject</th>
+						</thead>
+						<tbody>
 							<tr th:each="pendingleave:${pendingleaves}">
-							
+
 								<td th:text="*{pendingleave.faculty.firstName}">Faculty
 									First Name</td>
 								<td th:text="*{pendingleave.faculty.lastName}">Faculty Last
 									Name</td>
-								<td th:text="*{#dates.format(pendingleave.startDate,'dd-MM-yyyy')}">Start Date</td>
-								<td th:text="*{#dates.format(pendingleave.endDate,'dd-MM-yyyy')}">End Date</td>
+								<td
+									th:text="*{#dates.format(pendingleave.startDate,'dd-MM-yyyy')}">Start
+									Date</td>
+								<td
+									th:text="*{#dates.format(pendingleave.endDate,'dd-MM-yyyy')}">End
+									Date</td>
 								<td th:text="*{pendingleave.comments}">Comments</td>
-								<td><a th:href="@{/admin/approveleave/}+${pendingleave.id}" class="btn btn-sm btn-success">Approve</a>
-								<a th:href="@{/admin/rejectleave/}+${pendingleave.id}" class="btn btn-sm btn-danger">Reject</a>
-								</td>
+								<td><a th:href="@{/admin/approveleave/}+${pendingleave.id}"
+									class="btn btn-sm btn-success">Approve</a> <a
+									th:href="@{/admin/rejectleave/}+${pendingleave.id}"
+									class="btn btn-sm btn-danger">Reject</a></td>
 							</tr>
-						</table><br/>
-						<p class="text-center" th:if="${#lists.isEmpty(pendingleaves)}">No
-					Pending Leave.</p>
+						</tbody>
+					</table>
+					<br />
+					
+					<p class="text-center" th:if="${#lists.isEmpty(pendingleaves)}">No
+						Pending Leave.</p>
 				</div>
 			</div>
 		</div>
@@ -58,28 +64,16 @@
 
 	<footer th:insert="~{Components :: footer}"></footer>
 	<div th:insert="~{Components :: bootstrapScripts}"></div>
-	<div th:insert="~{Components :: valScript}"></div>
+	
+		<script
+			src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
-	<script>
-		function myFunction() {
-			var input, filter, table, tr, td, i;
-			input = document.getElementById("myInput");
-			filter = input.value.toUpperCase();
-			table = document.getElementById("myTable");
-			tr = table.getElementsByTagName("tr");
-			for (i = 0; i < tr.length; i++) {
-				td = tr[i].getElementsByTagName("td")[0];
-				if (td) {
-					txtValue = td.textContent || td.innerText;
-					if (txtValue.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
-				}
-			}
-		}
-	</script>
+		<script>
+		$(document).ready(function() {
+		    $('#myTable').DataTable(  );
+		} );
+		
+        </script>
 
 </body>
 </html>

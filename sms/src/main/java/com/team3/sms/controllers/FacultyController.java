@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -143,7 +144,7 @@ public class FacultyController {
 			i++;
 		}
 
-		return "<h1>Hello</h1>";
+		return "redirect:/faculty/viewmarksheet/" + course.getId();
 	}
 
 	@GetMapping("/viewmarksheet/{courseid}")
@@ -318,8 +319,12 @@ public class FacultyController {
 	}
 
 	@RequestMapping("/saveleave")
-	public String saveLeave(@ModelAttribute StaffLeave leave, HttpSession session) {
-
+	public String saveLeave(@ModelAttribute StaffLeave leave, Model model, BindingResult bindingResult,
+			HttpSession session) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("leave", new StaffLeave());
+			return "leavesform";
+		}
 		Faculty faculty = (Faculty) session.getAttribute("usersession");
 		faculty = facultyServices.getFaculty(faculty.getId());
 		leave.setLeaveStatus(LeaveStatus.ISPENDING);

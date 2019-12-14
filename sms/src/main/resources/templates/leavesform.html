@@ -22,19 +22,49 @@
 				<div id="page-content-wrapper">
 					<div class="container-fluid">
 						<h1 class="text-center">Leave Form</h1>
-						<form method="get" id="leaveform" th:object="${leave}"
+						<form class="p-3" id="leaveform" th:object="${leave}"
 							th:action="@{/faculty/saveleave}">
-							<fieldset>
-								Start Date<input type="text"  class="form-control" name="datepicker1"
-									id="datepicker1" th:field="*{startDate}" /> End Date <input autocomplete="false"
-									type="text" class="form-control" id="datepicker2" name="datepicker2"
-									th:field="*{endDate}" /> Comment
-								<textarea rows="3" class="form-control" name="comment" id="comment" th:field="*{comments}"></textarea>
-								<br />
-								<div class="text-center">
-									<button type="submit" class="btn btn-success">Save</button>
-								</div>
-							</fieldset>
+							<input type="hidden" th:field="*{id}" />
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('startDate')} ? has-danger">
+								<label for="startDate">Start Date</label> <input type="text"
+									class="form-control" id="startDate"
+									placeholder="Enter Start Date" th:field="*{startDate}"
+									th:classappend="${#fields.hasErrors('startDate')} ? is-invalid">
+								<div th:if="${#fields.hasErrors('startDate')}"
+									class="invalid-feedback" th:errors="*{startDate}"></div>
+										
+									
+							</div>
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('endDate')} ? has-danger">
+								<label for="endDate">End Date</label> <input type="text"
+									class="form-control" id="endDate" placeholder="Enter End Date"
+									th:field="*{endDate}"
+									th:classappend="${#fields.hasErrors('endDate')} ? is-invalid">
+								<div th:if="${#fields.hasErrors('endDate')}"
+									class="invalid-feedback" th:errors="*{endDate}"></div>
+								
+									
+							</div>
+
+
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('comments')} ? has-danger">
+								<label for="comments">Comments</label>
+								<textarea rows="3" id="comments" th:field="*{comments}"
+									class="form-control" placeholder="Enter comments"
+									th:classappend="${#fields.hasErrors('comments')} ? is-invalid">
+								</textarea>
+								<div th:if="${#fields.hasErrors('comments')}"
+									class="invalid-feedback" th:errors="*{comments}"></div>
+							</div>
+
+							<div class="col text-center">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+
+
 						</form>
 					</div>
 				</div>
@@ -64,8 +94,8 @@
 		src="https://unpkg.com/lightpick@latest/lightpick.js"></script>
 	<script>
         var picker = new Lightpick({
-            field : document.getElementById("datepicker1"),
-            secondField : document.getElementById("datepicker2"),
+            field : document.getElementById("startDate"),
+            secondField : document.getElementById("endDate"),
             singleDate : false,
             selectForward : true,
             disableWeekends : true,
@@ -79,6 +109,8 @@
                 console.log(str);
             }
         });
+        
+    
     </script>
 </body>
 </html>

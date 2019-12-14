@@ -67,17 +67,20 @@
 		</div>
 		<footer th:insert="~{Components :: footer}"></footer>
 		<div th:insert="~{Components :: bootstrapScripts}"></div>
-
-
 		<script
 			src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
 		<script>
-		$('#myTable').DataTable( {
-		    buttons: [
-		        'csv'
-		    ]
+		
+		$(document).ready(function() {
+		    $('#myTable').DataTable( {
+		        dom: 'Bfrtip',
+		        buttons: [
+		            'copy', 'csv', 'excel', 'pdf', 'print'
+		        ]
+		    } );
 		} );
+	
         </script>
 	</div>
 </body>

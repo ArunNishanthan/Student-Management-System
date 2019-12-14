@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <link rel="stylesheet"
-	href="https://bootswatch.com/4/united/bootstrap.min.css">
+	href="https://bootswatch.com/4/minty/bootstrap.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style th:insert="~{Components :: style}"></style>
 <meta charset="ISO-8859-1">
@@ -25,6 +25,10 @@
 						<h3 class="text-center">Student List</h3>
 						<p class="text-center" th:if="${studentByCourse.isEmpty()}">No
 							Students to display</p>
+							<br/>
+							<div class="text-center" th:unless="${studentByCourse.isEmpty()}">
+							<a th:href="@{'/admin/download/'+${courseid}+'/studentsByCourse.csv'}" class="btn btn-primary">Download Student Details</a></div>
+							
 						<table th:if="${!studentByCourse.isEmpty()}"
 							class="table table-hover">
 							<thead>

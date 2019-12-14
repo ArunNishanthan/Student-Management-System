@@ -67,7 +67,7 @@ body {
 <body>
 	<nav th:fragment="navbar"
 		class="navbar navbar-expand-lg navbar-dark bg-primary">
-		<a class="navbar-brand" href="#">May May</a>
+		<a class="navbar-brand" href="#">Student Management System</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarColor01" aria-controls="navbarColor01"
 			aria-expanded="false" aria-label="Toggle navigation">
@@ -224,6 +224,8 @@ body {
 			src="https://unpkg.com/lightpick@latest/lightpick.js"></script>
 		
 		<script>
+		
+		
             $(function () {
                 $("input").change(function () {
                     var max = parseInt($(this).attr('max'));
@@ -331,16 +333,16 @@ body {
                         $('#leaveform').validate(
                                 {
                                     rules : {
-                                        datepicker1 : {
+                                        endDate : {
                                             required : true,
-                                            minlength : 10
+                                            minlength : 10,
                                         },
 
-                                        datepicker2 : {
+                                        startDate : {
                                             required : true,
                                             minlength : 10
                                         },
-                                        comment : {
+                                        comments : {
                                             required : true,
                                             minlength : 5
                                         }

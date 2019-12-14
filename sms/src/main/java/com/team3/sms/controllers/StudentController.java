@@ -56,28 +56,29 @@ public class StudentController {
 	public String LoadAssignCourse(Model model, HttpSession session) {
 		Student userstudent = (Student) session.getAttribute("usersession");
 		Student student = stuService.getStudentbyID(userstudent.getId());
+
 		ArrayList<Course> courseList = new ArrayList<Course>();
 		courseList = courseService.LoadCourseBasedonDep(student.getDepartment());// course list in login user's
+
 		ArrayList<MarksSheet> completeCourseList = new ArrayList<MarksSheet>();
 		completeCourseList = markService.getCompleteMarksSheet(student); // department
+
 		ArrayList<Course> availCourse = new ArrayList<Course>();
 		ArrayList<Course> unAvailCourse = new ArrayList<Course>();
-		for (Course course : courseList) {
-			// check capacity is full or not
-			System.out.println(course.getName() + " " + course.getStudents().size());
-			if (course.getCapacity() > course.getStudents().size()) {
-				// check courses are taken by user
-				if (!course.getStudents().contains(student)) {
-					if (completeCourseList.size() != 0) {
-						for (MarksSheet m : completeCourseList) {
-							if (m.getCourse().getId() != course.getId()) {
-								availCourse.add(course);
-							}
-						}
-					} else {
-						availCourse.add(course);
-					}
 
+		for (MarksSheet m : completeCourseList) {
+			if (courseList.contains(m.getCourse())) {
+				courseList.remove(m.getCourse());
+			}
+		}
+		for (Course course : courseList) {
+			if (!course.getStudents().contains(student)) {
+				if (course.getCapacity() > course.getStudents().size()) {
+					availCourse.add(course);
+				} else {
+					if (!course.getStudents().contains(student)) {
+						unAvailCourse.add(course);
+					}
 				}
 
 			} else {
@@ -86,6 +87,21 @@ public class StudentController {
 				}
 			}
 		}
+//		for (Course course : courseList) {
+//			if (course.getCapacity() > course.getStudents().size()) {
+//				if (!course.getStudents().contains(student)) {
+//					availCourse.add(course);
+//				} else {
+//					unAvailCourse.add(course);
+//				}
+//
+//			} else {
+//				if (!course.getStudents().contains(student)) {
+//					unAvailCourse.add(course);
+//				}
+//			}
+//		}
+
 		System.out.println(student.getCourses().size());
 		model.addAttribute("student", student);
 		model.addAttribute("availableCourses", availCourse);
