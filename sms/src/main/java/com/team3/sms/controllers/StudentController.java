@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.team3.sms.models.Announcement;
 import com.team3.sms.models.Course;
 import com.team3.sms.models.MarksSheet;
+import com.team3.sms.models.Password;
 import com.team3.sms.models.Student;
 import com.team3.sms.services.AnnouncementServices;
 import com.team3.sms.services.CourseServices;
@@ -269,6 +270,34 @@ public class StudentController {
 		studentDb.setPassword(student.getPassword());
 		stuService.saveStudent(studentDb);
 		return "StudentHome";
+	}
+
+	@GetMapping("/passwordreset")
+	public String getPasswordReset(Model model) {
+		model.addAttribute("password", new Password());
+		model.addAttribute("role", "student");
+		return "ConfirmPassword";
+	}
+
+	@PostMapping("/updatepassword")
+	public String updatePassword(Password password, Model model, HttpSession session) {
+		Student student = (Student) session.getAttribute("usersession");
+		student = stuService.getStudentbyID(student.getId());
+		model.addAttribute("password", password);
+		model.addAttribute("role", "student");
+		if (password.getNewPassword().equals(student.getPassword())) {
+			model.addAttribute("message", "You have typed old password");
+			return "ConfirmPassword";
+		}
+
+		if (password.getOldPassword().equals(student.getPassword())) {
+			student.setPassword(password.getNewPassword());
+			stuService.saveStudent(student);
+			return "redirect:/student/home";
+		} else {
+			model.addAttribute("message", "Old password does not match");
+		}
+		return "ConfirmPassword";
 	}
 
 }

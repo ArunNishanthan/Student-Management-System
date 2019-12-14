@@ -43,9 +43,7 @@
 							</div>
 							<label for="email">Email</label> <input type="email"
 								class="form-control" id="email" disabled
-								th:field="${student.email}"> <label for="password">Password</label>
-							<input type="password" class="form-control" id="password"
-								th:field="${student.password}">
+								th:field="${student.email}">
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('mobileNo')} ? has-danger">
 								<label for="mobileNo">Mobile Number</label> <input type="tel"

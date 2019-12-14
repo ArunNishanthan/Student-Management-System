@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import com.team3.sms.models.Course;
 import com.team3.sms.models.Department;
 import com.team3.sms.models.Faculty;
 import com.team3.sms.models.MarksSheet;
+import com.team3.sms.models.Password;
 import com.team3.sms.models.StaffLeave;
 import com.team3.sms.models.Student;
 import com.team3.sms.services.AdminServices;
@@ -617,6 +619,34 @@ public class AdminController {
 		Department department = formservices.getDepartment(depid);
 		ArrayList<Faculty> staffByDepartment = new ArrayList<>(department.getFaculties());
 		CsvServices.downloadFaculty(response.getWriter(), staffByDepartment);
+	}
+
+	@GetMapping("/passwordreset")
+	public String getPasswordReset(Model model) {
+		model.addAttribute("password", new Password());
+		model.addAttribute("role", "admin");
+		return "ConfirmPassword";
+	}
+
+	@PostMapping("/updatepassword")
+	public String updatePassword(Password password, Model model, HttpSession session) {
+		Admin admin = (Admin) session.getAttribute("usersession");
+		admin = adminServices.getAdmin(admin.getId());
+		model.addAttribute("password", password);
+		model.addAttribute("role", "admin");
+		if (password.getNewPassword().equals(admin.getPassword())) {
+			model.addAttribute("message", "You have typed old password");
+			return "ConfirmPassword";
+		}
+
+		if (password.getOldPassword().equals(admin.getPassword())) {
+			admin.setPassword(password.getNewPassword());
+			adminServices.saveAdmin(admin);
+			return "redirect:/admin/home";
+		} else {
+			model.addAttribute("message", "Old password does not match");
+		}
+		return "ConfirmPassword";
 	}
 
 }

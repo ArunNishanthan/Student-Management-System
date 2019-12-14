@@ -28,6 +28,7 @@ import com.team3.sms.models.Announcement;
 import com.team3.sms.models.Course;
 import com.team3.sms.models.Faculty;
 import com.team3.sms.models.MarksSheet;
+import com.team3.sms.models.Password;
 import com.team3.sms.models.StaffLeave;
 import com.team3.sms.models.Student;
 import com.team3.sms.services.AnnouncementServices;
@@ -172,7 +173,7 @@ public class FacultyController {
 			i++;
 		}
 		model.addAttribute("courseid", courseid);
-		return "<h1>Hello</h1>";
+		return "redirect:/faculty/viewmarksheet/" + course.getId();
 	}
 
 	@GetMapping("/gradereport")
@@ -333,4 +334,34 @@ public class FacultyController {
 		return "forward:/faculty/showleaves";
 
 	}
+
+	@GetMapping("/passwordreset")
+	public String getPasswordReset(Model model) {
+		model.addAttribute("password", new Password());
+		model.addAttribute("role", "faculty");
+		model.addAttribute("message", "a");
+		return "ConfirmPassword";
+	}
+
+	@PostMapping("/updatepassword")
+	public String updatePassword(Password password, Model model, HttpSession session) {
+		Faculty faculty = (Faculty) session.getAttribute("usersession");
+		faculty = facultyServices.getFaculty(faculty.getId());
+		model.addAttribute("password", password);
+		model.addAttribute("role", "faculty");
+		if (password.getNewPassword().equals(faculty.getPassword())) {
+			model.addAttribute("message", "You have typed old password");
+			return "ConfirmPassword";
+		}
+
+		if (password.getOldPassword().equals(faculty.getPassword())) {
+			faculty.setPassword(password.getNewPassword());
+			facultyServices.saveFaculty(faculty);
+			return "redirect:/faculty/home";
+		} else {
+			model.addAttribute("message", "Old password does not match");
+		}
+		return "ConfirmPassword";
+	}
+
 }

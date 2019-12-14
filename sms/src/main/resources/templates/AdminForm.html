@@ -109,18 +109,7 @@
 								<div th:if="${#fields.hasErrors('mobileNo')}"
 									class="invalid-feedback" th:errors="*{mobileNo}"></div>
 							</div>
-							
-							<div class="form-group" th:if="${admin.id}==${session.usersession.getId()}" 
-								th:classappend="${#fields.hasErrors('password')} ? has-danger">
-								<label for="password">Password</label> <input type="password"
-									class="form-control" id="password" placeholder="Password"
-									 th:field="*{password}" 
-									th:classappend="${#fields.hasErrors('password')} ? is-invalid">
-								<div th:if="${#fields.hasErrors('password')}"
-									class="invalid-feedback" th:errors="*{password}"></div>
-							</div>
-
-							<div class="col text-center">
+													<div class="col text-center">
 								<button type="submit" class="btn btn-primary">Submit</button>
 							</div>
 						</form>

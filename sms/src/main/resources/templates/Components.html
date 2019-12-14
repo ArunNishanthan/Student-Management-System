@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 
 <style th:fragment="style">
-
 /*!
  * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
  * Copyright 2013-2019 Start Bootstrap
@@ -64,6 +64,7 @@ body {
 }
 </style>
 </head>
+
 <body>
 	<nav th:fragment="navbar"
 		class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -103,9 +104,11 @@ body {
 			</div>
 			<div class="list-group-item list-group-item-action dropdown-menu">
 				<h6 class="dropdown-header">Student Records</h6>
+
 				<a class="dropdown-item" href="/student/edurecord">Education
 					Record </a> <a class="dropdown-item" href="/student/personalrecord">Personal
-					Record </a>
+					Record </a> <a class="dropdown-item" href="/student/passwordreset">Reset
+					Password</a>
 			</div>
 
 		</div>
@@ -144,11 +147,17 @@ body {
 					Leaves</a>
 
 			</div>
+
 			<div
 				class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
 				<h6 class="dropdown-header">Reports</h6>
 				<a class="dropdown-item" href="/admin/leavereport">Leave Report</a>
 				<a class="dropdown-item" href="/admin/cgpareport">CGPA Report</a>
+			</div>
+			<div
+				class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
+				<a class="dropdown-item" href="/admin/passwordreset">Reset
+					Password</a>
 			</div>
 		</div>
 	</div>
@@ -168,7 +177,8 @@ body {
 					class="glist-group-item list-group-item glist-group-item list-group-item-action dropdown-menu">
 					<h6 class="dropdown-header">Profile</h6>
 					<a class="dropdown-item" href="/faculty/facultyPersonalProfile">Personal
-						Profile</a>
+						Profile</a> <a class="dropdown-item" href="/faculty/passwordreset">Reset
+						Password</a>
 				</div>
 			</div>
 			<div class="list-group-item list-group-item-action dropdown-menu">
@@ -222,10 +232,8 @@ body {
 			src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 		<script type="text/javascript"
 			src="https://unpkg.com/lightpick@latest/lightpick.js"></script>
-		
+
 		<script>
-		
-		
             $(function () {
                 $("input").change(function () {
                     var max = parseInt($(this).attr('max'));
@@ -237,6 +245,15 @@ body {
                     }
                 });
             });
+
+            jQuery.validator
+                    .addMethod(
+                            "validDate",
+                            function (value, element) {
+                                return value
+                                        .match(/(?:0[1-9]|[12][0-9]|3[01])\/(?:0[1-9]|1[0-2])\/(?:19|20\d{2})/);
+                            },
+                            "Please enter a valid date in the format DD/MM/YYYY");
             $(document).ready(
                     function () {
                         $('#courseform').validate(
@@ -284,7 +301,48 @@ body {
                                     }
                                 });
                     });
+            $(document).ready(
+                    function () {
+                        $('#passwordform').validate(
+                                {
+                                    rules : {
+                                        oldPassword : {
+                                            required : true
+                                        },
+                                        newPassword : {
+                                            required : true
+                                        },
+                                        confirmPassword : {
+                                            equalTo : "#newPassword"
+                                        }
+                                    },
+                                    highlight : function (element) {
+                                        $(element).closest('.form-group')
+                                                .removeClass('has-success')
+                                                .addClass('has-danger')
+                                                .children().removeClass(
+                                                        'is-valid').addClass(
+                                                        'is-invalid');
+                                    },
+                                    success : function (element) {
+                                        element.closest('.form-group')
+                                                .removeClass('has-danger')
+                                                .addClass('has-success')
+                                                .children().removeClass(
+                                                        'is-invalid').addClass(
+                                                        'is-valid');
+                                    },
 
+                                    errorPlacement : function (label, element) {
+                                        if (element.attr("name") === "gender") {
+                                            element.parent().parent().append(
+                                                    label); // this would append the label after all your checkboxes/labels (so the error-label will be the last element in <div class="controls"> )
+                                        } else {
+                                            label.insertAfter(element); // standard behaviour
+                                        }
+                                    }
+                                });
+                    });
             $(document).ready(
                     function () {
                         $('#annoucementform').validate(
@@ -327,7 +385,7 @@ body {
                                     }
                                 });
                     });
-            
+
             $(document).ready(
                     function () {
                         $('#leaveform').validate(
@@ -336,11 +394,13 @@ body {
                                         endDate : {
                                             required : true,
                                             minlength : 10,
+                                            validDate : true
                                         },
 
                                         startDate : {
                                             required : true,
-                                            minlength : 10
+                                            minlength : 10,
+                                            validDate : true
                                         },
                                         comments : {
                                             required : true,
@@ -431,7 +491,8 @@ body {
                                                         },
                                                         dateofBirth : {
                                                             required : true,
-                                                            minlength : 10
+                                                            minlength : 10,
+                                                            validDate : true
                                                         },
                                                         address : {
                                                             required : true,
@@ -452,10 +513,6 @@ body {
                                                         },
                                                         isAdmin : {
                                                             required : true
-                                                        },
-                                                        password : {
-                                                            required : true,
-                                                            minlength : 6
                                                         }
                                                     },
                                                     highlight : function (
@@ -525,7 +582,8 @@ body {
                                                         },
                                                         dateofBirth : {
                                                             required : true,
-                                                            minlength : 10
+                                                            minlength : 10,
+                                                            validDate : true
                                                         },
                                                         address : {
                                                             required : true,
@@ -540,10 +598,6 @@ body {
                                                             required : true,
                                                             number : true,
                                                             maxlength : 8
-                                                        },
-                                                        password : {
-                                                            required : true,
-                                                            minlength : 6
                                                         }
                                                     },
                                                     highlight : function (
@@ -609,7 +663,9 @@ body {
                                             required : true
                                         },
                                         dateofBirth : {
-                                            required : true
+                                            required : true,
+                                            validDate : true,
+                                            minlength : 10
                                         },
                                         address : {
                                             required : true,
@@ -627,11 +683,6 @@ body {
                                         },
                                         department : {
                                             required : true,
-                                        },
-                                        password : {
-                                            required : true,
-                                            minlength : 6
-
                                         }
                                     },
                                     highlight : function (element) {
@@ -664,4 +715,5 @@ body {
         </script>
 	</div>
 </body>
+
 </html>
