@@ -24,6 +24,11 @@ public class SecurityController {
 	@Autowired
 	private FormServices formServices;
 
+	@RequestMapping("/index")
+	public String getHomePage(Model model, SessionStatus status) {
+		return "index";
+	}
+
 	@RequestMapping("/login")
 	public String getLoginPage(Model model, SessionStatus status) {
 		status.setComplete();
@@ -34,7 +39,7 @@ public class SecurityController {
 	@GetMapping("/logout")
 	public String getLogoutPage(SessionStatus status) {
 		status.setComplete();
-		return "home";
+		return "redirect:/index";
 	}
 
 	@GetMapping("/403")

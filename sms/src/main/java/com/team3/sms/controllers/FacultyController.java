@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -82,6 +84,13 @@ public class FacultyController {
 		announcement.setDate(dtf.format(now));
 		announcementServices.SaveAnnouncement(announcement);
 		model.addAttribute("announcement", announcement);
+
+		ArrayList<Student> studentlist = new ArrayList<>(announcement.getCourse().getStudents());
+		for (Student stu : studentlist) {
+			String studentemail = stu.getEmail();
+			sendEmail(studentemail, announcement);
+		}
+
 		return "redirect:/faculty/makeAnnouncement";
 	}
 
@@ -362,6 +371,22 @@ public class FacultyController {
 			model.addAttribute("message", "Old password does not match");
 		}
 		return "ConfirmPassword";
+	}
+
+	@Autowired
+	private JavaMailSender javaMailSender;
+
+	public void sendEmail(String studentemail, Announcement announcement) {
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setFrom("sms-do-not-reply@u.nus.edu.com");
+		msg.setSubject(
+				"Announcement from " + announcement.getFacultyname() + " for" + announcement.getCourse().getName());
+		msg.setTo(studentemail);
+		msg.setSentDate(msg.getSentDate());
+		msg.setText("From :" + announcement.getFacultyname() + "\nCourse :" + announcement.getCourse().getName()
+				+ "\nMessage :\n" + announcement.getMessage()
+				+ "\n\nThis is a system generated email, please do not reply.");
+		javaMailSender.send(msg);
 	}
 
 }

@@ -6,6 +6,8 @@ import java.util.Collections;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -57,51 +59,37 @@ public class StudentController {
 	public String LoadAssignCourse(Model model, HttpSession session) {
 		Student userstudent = (Student) session.getAttribute("usersession");
 		Student student = stuService.getStudentbyID(userstudent.getId());
-
 		ArrayList<Course> courseList = new ArrayList<Course>();
 		courseList = courseService.LoadCourseBasedonDep(student.getDepartment());// course list in login user's
-
 		ArrayList<MarksSheet> completeCourseList = new ArrayList<MarksSheet>();
 		completeCourseList = markService.getCompleteMarksSheet(student); // department
-
 		ArrayList<Course> availCourse = new ArrayList<Course>();
 		ArrayList<Course> unAvailCourse = new ArrayList<Course>();
+		ArrayList<Course> uncompleteCourseList = new ArrayList<Course>(courseList);
 
-		for (MarksSheet m : completeCourseList) {
-			if (courseList.contains(m.getCourse())) {
-				courseList.remove(m.getCourse());
-			}
-		}
-		for (Course course : courseList) {
-			if (!course.getStudents().contains(student)) {
-				if (course.getCapacity() > course.getStudents().size()) {
-					availCourse.add(course);
-				} else {
-					if (!course.getStudents().contains(student)) {
-						unAvailCourse.add(course);
+		if (courseList.size() != 0) {
+			for (Course c : courseList) {
+				if (completeCourseList.size() != 0) {
+					for (MarksSheet complete : completeCourseList) {
+						if (complete.getCourse().getId() == c.getId()) {
+							uncompleteCourseList.remove(c);
+						}
 					}
 				}
 
-			} else {
-				if (!course.getStudents().contains(student)) {
-					unAvailCourse.add(course);
+			}
+
+			for (Course course : uncompleteCourseList) {// unavailabel course
+				System.out.println("student.getCourses().size()");
+				if (course.getCapacity() <= course.getStudents().size() || student.getCourses().size() >= 4) {
+					if (!course.getStudents().contains(student))
+						unAvailCourse.add(course);
+				} else if (!student.getCourses().contains(course)) {
+					availCourse.add(course);
 				}
+
 			}
 		}
-//		for (Course course : courseList) {
-//			if (course.getCapacity() > course.getStudents().size()) {
-//				if (!course.getStudents().contains(student)) {
-//					availCourse.add(course);
-//				} else {
-//					unAvailCourse.add(course);
-//				}
-//
-//			} else {
-//				if (!course.getStudents().contains(student)) {
-//					unAvailCourse.add(course);
-//				}
-//			}
-//		}
 
 		System.out.println(student.getCourses().size());
 		model.addAttribute("student", student);
@@ -120,7 +108,8 @@ public class StudentController {
 		student.setCourses(courseStudentList);
 
 		stuService.saveStudent(student);
-
+		String studentemail = student.getEmail();
+		sendEmail(studentemail, course.getName());
 		return "redirect:/student/choseAvailableCourse";
 	}
 
@@ -300,4 +289,19 @@ public class StudentController {
 		return "ConfirmPassword";
 	}
 
+	@Autowired
+	private JavaMailSender javaMailSender;
+
+	public void sendEmail(String studentemail, String coursename) {
+
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setFrom("sms-do-not-reply@u.nus.edu.com");
+		msg.setSubject("You have successfully applied " + coursename);
+		msg.setTo(studentemail);
+		msg.setText("Course name:" + coursename);
+		msg.setText("You have successfully applied " + coursename
+				+ ".This is a system generated email, please do not reply.");
+
+		javaMailSender.send(msg);
+	}
 }
