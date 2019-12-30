@@ -48,7 +48,7 @@
 										th:text="*{#dates.format(facultyleave.startDate,'dd-MM-yyyy')}">
 										Start Date</td>
 									<td
-										th:text="*{#dates.format(facultyleave.endDate,'dd-MM-yyyy')}">
+	|						th:text="*{#dates.format(facultyleave.endDate,'dd-MM-yyyy')}">
 										End Date</td>
 									<td th:text="*{facultyleave.comments}">Comments</td>
 									<td th:if="${facultyleave.leaveStatus.name()=='ISPENDING'}"
